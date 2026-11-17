@@ -1,32 +1,32 @@
 import { useEffect } from 'react';
 
 /**
- * Inertial wheel scrolling on desktop.
+ * Responsive wheel glide: the page moves with the first wheel event, while
+ * only a small remainder eases into place. Precision trackpads, touchscreens,
+ * keyboard and nested panels retain native scrolling.
  *
- * Normal browser scrolling remains available for touch, trackpad gestures
- * that are predominantly horizontal, keyboard, anchor navigation, nested
- * scrollable elements, zoom, and reduced-motion preferences.
- *
- * Important: this interpolates the *actual window scrollTop*. Decorative
- * parallax alone does not make a mouse-wheel movement feel smooth.
+ * No transformed page wrappers or virtual-scroll offsets are used.
  */
-const limit = (value, min, max) => Math.max(min, Math.min(max, value));
-const isEditable = element =>
-  element?.closest?.('input, textarea, select, [contenteditable="true"], [role="dialog"]');
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-function hasNestedScroll(target, deltaY) {
-  let element = target instanceof Element ? target : target?.parentElement;
-  while (element && element !== document.documentElement && element !== document.body) {
-    const style = window.getComputedStyle(element);
-    if (
-      /auto|scroll|overlay/.test(style.overflowY) &&
-      element.scrollHeight > element.clientHeight + 2
-    ) {
-      const roomDown = element.scrollTop + element.clientHeight < element.scrollHeight - 2;
-      const roomUp = element.scrollTop > 2;
-      if ((deltaY > 0 && roomDown) || (deltaY < 0 && roomUp)) return true;
+const isEditableOrModal = target =>
+  target?.closest?.(
+    'input, textarea, select, [contenteditable="true"], [role="dialog"], ' +
+    '[data-native-scroll], [data-purpose="mascot-widget"]'
+  );
+
+function canScrollNested(target, deltaY) {
+  let node = target instanceof Element ? target : target?.parentElement;
+  while (node && node !== document.body && node !== document.documentElement) {
+    const style = window.getComputedStyle(node);
+    if (/auto|scroll|overlay/.test(style.overflowY) &&
+        node.scrollHeight > node.clientHeight + 2) {
+      const canMove = deltaY > 0
+        ? node.scrollTop + node.clientHeight < node.scrollHeight - 2
+        : node.scrollTop > 2;
+      if (canMove) return true;
     }
-    element = element.parentElement;
+    node = node.parentElement;
   }
   return false;
 }
@@ -36,119 +36,125 @@ export default function SmoothWheelScroll() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const desktop = window.matchMedia('(hover: hover) and (pointer: fine)');
 
-    let desired = window.scrollY;
-    let position = desired;
+    // Adjust independently: high immediate response + small, soft tail.
+    const immediateFraction = 0.65;
+    const settleTime = 95; // time constant in ms; no long floating delay
+    let target = window.scrollY;
+    let current = target;
+    let writing = false;
     let frame = 0;
-    let lastTime = 0;
-    let lastWrite = desired;
-    let smoothRunning = false;
+    let lastFrame = 0;
+    let lastWrite = target;
 
-    const maxY = () =>
+    const bottom = () =>
       Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 
-    const stop = () => {
+    const cancel = () => {
       if (frame) window.cancelAnimationFrame(frame);
       frame = 0;
-      lastTime = 0;
-      smoothRunning = false;
+      lastFrame = 0;
+      writing = false;
     };
-
     const sync = () => {
-      stop();
-      desired = window.scrollY;
-      position = desired;
-      lastWrite = position;
+      cancel();
+      target = current = lastWrite = window.scrollY;
     };
 
-    const step = timestamp => {
+    const paint = () => {
+      lastWrite = current;
+      window.scrollTo({ top: current, behavior: 'instant' });
+    };
+
+    const animate = timestamp => {
       frame = 0;
       if (reduced.matches || !desktop.matches) {
         sync();
         return;
       }
-      const dt = lastTime ? Math.min(48, timestamp - lastTime) : 16.67;
-      lastTime = timestamp;
-      desired = limit(desired, 0, maxY());
-      // Short trailing motion responds immediately without a floating/delayed feel.
-      // About 38ms response constant, frame-rate independent.
-      const ease = 1 - Math.exp(-dt / 38);
-      position += (desired - position) * ease;
+      const dt = lastFrame ? Math.min(timestamp - lastFrame, 48) : 16.67;
+      lastFrame = timestamp;
+      target = clamp(target, 0, bottom());
+      const easing = 1 - Math.exp(-dt / settleTime);
+      current += (target - current) * easing;
 
-      if (Math.abs(desired - position) < .45) position = desired;
-      lastWrite = position;
-      window.scrollTo({ top: position, behavior: 'instant' });
-
-      if (Math.abs(desired - position) > .45) {
-        frame = window.requestAnimationFrame(step);
+      if (Math.abs(target - current) < 0.65) current = target;
+      paint();
+      if (Math.abs(target - current) >= 0.65) {
+        frame = window.requestAnimationFrame(animate);
       } else {
-        smoothRunning = false;
-        lastTime = 0;
+        writing = false;
+        lastFrame = 0;
       }
     };
 
     const wheel = event => {
-      if (!desktop.matches || reduced.matches || !event.cancelable) return;
-      if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey) return;
-      if (event.deltaY === 0 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      if (isEditable(event.target)) return;
-      if (event.target?.closest?.('[data-native-scroll], [data-purpose="mascot-widget"]')) return;
+      if (!desktop.matches || reduced.matches || !event.cancelable ||
+          event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey)
+        return;
+      if (!event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (isEditableOrModal(event.target)) return;
 
-      const unit = event.deltaMode === 1 ? 16 :
-        event.deltaMode === 2 ? window.innerHeight : 1;
-      const distance = event.deltaY * unit;
-      if (hasNestedScroll(event.target, distance)) return;
+      const unit = event.deltaMode === 1
+        ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+      const delta = event.deltaY * unit;
 
-      // Normalized wheel input preserves both short trackpad moves and
-      // longer wheel notches, without the enormous distance jumps of
-      // simply multiplying every scroll delta.
-      const advance = limit(distance, -570, 570);
-      if (!smoothRunning) {
-        position = window.scrollY;
-        desired = position;
-        lastWrite = position;
+      if (canScrollNested(event.target, delta)) return;
+
+      // A precision touchpad already feels like a glide. Do not put a second
+      // animation behind tiny or fractional deltas.
+      if (event.deltaMode === 0 &&
+          (Math.abs(event.deltaY) < 40 || event.deltaY % 1 !== 0)) {
+        if (writing) sync();
+        return;
       }
-      const next = limit(desired + advance, 0, maxY());
-      if (next === desired && !smoothRunning) return;
+
+      const distance = clamp(delta, -480, 480);
+      if (!writing) {
+        target = current = window.scrollY;
+        lastWrite = current;
+      }
+      const next = clamp(target + distance, 0, bottom());
+      if (next === target && !writing) return;
 
       event.preventDefault();
-      desired = next;
-      if (!smoothRunning) {
-        smoothRunning = true;
-        lastTime = 0;
-        frame = window.requestAnimationFrame(step);
-      }
+      target = next;
+
+      // Start moving within the same wheel event: immediate response.
+      // The remaining 35% glides to rest instead of delaying the whole page.
+      current = clamp(current + distance * immediateFraction, 0, bottom());
+      writing = true;
+      paint();
+
+      if (!frame) frame = window.requestAnimationFrame(animate);
     };
 
     const onScroll = () => {
-      if (smoothRunning && Math.abs(window.scrollY - lastWrite) < 5) return;
-      // A scrollbar drag, keyboard command, browser restore, or anchor
-      // navigates normally and takes precedence over wheel inertia.
+      // Ignore scroll events generated by our own wheel paint.
+      if (writing && Math.abs(window.scrollY - lastWrite) <= 3) return;
+      // Keyboard, scrollbar drag, hashes and browser history always win.
       sync();
     };
     const onAnchor = event => {
       if (event.target?.closest?.('a[href^="#"], a[href^="/#"]')) sync();
     };
-    const onVisibility = () => {
-      if (document.hidden) sync();
-    };
-    const onMotionChange = () => sync();
+    const onHidden = () => { if (document.hidden) sync(); };
 
     window.addEventListener('wheel', wheel, { passive: false });
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', sync, { passive: true });
     document.addEventListener('click', onAnchor, true);
-    document.addEventListener('visibilitychange', onVisibility);
-    reduced.addEventListener?.('change', onMotionChange);
-    desktop.addEventListener?.('change', onMotionChange);
+    document.addEventListener('visibilitychange', onHidden);
+    reduced.addEventListener?.('change', sync);
+    desktop.addEventListener?.('change', sync);
     return () => {
-      stop();
+      cancel();
       window.removeEventListener('wheel', wheel);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', sync);
       document.removeEventListener('click', onAnchor, true);
-      document.removeEventListener('visibilitychange', onVisibility);
-      reduced.removeEventListener?.('change', onMotionChange);
-      desktop.removeEventListener?.('change', onMotionChange);
+      document.removeEventListener('visibilitychange', onHidden);
+      reduced.removeEventListener?.('change', sync);
+      desktop.removeEventListener?.('change', sync);
     };
   }, []);
   return null;
