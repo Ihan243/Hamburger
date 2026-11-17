@@ -13,7 +13,7 @@ function MovingLine({ items, reverse = false }) {
   return (
     <div className={'reference-giant-line' + (reverse ? ' reference-giant-line-reverse' : '')}
       aria-label={items.filter(v => v.length > 3).join(' · ')}>
-      <div className="reference-giant-track">
+      <div className="reference-giant-scrub"><div className="reference-giant-track">
         {[0, 1].map(copy => (
           <div className="reference-giant-group" key={copy} aria-hidden={copy === 1}>
             {items.map((item, i) => (
@@ -23,7 +23,7 @@ function MovingLine({ items, reverse = false }) {
             ))}
           </div>
         ))}
-      </div>
+      </div></div>
     </div>
   );
 }
