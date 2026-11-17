@@ -299,11 +299,15 @@
 }
 @media (max-width: 600px) {
   .hercules-launcher {
-    width: 94px;
-    right: 12px;
-    bottom: max(14px, env(safe-area-inset-bottom));
+    width: 82px;
+    right: max(5px, env(safe-area-inset-right));
+    bottom: max(7px, env(safe-area-inset-bottom));
   }
-  .hercules-mascot-trigger { width: 94px; height: 94px; border-width: 3px; }
+  .hercules-mascot-trigger { width: 80px; height: 80px; border-width: 3px; }
+  /* On the opening viewport, preserve access to both hero CTAs.
+     The assistant remains one tap away; its message appears in later sections. */
+  .hercules-speech.hercules-on-hero,
+  .hercules-mascot-trigger.hercules-on-hero .hercules-trigger-label { display: none; }
   .hercules-trigger-label { font-size: 10px; right: 4px; }
   .hercules-speech {
     width: min(250px, calc(100vw - 24px));

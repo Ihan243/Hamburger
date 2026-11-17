@@ -107,13 +107,14 @@ export default function HerculesModal() {
     <>
       <div className="hercules-launcher" data-purpose="mascot-widget">
         {showBubble && !isOpen && (
-          <div className="hercules-speech" role="status">
+          <div className={'hercules-speech' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')} role="status">
             <span>{activePromo.text}</span>
             <button className="hercules-speech-dismiss" type="button"
               onClick={() => setShowBubble(false)} aria-label="Ocultar mensaje de Hércules">×</button>
           </div>
         )}
-        <button ref={openerRef} type="button" className="hercules-mascot-trigger"
+        <button ref={openerRef} type="button"
+          className={'hercules-mascot-trigger' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')}
           onClick={() => setOpen(true)}
           aria-label="Abrir asistente Hércules para consultar la carta"
           aria-haspopup="dialog" aria-expanded={isOpen}>
