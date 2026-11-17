@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { businessInfo } from '../data/businessInfo';
 
@@ -20,6 +20,15 @@ export default function CartDrawer() {
     generateWhatsAppCheckout
   } = useCart();
 
+  useEffect(() => {
+    if (!isCartOpen) return undefined;
+    const onKey = event => {
+      if (event.key === 'Escape') closeCart();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isCartOpen, closeCart]);
+
   if (!isCartOpen) return null;
 
   return (
@@ -32,16 +41,17 @@ export default function CartDrawer() {
 
       {/* Slide-over panel */}
       <aside 
-        className="fixed top-0 right-0 h-full w-full max-w-md bg-brand-purpleCard border-l-2 border-brand-yellow z-50 flex flex-col shadow-2xl animate-slideLeft"
+        className="cart-panel fixed top-0 right-0 h-full w-full max-w-md bg-brand-purpleCard border-l-2 border-brand-yellow z-50 flex flex-col shadow-2xl animate-slideLeft"
         role="dialog"
         aria-modal="true"
+        aria-labelledby="cart-heading"
       >
         {/* Cart Header */}
         <div className="p-5 bg-brand-purple border-b border-brand-purpleMuted flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🍟</span>
             <div>
-              <h3 className="font-street text-2xl text-white">TU PEDIDO</h3>
+              <h3 id="cart-heading" className="font-street text-2xl text-white">TU PEDIDO</h3>
               <p className="text-[11px] text-brand-yellow font-bold uppercase tracking-wider">Papas con Actitud</p>
             </div>
           </div>
@@ -98,7 +108,8 @@ export default function CartDrawer() {
                   <div className="flex items-center gap-2 bg-brand-purpleMuted px-2 py-1 rounded-xl">
                     <button 
                       onClick={() => updateQuantity(item.id, -1)}
-                      className="w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm transition"
+                      aria-label={`Quitar una unidad de ${item.title}`}
+                      className="cart-qty-btn w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm transition"
                     >
                       -
                     </button>
@@ -107,7 +118,8 @@ export default function CartDrawer() {
                     </span>
                     <button 
                       onClick={() => updateQuantity(item.id, 1)}
-                      className="w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm transition"
+                      aria-label={`Añadir una unidad de ${item.title}`}
+                      className="cart-qty-btn w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm transition"
                     >
                       +
                     </button>
@@ -115,7 +127,8 @@ export default function CartDrawer() {
 
                   <button 
                     onClick={() => removeFromCart(item.id)}
-                    className="text-brand-graySub hover:text-red-400 p-1 text-xs"
+                    aria-label={`Eliminar ${item.title} del carrito`}
+                    className="cart-remove-btn text-brand-graySub hover:text-red-400 p-1 text-xs"
                     title="Eliminar"
                   >
                     🗑️
