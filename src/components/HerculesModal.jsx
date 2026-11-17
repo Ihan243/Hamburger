@@ -1,192 +1,203 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { mascotImage } from '../utils/imageAssets.js';
-import React, { useState, useEffect, useRef } from 'react';
 import { businessInfo } from '../data/businessInfo';
+import { useCart } from '../context/CartContext';
 
-const sectionPromos = [
-  { id: 'inicio', text: '¡Papas con actitud! 🍟', link: '#carta', action: 'Ver carta' },
-  { id: 'nosotros', text: 'Conoce lo que nos hace diferentes 🐶', link: '#diferencia', action: 'Descubrir' },
-  { id: 'especialidades', text: '¡Explora las especialidades! ⭐', link: '#especialidades', action: 'Ver platos' },
-  { id: 'carta', text: 'Busca tu antojo en la carta 🍟', link: '#carta', action: 'Explorar' },
-  { id: 'galeria', text: '¡Mira La Patata en acción! 📸', link: '#galeria', action: 'Ver galería' },
-  { id: 'delivery', text: 'Arma tu pedido con precios USD 🛍️', link: '#carta', action: 'Ver menú' }
+const promos = [
+  { id: 'inicio', text: '¡Un antojito para hoy? ¡Pídeme aquí! 😋', link: '#carta', action: 'Ver menú' },
+  { id: 'nosotros', text: '¿Conoces nuestras papas con actitud? 🍟', link: '#diferencia', action: 'Descúbrelas' },
+  { id: 'especialidades', text: '¡Estas especialidades están irresistibles! ⭐', link: '#especialidades', action: 'Explorar' },
+  { id: 'carta', text: 'Te ayudo a elegir tu antojito. 🐶', link: '#carta', action: 'Ver carta' },
+  { id: 'galeria', text: '¡Mira el sabor en acción! 📸', link: '#galeria', action: 'Ver galería' },
+  { id: 'delivery', text: '¿Ya tienes hambre? Arma tu pedido. 🍟', link: '#carta', action: 'Ver menú' }
 ];
 
+const quickAction = id => {
+  if (id === 'promos') return { href: '#carta', label: 'Ver combos en la carta' };
+  if (id === 'top') return { href: '#especialidades', label: 'Ver especialidades' };
+  if (id === 'horario') return { href: '#contacto', label: 'Información de contacto' };
+  if (id === 'delivery') return { href: '#carta', label: 'Explorar la carta' };
+  return { href: '#carta', label: 'Ver menú' };
+};
+
 export default function HerculesModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { openCart, totalItems } = useCart();
+  const [isOpen, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
-  const [currentPromo, setCurrentPromo] = useState(sectionPromos[0]);
-  const pendingReplies = useRef([]);
-  const [messages, setMessages] = useState([
-    {
-      sender: 'hercules',
-      text: businessInfo.mascot.initialGreeting
-    }
-  ]);
+  const [activePromo, setActivePromo] = useState(promos[0]);
+  const [answers, setAnswers] = useState([]);
+  const openerRef = useRef(null);
+  const closeRef = useRef(null);
+  const dialogRef = useRef(null);
+  const messageEndRef = useRef(null);
+  const repliesShownRef = useRef(0);
 
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) return undefined;
     const observer = new IntersectionObserver(entries => {
-      // Update the single friendly bubble with the currently viewed section.
       const visible = entries.filter(entry => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
       if (!visible.length) return;
-      const promo = sectionPromos.find(item => item.id === visible[0].target.id);
-      if (promo) setCurrentPromo(promo);
-    }, { rootMargin: '-18% 0px -46% 0px', threshold: [0, 0.1, 0.3] });
-    sectionPromos.forEach(({ id }) => {
-      const section = document.getElementById(id);
-      if (section) observer.observe(section);
+      const found = promos.find(item => item.id === visible[0].target.id);
+      if (found) setActivePromo(found);
+    }, { threshold: [0, 0.2, 0.4], rootMargin: '-15% 0px -48% 0px' });
+
+    promos.forEach(({ id }) => {
+      const node = document.getElementById(id);
+      if (node) observer.observe(node);
     });
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
+    if (!isOpen) return undefined;
+    const previouslyFocused = document.activeElement;
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus({ preventScroll: true });
+
     const onKey = event => {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || !dialogRef.current) return;
+      const focusables = [...dialogRef.current.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )].filter(el => el.getClientRects().length);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
-    if (isOpen) document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = oldOverflow;
+      if (previouslyFocused instanceof HTMLElement && previouslyFocused.isConnected)
+        previouslyFocused.focus({ preventScroll: true });
+      else openerRef.current?.focus({ preventScroll: true });
+    };
   }, [isOpen]);
 
-  useEffect(() => () => pendingReplies.current.forEach(clearTimeout), []);
+  useEffect(() => {
+    if (!isOpen || answers.length <= repliesShownRef.current) return;
+    repliesShownRef.current = answers.length;
+    messageEndRef.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+  }, [answers, isOpen]);
 
-  const handleAskFaq = (faq) => {
-    // Add user question
-    const newMessages = [
-      ...messages,
-      { sender: 'user', text: faq.label }
-    ];
-    setMessages(newMessages);
+  const chooseFaq = faq => {
+    // Keep the automatic reply immediate and deterministic: no artificial chat delay.
+    setAnswers(old => [...old, { id: old.length + 1, faq }]);
+  };
 
-    // Simulate Hercules response
-    const timeout = window.setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        { sender: 'hercules', text: faq.answer }
-      ]);
-      pendingReplies.current = pendingReplies.current.filter(id => id !== timeout);
-    }, 300);
-    pendingReplies.current.push(timeout);
+  const leaveFor = action => {
+    setOpen(false);
+    if (action === 'cart') openCart();
   };
 
   return (
     <>
-      {/* Floating Mascot Trigger */}
-      <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end" data-purpose="mascot-widget">
-        {/* Speech Greeting Bubble */}
+      <div className="hercules-launcher" data-purpose="mascot-widget">
         {showBubble && !isOpen && (
-          <div className="hercules-promo-bubble hidden sm:flex items-center gap-2 bg-brand-yellow text-brand-purple px-4 py-2 rounded-2xl rounded-br-none shadow-2xl mb-2 text-xs font-bold border-2 border-brand-purple" aria-live="polite">
-            <span>{currentPromo.text} <a href={currentPromo.link} className="underline underline-offset-2 ml-1">{currentPromo.action} ↗</a></span>
-            <button 
-              onClick={() => setShowBubble(false)}
-              aria-label="Cerrar mensaje de Hércules"
-              className="text-brand-purple hover:text-red-700 ml-1 font-black"
-            >
-              ×
-            </button>
+          <div className="hercules-speech" role="status">
+            <span>{activePromo.text}</span>
+            <button className="hercules-speech-dismiss" type="button"
+              onClick={() => setShowBubble(false)} aria-label="Ocultar mensaje de Hércules">×</button>
           </div>
         )}
-
-        {/* Mascot Round Floating Button */}
-        <button 
-          onClick={() => setIsOpen(true)}
-          aria-label="Hablar con Hércules" 
-          className="relative group p-1 bg-brand-yellow rounded-full shadow-2xl border-2 border-brand-purpleDeep hover:scale-110 transition-transform active:scale-95 focus:outline-none"
-        >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-brand-purple">
-            <img 
-              src={mascotImage} 
-              alt="Hércules mascota asistente" decoding="async" width="64" height="64" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <span className="absolute -top-1 -left-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-brand-purple"></span>
-          </span>
+        <button ref={openerRef} type="button" className="hercules-mascot-trigger"
+          onClick={() => setOpen(true)}
+          aria-label="Abrir asistente Hércules para consultar la carta"
+          aria-haspopup="dialog" aria-expanded={isOpen}>
+          <img src={mascotImage} width="180" height="210"
+            decoding="async" alt="Hércules, el perrito guardián del sabor" />
+          <span className="hercules-trigger-label" aria-hidden="true">¿Te ayudo?</span>
         </button>
       </div>
 
-      {/* Hercules Interactive Chat Assistant Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="hercules-title" data-native-scroll>
-          <div className="bg-brand-purpleCard border-2 border-brand-yellow w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-scaleUp">
-            {/* Modal Header */}
-            <div className="bg-brand-purple p-4 border-b border-brand-purpleMuted flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img 
-                  src={mascotImage} 
-                  alt="Hércules" decoding="async" width="48" height="48" 
-                  className="w-12 h-12 rounded-full border border-brand-yellow object-cover"
-                />
-                <div>
-                  <h3 id="hercules-title" className="font-street text-xl text-brand-yellow leading-tight">HÉRCULES</h3>
-                  <p className="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    {businessInfo.mascot.title}
-                  </p>
-                </div>
+        <div className="hercules-overlay" data-native-scroll>
+          <div className="hercules-backdrop" onClick={() => setOpen(false)}
+            aria-hidden="true" />
+          <section className="hercules-dialog" role="dialog" aria-modal="true"
+            aria-labelledby="hercules-heading" aria-describedby="hercules-subtitle"
+            ref={dialogRef}>
+            <header className="hercules-chat-header">
+              <div className="hercules-chat-avatar">
+                <img src={mascotImage} alt="" width="56" height="56" decoding="async" />
               </div>
-              <button 
-                onClick={() => setIsOpen(false)}
-                aria-label="Cerrar asistente"
-                className="text-brand-graySub hover:text-white p-2 text-xl font-bold transition-colors"
-              >
-                ✕
+              <div className="hercules-chat-heading">
+                <h2 id="hercules-heading">HÉRCULES</h2>
+                <p id="hercules-subtitle">
+                  <span>El perro guardián del sabor</span>
+                  <span className="hercules-online"><i aria-hidden="true" /> Asistente virtual</span>
+                </p>
+              </div>
+              <button type="button" className="hercules-chat-close"
+                ref={closeRef} onClick={() => setOpen(false)} aria-label="Cerrar chat con Hércules">
+                <span aria-hidden="true">×</span>
               </button>
-            </div>
+            </header>
 
-            {/* Modal Body / Dialogue */}
-            <div className="p-4 overflow-y-auto space-y-3 text-xs flex-1 max-h-[400px]">
-              {messages.map((msg, index) => {
-                if (msg.sender === 'user') {
-                  return (
-                    <div 
-                      key={index}
-                      className="bg-brand-yellow text-brand-purple p-2.5 rounded-2xl rounded-tr-none font-bold text-[11px] self-end ml-auto max-w-[80%]"
-                    >
-                      {msg.text}
-                    </div>
-                  );
-                }
-                return (
-                  <div 
-                    key={index}
-                    className="bg-brand-purpleMuted p-3 rounded-2xl rounded-tl-none border border-brand-purpleMuted text-brand-cream leading-relaxed"
-                  >
-                    🐶 <strong>Hércules:</strong> {msg.text}
-                  </div>
-                );
-              })}
+            <div className="hercules-chat-scroll" data-native-scroll>
+              <div className="hercules-chat-intro">
+                <p><strong>¡Hola! Soy <em>Hércules</em> 🐶🍟</strong>, el perro guardián del sabor en <em>La Patata</em>.</p>
+                <p>¡Aquí nuestras papas son protagonistas! Te ayudo a encontrar tu combinación ideal, conocer los favoritos y resolver dudas sobre la carta.</p>
+                <p className="hercules-intro-hint">Elige una pregunta y te respondo al instante:</p>
+              </div>
 
-              <p className="text-[11px] font-bold text-brand-yellow pt-2">
-                Toca cualquier pregunta rápida para responderte al instante:
-              </p>
-            </div>
-
-            {/* Quick Action Question Chips */}
-            <div className="p-3 bg-brand-purple/70 border-t border-brand-purpleMuted flex flex-col gap-2">
-              <div className="grid grid-cols-2 gap-2">
-                {businessInfo.mascot.faqs.map((faq) => (
-                  <button 
-                    key={faq.id}
-                    onClick={() => handleAskFaq(faq)}
-                    className="text-left bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream/90 p-2 rounded-xl text-[11px] font-bold transition"
-                  >
-                    {faq.label}
+              <div className="hercules-quick-questions" aria-label="Preguntas frecuentes">
+                {businessInfo.mascot.faqs.map(faq => (
+                  <button key={faq.id} className="hercules-question"
+                    type="button" onClick={() => chooseFaq(faq)}>
+                    <span>{faq.label}</span>
+                    <span className="hercules-question-arrow" aria-hidden="true">↗</span>
                   </button>
                 ))}
               </div>
 
-              <a 
-                href={businessInfo.whatsappUrl || '#contacto'} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full text-center bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition"
-              >
-                {businessInfo.whatsappUrl ? 'Hablar por WhatsApp →' : 'Información de contacto →'}
-              </a>
+              {answers.length > 0 && (
+                <div className="hercules-conversation" role="log" aria-label="Respuestas de Hércules" aria-live="polite">
+                  {answers.map(({ id, faq }) => (
+                    <div className="hercules-answer-pair" key={id}>
+                      <div className="hercules-user-message">{faq.label}</div>
+                      <div className="hercules-bot-message">
+                        <span className="hercules-bot-name">🐶 Hércules</span>
+                        <p>{faq.answer}</p>
+                        <a href={quickAction(faq.id).href} onClick={() => leaveFor()}>
+                          {quickAction(faq.id).label} <span aria-hidden="true">↗</span>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div ref={messageEndRef} />
             </div>
-          </div>
+
+            <footer className="hercules-chat-footer">
+              <p>¿Ya sabes qué se te antoja?</p>
+              <div className="hercules-chat-ctas">
+                <a className="hercules-cta-primary" href="#carta"
+                  onClick={() => leaveFor()}>🍟 Ver carta digital</a>
+                <button className="hercules-cta-secondary" type="button"
+                  onClick={() => leaveFor('cart')}>
+                  Mi pedido{totalItems > 0 ? ' (' + totalItems + ')' : ''} ↗
+                </button>
+              </div>
+              {!businessInfo.whatsappNumber && (
+                <small>Pedidos por WhatsApp disponibles al confirmar el contacto del local.</small>
+              )}
+            </footer>
+          </section>
         </div>
       )}
     </>
