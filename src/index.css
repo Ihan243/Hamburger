@@ -410,3 +410,33 @@ html { scroll-padding-top: 76px; }
 /* Keep the closing image on the base-aware inline background (GitHub Pages). */
 .closing-section { background-size:cover; background-position:center; }
 .closing-section::before { background:none; }
+
+
+/* Interactive drag controls: JS owns track position, not CSS animation */
+.spec-products-track,
+.gallery-loop-track { animation:none !important; transform:translate3d(0,0,0); will-change:transform; }
+.spec-products-group,
+.gallery-loop-group { flex-shrink:0; }
+.draggable-marquee { cursor:grab; touch-action:pan-y; user-select:none; -webkit-user-select:none; overscroll-behavior-x:contain; }
+.draggable-marquee.is-dragging,
+.spec-window.draggable-marquee:active { cursor:grabbing; }
+.draggable-marquee img { user-select:none; -webkit-user-drag:none; pointer-events:none; }
+.spec-window .spec-choose { cursor:grab; touch-action:pan-y; }
+.spec-is-locked .spec-spinning-image { animation:none !important; }
+.spec-card-active .spec-card-title { color:#ff6b00 !important; transform:scale(1.075); }
+.spec-card-idle .spec-card-title { color:#8d7d8f; }
+.spec-card-idle { opacity:.7; }
+.spec-loop-reveal { overflow:hidden; }
+.spec-loop-description { display:grid; gap:12px; justify-items:start; max-width:290px; }
+.spec-loop-toggle,.gallery-pause { border:1px solid #d6b8a6; border-radius:100px; padding:8px 16px; background:#fff; color:#301435; font-size:12px; font-weight:900; }
+.gallery-pause { margin-top:17px; }
+.spec-loop-toggle:hover,.gallery-pause:hover { background:#27102e; color:#fff; }
+.spec-products-viewport:focus-within .spec-products-track,
+.gallery-loop-window:focus-within .gallery-loop-track { animation:none; }
+.ref-digital-menu-button { padding:12px 18px; border:1px solid #ffa300; border-radius:100px; white-space:nowrap; color:#ffa300; background:#ffa30014; font-size:13px; font-weight:900; }
+.ref-digital-menu-button:hover,.ref-digital-menu-button:focus-visible { color:#240c2b; background:#ffa300; }
+.ref-menu-panel-header h3::after { content:'  DIGITAL'; display:inline-block; vertical-align:middle; margin-left:9px; border-radius:100px; padding:6px 10px; background:#ff9f00; color:#2d1033; font:900 11px 'DM Sans',sans-serif; letter-spacing:.05em; }
+@media(max-width:1080px) { .ref-digital-menu-button { padding:10px 12px; font-size:12px; } }
+@media(max-width:720px) { .ref-digital-menu-button { font-size:11px; padding:10px 12px; } .spec-products-heading { align-items:flex-start; } .spec-loop-description { margin-top:12px; } }
+@media(max-width:390px) { .ref-contact-button { display:none; } }
+@media(prefers-reduced-motion:reduce) { .spec-products-track,.gallery-loop-track { animation:none !important; } }

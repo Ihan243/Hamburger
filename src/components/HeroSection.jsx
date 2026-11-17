@@ -23,7 +23,7 @@ export default function HeroSection() {
   <div className="ref-hero-bottom">
    <p>Convertimos las papas en las <strong>verdaderas protagonistas.</strong></p>
    <div className="ref-hero-cta">
-    <a href="#carta" className="ref-button-light">Ver Menú</a>
+    <a href="#carta" className="ref-button-light">📖 Carta digital</a>
     <a href="#contacto" className="ref-button-outline">Ubícanos</a>
    </div>
    <button type="button" className="ref-hero-featured" onClick={() => addToCart(featured)}>

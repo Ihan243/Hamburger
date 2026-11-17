@@ -24,6 +24,7 @@ export default function Navbar() {
      </svg>
      {totalItems > 0 && <span className="ref-cart-count">{totalItems}</span>}
     </button>
+    <a className="ref-digital-menu-button" href="#carta" aria-label="Abrir carta digital de La Patata">📖 Carta digital</a>
     <a className="ref-contact-button" href="#contacto">Contacto</a>
     <button className="ref-hamburger" type="button" onClick={() => setMobileOpen(v => !v)}
       aria-label="Abrir navegación" aria-expanded={mobileOpen}>{mobileOpen ? '✕' : '☰'}</button>
@@ -31,6 +32,7 @@ export default function Navbar() {
   </nav>
   {mobileOpen && <div className="ref-mobile-links">
    {links.map(link => <a href={link.href} key={link.href} onClick={() => setMobileOpen(false)}>{link.label}</a>)}
+   <a href="#carta" onClick={() => setMobileOpen(false)}>📖 Carta digital</a>
    <a href="#contacto" onClick={() => setMobileOpen(false)}>Contacto</a>
   </div>}
  </header>;
