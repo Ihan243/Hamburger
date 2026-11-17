@@ -303,7 +303,7 @@
   #carta.menu-reference .ref-menu-search input { font-size: 16px; }
   #carta.menu-reference .ref-menu-filters { gap: 8px; margin-top: 15px; }
   #carta.menu-reference .ref-menu-filters button {
-    min-height: 46px;
+    min-height: 48px;
     font-size: 11px;
     padding: 10px 13px;
   }

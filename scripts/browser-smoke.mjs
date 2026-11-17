@@ -42,7 +42,24 @@ try {
     throw new Error('React content did not render in the deployed browser');
   }
   // Validate the reference menu and preserve its real shopping interactions.
-  await page.locator('#carta').scrollIntoViewIfNeeded();
+  await page.evaluate(() => document.querySelector('#carta').scrollIntoView({block: 'start', behavior: 'instant'}));
+  await page.waitForTimeout(1100);
+  const mobileMenu = await page.evaluate(() => {
+    const section = document.getElementById('carta');
+    const panel = section.querySelector('.ref-menu-panel');
+    const heading = section.querySelector('#ref-menu-title');
+    const rect = panel.getBoundingClientRect();
+    return {
+      scrollY: Math.round(window.scrollY),
+      sectionTop: Math.round(section.getBoundingClientRect().top),
+      panelTop: Math.round(rect.top),
+      headingVisible: Boolean(heading && getComputedStyle(heading).opacity !== '0'),
+      viewport: window.innerWidth,
+      document: document.documentElement.scrollWidth
+    };
+  });
+  console.log('MENU MOBILE METRICS:', JSON.stringify(mobileMenu));
+  if (mobileMenu.document > mobileMenu.viewport + 1) throw new Error('Menu causes horizontal overflow');
   const featuredCount = await page.locator('#carta .ref-menu-line').count();
   if (featuredCount !== 7)
     throw new Error('Expected 5 featured items plus 2 combo/drink items, got ' + featuredCount);
