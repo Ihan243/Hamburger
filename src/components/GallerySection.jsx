@@ -1,55 +1,57 @@
 import React from 'react';
 import { businessInfo } from '../data/businessInfo';
-import { menuItems } from '../data/menuData';
+import useDraggableMarquee from '../hooks/useDraggableMarquee';
 
-const foodPhoto = `${import.meta.env.BASE_URL}images/salchipapa-dish.png`;
-const mascotPhoto = `${import.meta.env.BASE_URL}images/hercules-mascot.png`;
-const gallery = [
-  { id: 'gallery-1', title: 'Papas con actitud', image: foodPhoto, style: 'zoom' },
-  { id: 'gallery-2', title: 'Salchi Fest', image: foodPhoto, style: 'warm' },
-  { id: 'gallery-3', title: 'El guardián del sabor', image: mascotPhoto, style: 'mascot' },
-  { id: 'gallery-4', title: 'Preparación al momento', image: foodPhoto, style: 'wide' },
-  { id: 'gallery-5', title: 'Cremas de la casa', image: foodPhoto, style: 'cool' },
-  { id: 'gallery-6', title: 'Sabor callejero', image: foodPhoto, style: 'angled' },
+const dish = import.meta.env.BASE_URL + 'images/salchipapa-dish.png';
+const mascot = import.meta.env.BASE_URL + 'images/hercules-mascot.png';
+const cards = [
+  { title: 'Papas con actitud', image: dish, style: 'zoom' },
+  { title: 'Salchi Fest', image: dish, style: 'warm' },
+  { title: 'El guardián del sabor', image: mascot, style: 'mascot' },
+  { title: 'Preparación al momento', image: dish, style: 'wide' },
+  { title: 'Cremas de la casa', image: dish, style: 'cool' },
+  { title: 'Sabor callejero', image: dish, style: 'angled' }
 ];
-
 export default function GallerySection() {
-  return (
-    <section id="galeria" className="gallery-loop-section" aria-labelledby="gallery-heading">
-      <div className="gallery-wave" aria-hidden="true" />
-      <div className="gallery-loop-heading">
-        <span className="spec-kicker">LA PATATA · STREET FOOD</span>
-        <h2 id="gallery-heading" className="ref-section-title">LA PATATA EN ACCIÓN</h2>
-        <p>Descubre nuestra carta y el sabor que nos inspira. Próximamente en Ciudad de México.</p>
+  const slider = useDraggableMarquee(35);
+  return <section id="galeria" className="gallery-loop-section" aria-labelledby="gallery-heading">
+    <div className="gallery-wave" aria-hidden="true"/>
+    <div className="gallery-loop-heading">
+      <span className="spec-kicker">LA PATATA · STREET FOOD</span>
+      <h2 id="gallery-heading" className="ref-section-title">LA PATATA EN ACCIÓN</h2>
+      <p>Arrastra las imágenes con el cursor o desliza con el dedo. Sin saltos ni cortes.</p>
+      <button type="button" className="gallery-pause" onClick={slider.togglePaused}
+        aria-pressed={slider.paused}>{slider.paused ? '▶ Reanudar galería' : 'Ⅱ Pausar galería'}</button>
+    </div>
+    <div className={'gallery-loop-window draggable-marquee' + (slider.dragging ? ' is-dragging' : '')}
+      ref={slider.viewportRef} {...slider.bind}
+      aria-label="Galería fotográfica continua, arrastrable con mouse o dedo">
+      <div className="gallery-loop-track" ref={slider.trackRef}>
+        {[0, 1, 2, 3].map(copy => <div className="gallery-loop-group" key={copy}
+          ref={copy === 0 ? slider.groupRef : undefined}
+          aria-hidden={copy === 0 ? undefined : true}>
+          <article className="gallery-social-tile">
+            <span aria-hidden="true">◎</span><h3>ÚNETE A LA<br/>COMUNIDAD</h3>
+            <p>{businessInfo.social.instagramUser || 'CDMX · PRÓXIMAMENTE'}</p>
+            <a href={businessInfo.social.instagram || '#contacto'}
+              target={businessInfo.social.instagram ? '_blank' : undefined}
+              rel={businessInfo.social.instagram ? 'noopener noreferrer' : undefined}
+              tabIndex={copy === 0 ? undefined : -1}>
+              {businessInfo.social.instagram ? 'Instagram ↗' : 'Conócenos ↗'}
+            </a>
+          </article>
+          {cards.map((card, index) => <article className={'gallery-image-tile gallery-' + card.style}
+            key={copy + '-' + index}>
+            <img src={card.image} alt={copy === 0 ? card.title : ''}
+              loading="lazy" draggable={false}/>
+            <p>{card.title}</p>
+          </article>)}
+        </div>)}
       </div>
-      <div className="gallery-loop-window" aria-label="Galería de imágenes en movimiento">
-        <div className="gallery-loop-track">
-          {[0, 1].map(copy => (
-            <div className="gallery-loop-group" key={copy} aria-hidden={copy === 1 ? 'true' : undefined}>
-              <article className="gallery-social-tile">
-                <span aria-hidden="true">◎</span>
-                <h3>ÚNETE A LA<br />COMUNIDAD</h3>
-                <p>{businessInfo.social.instagramUser || 'CDMX · PRÓXIMAMENTE'}</p>
-                {businessInfo.social.instagram
-                  ? <a href={businessInfo.social.instagram} target="_blank" rel="noopener noreferrer"
-                      tabIndex={copy === 1 ? -1 : undefined}>Seguir en Instagram →</a>
-                  : <a href="#contacto" tabIndex={copy === 1 ? -1 : undefined}>Conócenos →</a>}
-              </article>
-              {gallery.map((item) => (
-                <article className={'gallery-image-tile gallery-' + item.style} key={item.id}>
-                  <img src={item.image} alt={copy === 0 ? item.title : ''}
-                    loading="lazy" />
-                  <p>{item.title}</p>
-                </article>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="gallery-loop-bottom">
-        <span>✦ PRODUCTOS PREPARADOS AL MOMENTO ✦</span>
-        <a href="#delivery">PEDIDOS Y CONTACTO ↗</a>
-      </div>
-    </section>
-  );
+    </div>
+    <div className="gallery-loop-bottom">
+      <span>✦ PRODUCTOS PREPARADOS AL MOMENTO ✦</span>
+      <a href="#delivery">PEDIDOS Y CONTACTO ↗</a>
+    </div>
+  </section>;
 }
