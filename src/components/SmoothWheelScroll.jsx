@@ -69,9 +69,9 @@ export default function SmoothWheelScroll() {
       const dt = lastTime ? Math.min(48, timestamp - lastTime) : 16.67;
       lastTime = timestamp;
       desired = limit(desired, 0, maxY());
-      // Time-independent exponential damping. Approximately 200-250ms
-      // of trailing motion feels fluid without making scrolling sluggish.
-      const ease = 1 - Math.exp(-dt / 205);
+      // Short trailing motion responds immediately without a floating/delayed feel.
+      // About 90ms response constant, frame-rate independent.
+      const ease = 1 - Math.exp(-dt / 90);
       position += (desired - position) * ease;
 
       if (Math.abs(desired - position) < .45) position = desired;
@@ -101,7 +101,7 @@ export default function SmoothWheelScroll() {
       // Normalized wheel input preserves both short trackpad moves and
       // longer wheel notches, without the enormous distance jumps of
       // simply multiplying every scroll delta.
-      const advance = limit(distance * 1.12, -570, 570);
+      const advance = limit(distance, -570, 570);
       if (!smoothRunning) {
         position = window.scrollY;
         desired = position;

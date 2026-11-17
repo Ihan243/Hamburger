@@ -1485,7 +1485,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
 [data-scroll-reveal] {
   --scroll-reveal-delay: 0ms;
   transition-property: opacity, transform, filter;
-  transition-duration: 760ms;
+  transition-duration: 560ms;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--scroll-reveal-delay);
 }
@@ -1814,7 +1814,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
    ============================================================ */
 @media (min-width:900px) and (prefers-reduced-motion:no-preference) {
   .hero-reference {
-    height: 158svh;
+    height: 128svh;
     min-height: 0;
     overflow: clip; /* Unlike overflow:hidden, does not block sticky. */
   }
