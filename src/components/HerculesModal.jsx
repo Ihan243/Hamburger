@@ -1,16 +1,53 @@
 import { mascotImage } from '../utils/imageAssets.js';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { businessInfo } from '../data/businessInfo';
+
+const sectionPromos = [
+  { id: 'inicio', text: '¡Papas con actitud! 🍟', link: '#carta', action: 'Ver carta' },
+  { id: 'nosotros', text: 'Conoce lo que nos hace diferentes 🐶', link: '#diferencia', action: 'Descubrir' },
+  { id: 'especialidades', text: '¡Explora las especialidades! ⭐', link: '#especialidades', action: 'Ver platos' },
+  { id: 'carta', text: 'Busca tu antojo en la carta 🍟', link: '#carta', action: 'Explorar' },
+  { id: 'galeria', text: '¡Mira La Patata en acción! 📸', link: '#galeria', action: 'Ver galería' },
+  { id: 'delivery', text: 'Arma tu pedido con precios USD 🛍️', link: '#carta', action: 'Ver menú' }
+];
 
 export default function HerculesModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
+  const [currentPromo, setCurrentPromo] = useState(sectionPromos[0]);
+  const pendingReplies = useRef([]);
   const [messages, setMessages] = useState([
     {
       sender: 'hercules',
       text: businessInfo.mascot.initialGreeting
     }
   ]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      // Update the single friendly bubble with the currently viewed section.
+      const visible = entries.filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (!visible.length) return;
+      const promo = sectionPromos.find(item => item.id === visible[0].target.id);
+      if (promo) setCurrentPromo(promo);
+    }, { rootMargin: '-18% 0px -46% 0px', threshold: [0, 0.1, 0.3] });
+    sectionPromos.forEach(({ id }) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onKey = event => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+    if (isOpen) document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [isOpen]);
+
+  useEffect(() => () => pendingReplies.current.forEach(clearTimeout), []);
 
   const handleAskFaq = (faq) => {
     // Add user question
@@ -21,12 +58,14 @@ export default function HerculesModal() {
     setMessages(newMessages);
 
     // Simulate Hercules response
-    setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       setMessages(prev => [
         ...prev,
         { sender: 'hercules', text: faq.answer }
       ]);
+      pendingReplies.current = pendingReplies.current.filter(id => id !== timeout);
     }, 300);
+    pendingReplies.current.push(timeout);
   };
 
   return (
@@ -35,10 +74,11 @@ export default function HerculesModal() {
       <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end" data-purpose="mascot-widget">
         {/* Speech Greeting Bubble */}
         {showBubble && !isOpen && (
-          <div className="hidden sm:flex items-center gap-2 bg-brand-yellow text-brand-purple px-4 py-2 rounded-2xl rounded-br-none shadow-2xl mb-2 text-xs font-bold border-2 border-brand-purple animate-bounce">
-            <span>¡Guau! ¿Tienes dudas con la carta? 🐶🍟</span>
+          <div className="hercules-promo-bubble hidden sm:flex items-center gap-2 bg-brand-yellow text-brand-purple px-4 py-2 rounded-2xl rounded-br-none shadow-2xl mb-2 text-xs font-bold border-2 border-brand-purple" aria-live="polite">
+            <span>{currentPromo.text} <a href={currentPromo.link} className="underline underline-offset-2 ml-1">{currentPromo.action} ↗</a></span>
             <button 
               onClick={() => setShowBubble(false)}
+              aria-label="Cerrar mensaje de Hércules"
               className="text-brand-purple hover:text-red-700 ml-1 font-black"
             >
               ×
@@ -68,7 +108,7 @@ export default function HerculesModal() {
 
       {/* Hercules Interactive Chat Assistant Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="hercules-title" data-native-scroll>
           <div className="bg-brand-purpleCard border-2 border-brand-yellow w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-scaleUp">
             {/* Modal Header */}
             <div className="bg-brand-purple p-4 border-b border-brand-purpleMuted flex items-center justify-between">
@@ -79,7 +119,7 @@ export default function HerculesModal() {
                   className="w-12 h-12 rounded-full border border-brand-yellow object-cover"
                 />
                 <div>
-                  <h3 className="font-street text-xl text-brand-yellow leading-tight">HÉRCULES</h3>
+                  <h3 id="hercules-title" className="font-street text-xl text-brand-yellow leading-tight">HÉRCULES</h3>
                   <p className="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     {businessInfo.mascot.title}
@@ -88,6 +128,7 @@ export default function HerculesModal() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
+                aria-label="Cerrar asistente"
                 className="text-brand-graySub hover:text-white p-2 text-xl font-bold transition-colors"
               >
                 ✕
