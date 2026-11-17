@@ -1,6 +1,7 @@
 import React from 'react';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
+import TopAnnouncement from './components/TopAnnouncement';
 import HeroSection from './components/HeroSection';
 import EditorialPointerGlow from './components/EditorialPointerGlow';
 import ScrollReveal from './components/ScrollReveal';
@@ -21,13 +22,14 @@ export default function App() {
       <div className="min-h-screen bg-brand-purpleDeep text-brand-cream font-sans">
         <EditorialPointerGlow />
         <ScrollReveal />
+        <TopAnnouncement />
         <Navbar />
         <main>
           <HeroSection />
           <AboutSection />
           <SpecialtiesSection />
-          <MarqueeBanner variant="yellow" />
           <MenuSection />
+          <MarqueeBanner />
           <WhyDifferentSection />
           <GallerySection />
           <DeliveryCtaSection />

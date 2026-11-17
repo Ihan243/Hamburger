@@ -18,7 +18,7 @@ function MenuLine({ item, onAdd }) {
 }
 
 export default function MenuSection() {
- const [activeCategory, setActiveCategory] = useState('toda');
+ const [activeCategory, setActiveCategory] = useState('all');
  const [searchQuery, setSearchQuery] = useState('');
  const { addToCart, openCart } = useCart();
  const visible = useMemo(() => {

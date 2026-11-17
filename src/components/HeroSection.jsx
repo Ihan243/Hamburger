@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const heroSlides = [
+  { first: 'ENVUELTO', second: 'EN SABOR' },
+  { first: 'PAPAS CON', second: 'ACTITUD' },
+  { first: 'SABOR QUE', second: 'CONQUISTA' }
+];
 
 export default function HeroSection() {
+  const [slide, setSlide] = useState(0);
+  const changeSlide = direction =>
+    setSlide(current => (current + direction + heroSlides.length) % heroSlides.length);
   const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
 
   return (
@@ -12,10 +21,15 @@ export default function HeroSection() {
           <span className="hero-sticker-sabor">¡Sabor!</span>
         </div>
 
-        <h1 id="hero-reference-title" className="hero-reference-title">
-          <span>ENVUELTO</span>
-          <span>EN SABOR</span>
+        <h1 id="hero-reference-title" className="hero-reference-title" aria-live="polite">
+          <span key={heroSlides[slide].first + '-a'}>{heroSlides[slide].first}</span>
+          <span key={heroSlides[slide].second + '-b'}>{heroSlides[slide].second}</span>
         </h1>
+
+        <button type="button" className="hero-reference-arrow hero-reference-arrow-left"
+          onClick={() => changeSlide(-1)} aria-label="Frase anterior">‹</button>
+        <button type="button" className="hero-reference-arrow hero-reference-arrow-right"
+          onClick={() => changeSlide(1)} aria-label="Siguiente frase">›</button>
 
         <div className="hero-reference-food">
           <img
