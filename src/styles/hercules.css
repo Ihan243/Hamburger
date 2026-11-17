@@ -381,3 +381,27 @@
   .hercules-question,
   .hercules-chat-close {transition:none;}
 }
+
+
+/* Fidelity improvements after rendered visual comparison with reference:
+   the four questions are fully visible without a sticky toolbar, and
+   the mascot uses a transparent, realistic asset rather than a square cartoon. */
+.hercules-chat-footer {
+  margin-top: 25px;
+  border: 1px solid #f0e9ed;
+  border-radius: 22px;
+  box-shadow: 0 5px 15px rgba(30,15,32,.05);
+  padding: 16px 18px;
+}
+.hercules-dialog { overflow: hidden; }
+.hercules-scene-mascot img {
+  object-position: bottom center;
+  mix-blend-mode: normal;
+}
+.hercules-chat-avatar img,
+.hercules-mascot-trigger > img { object-position: center 20%; }
+@media (max-width:700px) {
+  .hercules-chat-footer { margin-top: 22px; padding: 15px 13px; }
+  .hercules-chat-avatar img,
+  .hercules-mascot-trigger > img { object-position: center 22%; }
+}

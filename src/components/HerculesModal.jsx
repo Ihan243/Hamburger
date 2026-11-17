@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { mascotImage } from '../utils/imageAssets.js';
+const herculesPhoto = `${import.meta.env.BASE_URL}images/hercules-dog-cutout.webp`;
 import { businessInfo } from '../data/businessInfo';
 import { useCart } from '../context/CartContext';
 
@@ -118,7 +118,7 @@ export default function HerculesModal() {
           onClick={() => setOpen(true)}
           aria-label="Abrir asistente Hércules para consultar la carta"
           aria-haspopup="dialog" aria-expanded={isOpen}>
-          <img src={mascotImage} width="180" height="210"
+          <img src={herculesPhoto} width="180" height="210"
             decoding="async" alt="Hércules, el perrito guardián del sabor" />
           <span className="hercules-trigger-label" aria-hidden="true">¿Te ayudo?</span>
         </button>
@@ -129,14 +129,14 @@ export default function HerculesModal() {
           <div className="hercules-backdrop" onClick={() => setOpen(false)}
             aria-hidden="true" />
           <div className="hercules-scene-mascot" aria-hidden="true">
-            <img src={mascotImage} alt="" width="420" height="490" decoding="async" />
+            <img src={herculesPhoto} alt="" width="420" height="490" decoding="async" />
           </div>
           <section className="hercules-dialog" role="dialog" aria-modal="true"
             aria-labelledby="hercules-heading" aria-describedby="hercules-subtitle"
             ref={dialogRef}>
             <header className="hercules-chat-header">
               <div className="hercules-chat-avatar">
-                <img src={mascotImage} alt="" width="56" height="56" decoding="async" />
+                <img src={herculesPhoto} alt="" width="56" height="56" decoding="async" />
               </div>
               <div className="hercules-chat-heading">
                 <h2 id="hercules-heading">HÉRCULES</h2>
@@ -185,9 +185,7 @@ export default function HerculesModal() {
                 </div>
               )}
               <div ref={messageEndRef} />
-            </div>
-
-            <footer className="hercules-chat-footer">
+              <footer className="hercules-chat-footer">
               <p>¿Ya sabes qué se te antoja?</p>
               <div className="hercules-chat-ctas">
                 <a className="hercules-cta-primary" href="#carta"
@@ -200,7 +198,8 @@ export default function HerculesModal() {
               {!businessInfo.whatsappNumber && (
                 <small>Pedidos por WhatsApp disponibles al confirmar el contacto del local.</small>
               )}
-            </footer>
+              </footer>
+            </div>
           </section>
         </div>
       )}
