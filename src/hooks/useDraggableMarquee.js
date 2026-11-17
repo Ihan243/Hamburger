@@ -12,6 +12,7 @@ export default function useDraggableMarquee(speed = 42) {
     lastX: 0, lastAt: 0, hovering: false
   });
   const suppressClick = useRef(false);
+  const resumeRef = useRef(() => {});
   const pausedRef = useRef(false);
   const [dragging, setDragging] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -20,41 +21,74 @@ export default function useDraggableMarquee(speed = 42) {
     const m = motion.current;
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
-    let before = 0;
+    let previous = 0;
+    let alive = true;
+    m.active = false;
+
     const measure = () => {
       m.width = groupRef.current?.getBoundingClientRect().width || 0;
     };
-    measure();
-    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
-    if (groupRef.current) ro?.observe(groupRef.current);
-    window.addEventListener('resize', measure);
-    const intersection = typeof IntersectionObserver === 'undefined' ? null
-      : new IntersectionObserver(entries => {
-          m.active = !!entries[0]?.isIntersecting;
-        }, { rootMargin: '150px' });
-    if (viewportRef.current) intersection?.observe(viewportRef.current);
-
-    const step = timestamp => {
-      const dt = before ? Math.min((timestamp - before) / 1000, 0.05) : 0;
-      before = timestamp;
-      if (m.active && !m.dragging && !m.hovering && !pausedRef.current && !media.matches) {
-        m.velocity += (-speed - m.velocity) * Math.min(1, dt * 3);
-        m.x += m.velocity * dt;
-      }
-      if (m.width && trackRef.current) {
-        // Four identical copies cover the viewport during wrapping in either direction.
-        let x = m.x % m.width;
-        if (x > 0) x -= m.width;
-        trackRef.current.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
-      }
-      frame = window.requestAnimationFrame(step);
+    const draw = () => {
+      if (!m.width || !trackRef.current) return;
+      // One full group is the exact seamless looping distance.
+      let offset = m.x % m.width;
+      if (offset > 0) offset -= m.width;
+      trackRef.current.style.transform = 'translate3d(' + offset.toFixed(2) + 'px,0,0)';
     };
-    frame = window.requestAnimationFrame(step);
+
+    const canRun = () =>
+      alive && m.active && !document.hidden && !media.matches &&
+      !pausedRef.current && !m.hovering && !m.dragging;
+
+    const tick = now => {
+      frame = 0;
+      if (!canRun()) return;
+      const dt = previous ? Math.min((now - previous) / 1000, .05) : 0;
+      previous = now;
+      m.velocity += (-speed - m.velocity) * Math.min(1, dt * 6);
+      m.x += m.velocity * dt;
+      draw();
+      frame = requestAnimationFrame(tick);
+    };
+
+    const resume = () => {
+      if (!canRun() || frame) return;
+      previous = 0;
+      frame = requestAnimationFrame(tick);
+    };
+    resumeRef.current = resume;
+    measure();
+    draw();
+
+    const ro = typeof ResizeObserver === 'undefined' ? null
+      : new ResizeObserver(() => { measure(); draw(); });
+    if (groupRef.current) ro?.observe(groupRef.current);
+
+    const intersection = typeof IntersectionObserver === 'undefined' ? null
+      : new IntersectionObserver(([entry]) => {
+          m.active = Boolean(entry?.isIntersecting);
+          if (m.active) resume();
+          else if (frame) { cancelAnimationFrame(frame); frame = 0; }
+        }, { rootMargin: '100px' });
+    if (viewportRef.current) intersection?.observe(viewportRef.current);
+    else { m.active = true; resume(); }
+    if (!intersection) { m.active = true; resume(); }
+
+    const onVisibility = () => {
+      if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else resume();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    media.addEventListener?.('change', onVisibility);
+
     return () => {
-      window.cancelAnimationFrame(frame);
+      alive = false;
+      if (frame) cancelAnimationFrame(frame);
       ro?.disconnect();
       intersection?.disconnect();
-      window.removeEventListener('resize', measure);
+      document.removeEventListener('visibilitychange', onVisibility);
+      media.removeEventListener?.('change', onVisibility);
+      resumeRef.current = () => {};
     };
   }, [speed]);
 
@@ -87,6 +121,12 @@ export default function useDraggableMarquee(speed = 42) {
     m.velocity = Math.max(-850, Math.min(850, dx / dt * 1000));
     m.lastX = event.clientX;
     m.lastAt = event.timeStamp;
+    // Immediate visual response without waiting for an animation frame.
+    if (m.width && trackRef.current) {
+      let x = m.x % m.width;
+      if (x > 0) x -= m.width;
+      trackRef.current.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+    }
     event.preventDefault();
   };
   const end = event => {
@@ -99,6 +139,7 @@ export default function useDraggableMarquee(speed = 42) {
     if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
+    resumeRef.current();
     if (didDrag) {
       suppressClick.current = true;
       window.setTimeout(() => { suppressClick.current = false; }, 0);
@@ -107,6 +148,7 @@ export default function useDraggableMarquee(speed = 42) {
   const togglePaused = () => {
     pausedRef.current = !pausedRef.current;
     setPaused(pausedRef.current);
+    if (!pausedRef.current) resumeRef.current();
   };
 
   return {
@@ -117,7 +159,10 @@ export default function useDraggableMarquee(speed = 42) {
         if (event.pointerType === 'mouse') motion.current.hovering = true;
       },
       onPointerLeave: event => {
-        if (event.pointerType === 'mouse') motion.current.hovering = false;
+        if (event.pointerType === 'mouse') {
+          motion.current.hovering = false;
+          resumeRef.current();
+        }
       },
       onClickCapture: event => {
         if (!suppressClick.current) return;
