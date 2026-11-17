@@ -3,6 +3,7 @@ import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import EditorialPointerGlow from './components/EditorialPointerGlow';
+import ScrollReveal from './components/ScrollReveal';
 import MarqueeBanner from './components/MarqueeBanner';
 import AboutSection from './components/AboutSection';
 import SpecialtiesSection from './components/SpecialtiesSection';
@@ -19,6 +20,7 @@ export default function App() {
     <CartProvider>
       <div className="min-h-screen bg-brand-purpleDeep text-brand-cream font-sans">
         <EditorialPointerGlow />
+        <ScrollReveal />
         <Navbar />
         <main>
           <HeroSection />

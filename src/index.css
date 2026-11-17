@@ -841,7 +841,7 @@ body::after {
   inset: 0;
   z-index: 9998;
   pointer-events: none;
-  opacity: .105;
+  opacity: .065;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch' seed='11'/%3E%3C/filter%3E%3Crect width='160' height='160' opacity='.54' filter='url(%23grain)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
@@ -1475,4 +1475,64 @@ body::after {
   .hero-reference-title { font-size: 12.1vw; }
   .hero-reference-food { width: 81vw; }
   .hero-reference-stickers { transform: scale(.60); }
+}
+
+
+/* SCROLL REVEAL — IntersectionObserver native, fail-visible and staggered
+   The selector is opt-in from ScrollReveal.jsx and never touches JS
+   transform-based carousel tracks, floating polaroids or the hero. */
+html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
+[data-scroll-reveal] {
+  --scroll-reveal-delay: 0ms;
+  transition-property: opacity, transform, filter;
+  transition-duration: 760ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--scroll-reveal-delay);
+}
+[data-scroll-reveal="rise"].scroll-reveal-pending {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+[data-scroll-reveal="fade"].scroll-reveal-pending { opacity: 0; }
+[data-scroll-reveal].scroll-reveal-visible {
+  /* The pending rule is removed so each element returns to its existing
+     position, opacity and active/idle state without clobbering carousels. */
+  transition-delay: var(--scroll-reveal-delay);
+}
+/* Hardware layers are reserved for reveal targets still animating. */
+.scroll-reveal-pending { will-change: opacity, transform; }
+.scroll-reveal-visible { will-change: auto; }
+
+/* Fine material finish: gradient-lit top rims, without changing branding. */
+.spec-card {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.82), rgba(251,242,233,.55)) padding-box,
+    linear-gradient(145deg, rgba(255,255,255,.98), rgba(255,187,122,.26) 46%, rgba(90,38,85,.12)) border-box;
+}
+.spec-card-idle {
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.46), rgba(251,242,233,.34)) padding-box,
+    linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,187,122,.13), rgba(90,38,85,.06)) border-box;
+}
+.ref-menu-panel {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(155deg, rgba(255,252,246,.99), rgba(248,237,226,.99)) padding-box,
+    linear-gradient(145deg, rgba(255,255,255,1), rgba(255,182,109,.48) 58%, rgba(98,58,107,.27)) border-box;
+}
+
+/* Do not modify the pre-existing active dish scale. Its reveal is opacity only.
+   Sliding wrappers preserve the scroll-following transforms of both marquees. */
+@media (prefers-reduced-motion: reduce) {
+  html, html:focus-within { scroll-behavior: auto !important; }
+  [data-scroll-reveal],
+  .scroll-reveal-pending,
+  .scroll-reveal-visible {
+    opacity: revert !important;
+    transform: revert !important;
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+    will-change: auto !important;
+  }
 }
