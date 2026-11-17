@@ -64,7 +64,7 @@ export default function MenuSection() {
      <div className="ref-menu-order-box">
       <h4>¿Quieres hacer tu pedido? ¡Hazlo aquí!</h4>
       <p>Agrega productos desde la carta. Los pedidos por WhatsApp se activarán al configurar el contacto del local.</p>
-      <button type="button" onClick={openCart}>Ver mi pedido →</button>
+      <button type="button" onClick={openCart}>Ver Carta Digital &amp; Pedir →</button>
      </div>
     </div>
    </div> : <div className="ref-menu-empty">

@@ -35,6 +35,9 @@ export default function HeroSection() {
           <img
             src={photo}
             alt="Salchipapas con chorizo, queso y salsas de la casa"
+            width="550"
+            height="380"
+            decoding="async"
             fetchPriority="high"
             draggable={false}
           />
