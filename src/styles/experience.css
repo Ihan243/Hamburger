@@ -194,7 +194,7 @@ main { overflow-x: clip; }
 .cart-panel > div { min-width:0; }
 @media (max-width: 380px) {
   .cart-panel .cart-qty-btn, .cart-panel .cart-remove-btn {
-    min-width: 44px !important;
+    min-width: 48px !important;
     min-height: 48px !important;
   }
   .cart-panel .cart-qty-btn + span {

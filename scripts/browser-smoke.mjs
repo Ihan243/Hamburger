@@ -41,6 +41,17 @@ try {
   if (!state.rootSize || state.rootSize < 300) {
     throw new Error('React content did not render in the deployed browser');
   }
+  await page.setViewportSize({width: 320, height: 640});
+  await page.waitForTimeout(300);
+  const narrow = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    document: document.documentElement.scrollWidth
+  }));
+  console.log('NARROW PHONE:', JSON.stringify(narrow));
+  if (narrow.document > narrow.viewport + 1)
+    throw new Error('Horizontal overflow detected at 320px');
+  await page.screenshot({path: 'browser-smoke-narrow.png', fullPage: false});
+
   await page.setViewportSize({width: 1440, height: 900});
   await page.screenshot({path: 'browser-smoke-desktop.png', fullPage:false});
 } finally {

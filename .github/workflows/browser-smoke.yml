@@ -1,15 +1,17 @@
 name: Browser Runtime Smoke Test
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
 
 permissions:
   contents: read
 
 jobs:
   browser-smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
