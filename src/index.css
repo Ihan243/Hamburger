@@ -1485,7 +1485,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
 [data-scroll-reveal] {
   --scroll-reveal-delay: 0ms;
   transition-property: opacity, transform, filter;
-  transition-duration: 560ms;
+  transition-duration: 400ms;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--scroll-reveal-delay);
 }
@@ -1919,3 +1919,25 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
     backface-visibility: hidden;
   }
 }
+
+
+/* RESPONSE-FIRST SCROLL (no wheel interception).
+   Native browser scrolling is always immediate. Scene effects follow the
+   actual scroll position, and the hero does not pin/hold extra scroll space. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .hero-reference {
+    height: max(760px, 100svh);
+    min-height: max(760px, 100svh);
+    overflow: hidden;
+  }
+  .hero-reference-stage {
+    position: relative;
+    top: auto;
+    height: 100%;
+    min-height: 100%;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  html { overscroll-behavior-y: auto; }
+}
+/* Reduced motion remains unaffected: no scrolling scripts are installed. */

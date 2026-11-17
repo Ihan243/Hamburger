@@ -41,11 +41,9 @@ export default function ScrollCinematics() {
     const getTarget = item => {
       const r = item.element.getBoundingClientRect();
       const h = Math.max(1, window.innerHeight);
-      if (item.name === 'hero' && window.innerWidth >= 900) {
-        // More than one viewport of scrolling makes the opening composition
-        // linger before its torn-paper transition takes over.
-        const pinDistance = Math.max(1, r.height - h);
-        return clamp((82 - r.top) / pinDistance);
+      if (item.name === 'hero') {
+        // Follow the real scroll immediately; no pinned interval or artificial hold.
+        return clamp(-r.top / Math.max(h * .82, 1));
       }
       return clamp((h - r.top) / Math.max(1, h + r.height));
     };
@@ -75,7 +73,7 @@ export default function ScrollCinematics() {
       previousFrame = timestamp;
       // Framerate-independent interpolation: an inertial camera, not a
       // linear one-to-one CSS transition.
-      const alpha = 1 - Math.exp(-dt / 72);
+      const alpha = 1 - Math.exp(-dt / 28);
       let moving = false;
       for (const item of sections) {
         item.target = getTarget(item);

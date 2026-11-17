@@ -11,21 +11,21 @@ import { useEffect } from 'react';
  * - Without JavaScript or with reduced motion, content stays visible.
  */
 const groups = [
-  { selector: '.ref-polaroid-collage, .ref-about-copy', effect: 'rise', delay: 130 },
+  { selector: '.ref-polaroid-collage, .ref-about-copy', effect: 'rise', delay: 35 },
   { selector: '.spec-intro', effect: 'rise' },
-  { selector: '.spec-card', effect: 'fade', group: '.spec-track', stagger: 90 },
-  { selector: '.spec-controls, .spec-current-label', effect: 'rise', delay: 70 },
+  { selector: '.spec-card', effect: 'fade', group: '.spec-track', stagger: 35 },
+  { selector: '.spec-controls, .spec-current-label', effect: 'rise', delay: 25 },
   { selector: '.spec-products-heading, .spec-products-end', effect: 'rise' },
-  { selector: '.spec-product', effect: 'fade', group: '.spec-products-group', stagger: 55 },
+  { selector: '.spec-product', effect: 'fade', group: '.spec-products-group', stagger: 28 },
   { selector: '.spec-section-end', effect: 'rise' },
   { selector: '.ref-menu-heading, .ref-menu-panel', effect: 'rise' },
   { selector: '.ref-menu-line', effect: 'rise', group: '.ref-menu-col ul', stagger: 55 },
   { selector: '.ref-menu-order-box, .ref-boat-footnote', effect: 'rise' },
   { selector: '.ref-difference-inner > .ref-section-title, .ref-difference-subtitle', effect: 'rise' },
-  { selector: '.ref-difference-point', effect: 'rise', group: '.ref-difference-points', stagger: 125 },
+  { selector: '.ref-difference-point', effect: 'rise', group: '.ref-difference-points', stagger: 40 },
   { selector: '.ref-difference-photo', effect: 'fade' },
   { selector: '.gallery-loop-heading, .gallery-loop-bottom', effect: 'rise' },
-  { selector: '.gallery-image-tile, .gallery-social-tile', effect: 'fade', group: '.gallery-loop-group', stagger: 45 },
+  { selector: '.gallery-image-tile, .gallery-social-tile', effect: 'fade', group: '.gallery-loop-group', stagger: 28 },
   { selector: '.closing-lead, .closing-contact, .closing-bottom', effect: 'rise' }
 ];
 
