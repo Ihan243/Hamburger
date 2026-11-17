@@ -1,0 +1,57 @@
+name: Audit Website Performance
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse-mobile:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check optimized production images
+        run: |
+          curl --retry 3 --retry-delay 3 --fail --location --silent --show-error --head \
+            https://ihan243.github.io/Hamburger/images/salchipapa-dish.webp
+          curl --retry 3 --retry-delay 3 --fail --location --silent --show-error --head \
+            https://ihan243.github.io/Hamburger/images/hercules-mascot.webp
+
+      - name: Run mobile Lighthouse
+        continue-on-error: true
+        run: |
+          npx --yes lighthouse@12.8.2 \
+            https://ihan243.github.io/Hamburger/ \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --preset=perf \
+            --form-factor=mobile \
+            --screenEmulation.mobile=true \
+            --output=json \
+            --output-path=./lighthouse-mobile.json \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --quiet
+
+      - name: Summarize results and goals
+        if: always()
+        run: node scripts/report-lighthouse.mjs
+
+      - name: Save audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: la-patata-lighthouse-mobile
+          path: lighthouse-mobile.json
+          if-no-files-found: ignore
