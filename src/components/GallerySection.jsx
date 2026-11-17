@@ -10,7 +10,7 @@ export default function GallerySection() {
             LA PATATA <span className="text-brand-yellow">EN ACCIÓN</span>
           </h2>
           <p className="mt-2 text-brand-graySub text-sm sm:text-base">
-            Menciónanos en Instagram <strong className="text-brand-yellow">{businessInfo.social.instagramUser}</strong> para aparecer en nuestra pizarra callejera
+            Descubre nuestra propuesta de street food en Ciudad de México. Muy pronto compartiremos novedades en redes.
           </p>
         </div>
 
@@ -28,32 +28,32 @@ export default function GallerySection() {
               <h3 className="font-street text-2xl uppercase tracking-wider text-brand-purpleDeep">
                 ÚNETE A LA COMUNIDAD
               </h3>
-              <p className="font-street text-xl text-white tracking-widest mt-1">{businessInfo.social.instagramUser}</p>
+              <p className="font-street text-xl text-white tracking-widest mt-1">{businessInfo.social.instagramUser || "CDMX · Próximamente"}</p>
               <p className="text-xs font-semibold text-brand-purpleDeep/80 mt-2">
-                Sube tu story con la bajona, etiquétanos y llévate cremas extra en tu siguiente pedido.
+                Mantente atento a nuestras próximas novedades, menú y lanzamientos.
               </p>
             </div>
             <a 
-              href={businessInfo.social.instagram} 
+              href={businessInfo.social.instagram || '#contacto'} 
               target="_blank" 
               rel="noopener noreferrer"
               className="mt-6 bg-brand-purple hover:bg-brand-purpleDeep text-brand-yellow font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl text-center shadow-lg transition"
             >
-              Seguir en Instagram →
+              {businessInfo.social.instagram ? 'Seguir en Instagram →' : 'Próximamente en redes →'}
             </a>
           </div>
 
           {/* Gallery Card 2 */}
           <div className="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl min-h-[300px]">
             <img 
-              src="/images/salchipapa-dish.png" 
+              src={`${import.meta.env.BASE_URL}images/salchipapa-dish.png`} 
               alt="Papas doradas al estilo La Patata servidas al momento" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-purpleDeep via-transparent to-transparent opacity-80"></div>
             <div className="absolute bottom-4 left-4 right-4">
               <span className="text-[10px] font-black uppercase text-brand-yellow tracking-widest bg-brand-purple/80 px-2 py-0.5 rounded">
-                Local San Andrés
+                Ciudad de México
               </span>
               <p className="text-sm font-bold text-white mt-1">Sabor callejero auténtico</p>
             </div>
@@ -62,7 +62,7 @@ export default function GallerySection() {
           {/* Gallery Card 3 (Mascot Hércules) */}
           <div className="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl min-h-[300px] bg-brand-purpleCard flex items-center justify-center p-3">
             <img 
-              src="/images/hercules-mascot.png" 
+              src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
               alt="Hércules la mascota de La Patata invitando a probar las papas" 
               className="w-full h-full object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500"
             />
@@ -75,8 +75,8 @@ export default function GallerySection() {
           {/* Gallery Card 4 */}
           <div className="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl min-h-[300px]">
             <img 
-              src="/images/salchipapa-dish.png" 
-              alt="Ambiente callejero y sabor en Trujillo" 
+              src={`${import.meta.env.BASE_URL}images/salchipapa-dish.png`} 
+              alt="Sabor callejero en Ciudad de México" 
               className="w-full h-full object-cover filter contrast-125 group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-purpleDeep via-transparent to-transparent opacity-80"></div>

@@ -11,9 +11,9 @@ export default function MarqueeBanner({ variant = 'yellow' }) {
           <span>•</span>
           <span>PRESENTACIONES CREATIVAS</span>
           <span>•</span>
-          <span>LA MEJOR BAJONA DE TRUJILLO</span>
+          <span>SABOR CALLEJERO EN CDMX</span>
           <span>•</span>
-          <span>ABIERTO HASTA LA 1:00 AM</span>
+          <span>STREET FOOD CON ACTITUD</span>
           <span>•</span>
           <span>SALSAS ARTESANALES ILIMITADAS</span>
           <span>⚡</span>
@@ -23,9 +23,9 @@ export default function MarqueeBanner({ variant = 'yellow' }) {
           <span>•</span>
           <span>PRESENTACIONES CREATIVAS</span>
           <span>•</span>
-          <span>LA MEJOR BAJONA DE TRUJILLO</span>
+          <span>SABOR CALLEJERO EN CDMX</span>
           <span>•</span>
-          <span>ABIERTO HASTA LA 1:00 AM</span>
+          <span>STREET FOOD CON ACTITUD</span>
           <span>•</span>
           <span>SALSAS ARTESANALES ILIMITADAS</span>
           <span>⚡</span>
@@ -41,7 +41,7 @@ export default function MarqueeBanner({ variant = 'yellow' }) {
         <span>•</span>
         <span>LAS VERDADERAS PROTAGONISTAS</span>
         <span>•</span>
-        <span>FAST DELIVERY TRUJILLO</span>
+        <span>STREET FOOD CDMX</span>
         <span>•</span>
         <span>FRITURA AL MINUTO</span>
         <span>•</span>
@@ -53,7 +53,7 @@ export default function MarqueeBanner({ variant = 'yellow' }) {
         <span>•</span>
         <span>LAS VERDADERAS PROTAGONISTAS</span>
         <span>•</span>
-        <span>FAST DELIVERY TRUJILLO</span>
+        <span>STREET FOOD CDMX</span>
         <span>•</span>
         <span>FRITURA AL MINUTO</span>
         <span>•</span>

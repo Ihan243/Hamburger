@@ -12,7 +12,7 @@ export default function WhyDifferentSection() {
       num: '02',
       icon: '📦',
       title: 'PORCIONES GENEROSAS',
-      desc: 'Platos contundentes bien taipá con abundante papa nativa, embutidos parrilleros y trozos crujientes pensados para saciar de verdad.'
+      desc: 'Platos contundentes bien servidos con abundante papa nativa, embutidos parrilleros y trozos crujientes pensados para saciar de verdad.'
     },
     {
       num: '03',

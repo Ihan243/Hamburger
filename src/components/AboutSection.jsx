@@ -12,7 +12,7 @@ export default function AboutSection() {
               {/* Main Photo */}
               <div className="col-span-8 overflow-hidden rounded-3xl border-2 border-brand-yellow/30 shadow-2xl group">
                 <img 
-                  src="/images/salchipapa-dish.png" 
+                  src={`${import.meta.env.BASE_URL}images/salchipapa-dish.png`} 
                   alt="Proceso de bañado de cremas artesanales sobre papas crujientes" 
                   className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
@@ -22,7 +22,7 @@ export default function AboutSection() {
               <div className="col-span-4 flex flex-col gap-4">
                 <div className="bg-brand-purpleCard border border-brand-purpleMuted p-4 rounded-3xl flex-1 flex flex-col justify-center items-center text-center">
                   <img 
-                    src="/images/hercules-mascot.png" 
+                    src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
                     alt="Mascota oficial Hércules" 
                     className="w-24 h-24 object-cover rounded-2xl border-2 border-brand-yellow shadow-md"
                   />
@@ -38,7 +38,7 @@ export default function AboutSection() {
 
             {/* Attitude Ribbon Sticker */}
             <div className="absolute -bottom-5 left-6 bg-brand-orange text-white font-street text-sm tracking-wider px-5 py-2 rounded-xl shadow-xl badge-tilt-left">
-              🔥 RECETA SECRETA TRUJILLANA
+              🔥 RECETA DE LA CASA
             </div>
           </div>
 

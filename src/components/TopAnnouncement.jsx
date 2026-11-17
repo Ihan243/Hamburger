@@ -12,7 +12,7 @@ export default function TopAnnouncement() {
         <div className="flex items-center gap-4 text-xs">
           <span>🕒 {businessInfo.schedule}</span>
           <span className="hidden sm:inline-flex items-center gap-1 bg-brand-purple text-brand-yellow px-2 py-0.5 rounded-full font-black text-[10px] tracking-wider uppercase">
-            🛵 Delivery Activo
+            🍟 CDMX · Próximamente
           </span>
         </div>
       </div>

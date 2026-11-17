@@ -53,7 +53,7 @@ export default function HerculesModal() {
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-brand-purple">
             <img 
-              src="/images/hercules-mascot.png" 
+              src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
               alt="Hércules mascota asistente" 
               className="w-full h-full object-cover"
             />
@@ -73,7 +73,7 @@ export default function HerculesModal() {
             <div className="bg-brand-purple p-4 border-b border-brand-purpleMuted flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img 
-                  src="/images/hercules-mascot.png" 
+                  src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
                   alt="Hércules" 
                   className="w-12 h-12 rounded-full border border-brand-yellow object-cover"
                 />
@@ -81,7 +81,7 @@ export default function HerculesModal() {
                   <h3 className="font-street text-xl text-brand-yellow leading-tight">HÉRCULES</h3>
                   <p className="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    {businessInfo.mascot.title} • ¡En línea!
+                    {businessInfo.mascot.title}
                   </p>
                 </div>
               </div>
@@ -136,12 +136,12 @@ export default function HerculesModal() {
               </div>
 
               <a 
-                href={businessInfo.whatsappUrl} 
+                href={businessInfo.whatsappUrl || '#contacto'} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full text-center bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition"
               >
-                Hablar directo con una persona por WhatsApp →
+                {businessInfo.whatsappUrl ? 'Hablar por WhatsApp →' : 'Información de contacto →'}
               </a>
             </div>
           </div>

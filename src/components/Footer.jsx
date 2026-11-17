@@ -22,11 +22,11 @@ export default function Footer() {
             <text fill="#FFFFFF" fontFamily="'Anton', 'Impact', sans-serif" fontSize="34" fontWeight="900" letterSpacing="1.5" x="62" y="38">LA PATATA</text>
             <rect fill="#FFC83D" height="12" rx="2" width="138" x="63" y="44"></rect>
             <text fill="#241622" fontFamily="'DM Sans', 'Inter', sans-serif" fontSize="9" fontWeight="800" letterSpacing="2.5" x="66" y="53.5">STREET FOOD</text>
-            <text fill="#FFC83D" fontFamily="'DM Sans', sans-serif" fontSize="8" fontWeight="700" letterSpacing="1" x="208" y="53">TRUJILLO</text>
+            <text fill="#FFC83D" fontFamily="'DM Sans', sans-serif" fontSize="8" fontWeight="700" letterSpacing="1" x="208" y="53">CDMX</text>
           </svg>
 
           <p className="max-w-md text-xs sm:text-sm text-brand-cream/70">
-            <strong className="text-brand-yellow">Papas con Actitud</strong> · Convertimos las papas en protagonistas con combinaciones creativas y opciones únicas en la ciudad de la primavera.
+            <strong className="text-brand-yellow">Papas con Actitud</strong> · Convertimos las papas en protagonistas con combinaciones creativas y opciones únicas en Ciudad de México.
           </p>
 
           {/* Navigation Anchors */}
@@ -42,44 +42,22 @@ export default function Footer() {
 
           {/* Social Media Links */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-black uppercase tracking-wider">
-            <a 
-              href={businessInfo.social.instagram} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition"
-            >
-              Instagram
-            </a>
-            <a 
-              href={businessInfo.social.tiktok} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition"
-            >
-              TikTok
-            </a>
-            <a 
-              href={businessInfo.social.facebook} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition"
-            >
-              Facebook
-            </a>
-            <a 
-              href={businessInfo.whatsappUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition"
-            >
-              WhatsApp
-            </a>
+            {[
+              ['Instagram', businessInfo.social.instagram],
+              ['TikTok', businessInfo.social.tiktok],
+              ['Facebook', businessInfo.social.facebook],
+              ['WhatsApp', businessInfo.whatsappUrl],
+            ].filter(([, href]) => Boolean(href)).map(([label, href]) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                className="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition">
+                {label}
+              </a>
+            ))}
           </div>
-
           {/* Legal Disclaimer */}
           <div className="pt-6 border-t border-brand-purpleMuted/40 text-[11px] text-brand-graySub space-y-1">
             <p>© {currentYear} LA PATATA STREET FOOD. Todos los derechos reservados.</p>
-            <p className="text-brand-yellow/70">San Andrés 5ta Etapa Mz "S" lote 10, Trujillo • Desarrollado con pasión artesanal por la comida callejera.</p>
+            <p className="text-brand-yellow/70">Ciudad de México, México • Dirección y datos de contacto por confirmar.</p>
           </div>
         </div>
       </div>

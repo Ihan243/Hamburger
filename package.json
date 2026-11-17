@@ -1,8 +1,8 @@
 {
-  "name": "la-patata-street-food-trujillo",
+  "name": "la-patata-street-food-cdmx",
   "version": "1.0.0",
   "type": "module",
-  "description": "Plataforma Web Oficial de La Patata Street Food Trujillo - Papas con Actitud",
+  "description": "Sitio de demostración de La Patata Street Food CDMX - precios en USD",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
