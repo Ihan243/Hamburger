@@ -54,6 +54,16 @@ try {
   await page.screenshot({path: 'browser-smoke-chat-mobile.png', fullPage: false});
   await page.keyboard.press('Escape');
   if (await page.locator('.hercules-dialog').count()) throw new Error('Escape did not close assistant');
+
+  // User can add a product and dismiss the cart without getting trapped.
+  await page.locator('#carta .ref-menu-item-button').first().click();
+  await page.waitForSelector('.cart-panel');
+  console.log('CART TEST:', JSON.stringify({
+    items: await page.locator('.cart-panel h5').count(),
+    focusInside: await page.evaluate(() => document.querySelector('.cart-panel')?.contains(document.activeElement))
+  }));
+  await page.keyboard.press('Escape');
+  if (await page.locator('.cart-panel').count()) throw new Error('Cart did not close with Escape');
   await page.setViewportSize({width: 320, height: 640});
   await page.waitForTimeout(300);
   const narrow = await page.evaluate(() => ({

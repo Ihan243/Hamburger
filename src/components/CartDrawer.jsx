@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useCart } from '../context/CartContext';
 import { businessInfo } from '../data/businessInfo';
 
@@ -20,14 +20,43 @@ export default function CartDrawer() {
     generateWhatsAppCheckout
   } = useCart();
 
+  const panelRef = useRef(null);
+  const closeRef = useRef(null);
+
   useEffect(() => {
     if (!isCartOpen) return undefined;
+    const previous = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus({ preventScroll: true });
+
     const onKey = event => {
-      if (event.key === 'Escape') closeCart();
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeCart();
+        return;
+      }
+      if (event.key !== 'Tab' || !panelRef.current) return;
+      const focusable = [...panelRef.current.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled])'
+      )].filter(el => el.getClientRects().length);
+      if (!focusable.length) return;
+      if (event.shiftKey && document.activeElement === focusable[0]) {
+        event.preventDefault();
+        focusable[focusable.length - 1].focus();
+      } else if (!event.shiftKey && document.activeElement === focusable[focusable.length - 1]) {
+        event.preventDefault();
+        focusable[0].focus();
+      }
     };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [isCartOpen, closeCart]);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+      if (previous instanceof HTMLElement && previous.isConnected)
+        previous.focus({ preventScroll: true });
+    };
+  }, [isCartOpen]);
 
   if (!isCartOpen) return null;
 
@@ -40,7 +69,7 @@ export default function CartDrawer() {
       />
 
       {/* Slide-over panel */}
-      <aside 
+      <aside ref={panelRef}
         className="cart-panel fixed top-0 right-0 h-full w-full max-w-md bg-brand-purpleCard border-l-2 border-brand-yellow z-50 flex flex-col shadow-2xl animate-slideLeft"
         role="dialog"
         aria-modal="true"
@@ -57,6 +86,7 @@ export default function CartDrawer() {
           </div>
           <button 
             onClick={closeCart}
+            ref={closeRef}
             className="text-brand-graySub hover:text-white p-2 text-xl font-bold transition-colors"
             aria-label="Cerrar pedido"
           >
@@ -144,7 +174,7 @@ export default function CartDrawer() {
                     type="text"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="Tu nombre (ej. Carlos)"
+                    placeholder="Tu nombre (ej. Carlos)" aria-label="Nombre del cliente"
                     className="w-full bg-brand-purpleDeep border border-brand-purpleMuted rounded-xl px-3 py-2 text-xs text-white placeholder-brand-graySub focus:outline-none focus:border-brand-yellow"
                   />
                 </div>
@@ -153,7 +183,7 @@ export default function CartDrawer() {
                     type="text"
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
-                    placeholder="Dirección o referencia en CDMX"
+                    placeholder="Dirección o referencia en CDMX" aria-label="Dirección de entrega"
                     className="w-full bg-brand-purpleDeep border border-brand-purpleMuted rounded-xl px-3 py-2 text-xs text-white placeholder-brand-graySub focus:outline-none focus:border-brand-yellow"
                   />
                 </div>
@@ -162,7 +192,7 @@ export default function CartDrawer() {
                     type="text"
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
-                    placeholder="Indicaciones (ej. salsas aparte, sin mayonesa)"
+                    placeholder="Indicaciones (ej. salsas aparte, sin mayonesa)" aria-label="Indicaciones del pedido"
                     className="w-full bg-brand-purpleDeep border border-brand-purpleMuted rounded-xl px-3 py-2 text-xs text-white placeholder-brand-graySub focus:outline-none focus:border-brand-yellow"
                   />
                 </div>
