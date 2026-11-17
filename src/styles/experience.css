@@ -202,3 +202,11 @@ main { overflow-x: clip; }
     padding-right: 0;
   }
 }
+
+
+/* The menu toggle is only for small screens. The base mobile touch-target
+   utility also matched it on desktop and accidentally made it visible. */
+@media (min-width: 681px) {
+  .nav-reference-menu-toggle { display: none !important; }
+  .nav-reference-mobile { display: none !important; }
+}

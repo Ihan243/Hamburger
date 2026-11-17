@@ -68,6 +68,7 @@ try {
   await page.setViewportSize({width: 1440, height: 900});
   await page.locator('.hercules-mascot-trigger').click();
   await page.waitForSelector('.hercules-dialog');
+  await page.waitForTimeout(500); // allow panel entrance to settle before screenshot
   await page.screenshot({path: 'browser-smoke-chat-desktop.png', fullPage:false});
   await page.keyboard.press('Escape');
   await page.screenshot({path: 'browser-smoke-desktop.png', fullPage:false});
