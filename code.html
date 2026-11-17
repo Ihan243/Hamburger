@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LA PATATA | Street Food Trujillo - Papas con Actitud</title>
+<!-- Favicon / Meta -->
+<meta content="En La Patata Street Food convertimos las papas en las verdaderas protagonistas. Las mejores salchipapas, pollo broaster y combinaciones únicas en Trujillo." name="description"/>
+<!-- Google Fonts: Anton & DM Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,400;1,700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#FFC83D',
+              yellowDark: '#E5A800',
+              yellowLight: '#FFE79A',
+              purple: '#1D0E1F',
+              purpleDeep: '#130815',
+              purpleCard: '#27142A',
+              purpleMuted: '#381E3D',
+              orange: '#F95738',
+              cream: '#FAF6EE',
+              graySub: '#A89CAE'
+            }
+          },
+          fontFamily: {
+            anton: ['Anton', 'Impact', 'sans-serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+            grotesk: ['"Space Grotesk"', 'sans-serif']
+          },
+          animation: {
+            'marquee-slow': 'marquee 28s linear infinite',
+            'marquee-reverse': 'marquee-rev 25s linear infinite',
+            'float-slow': 'float 5s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite'
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
+            },
+            'marquee-rev': {
+              '0%': { transform: 'translateX(-50%)' },
+              '100%': { transform: 'translateX(0%)' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.75', transform: 'scale(1.04)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Typography & UI Polish -->
+<style data-purpose="custom-typography">
+    .font-street {
+      font-family: 'Anton', 'Impact', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .text-stroke-sm {
+      -webkit-text-stroke: 1.5px #FFC83D;
+      color: transparent;
+    }
+    .text-stroke-white {
+      -webkit-text-stroke: 1.5px #FFFFFF;
+      color: transparent;
+    }
+    .badge-tilt-left {
+      transform: rotate(-3deg);
+    }
+    .badge-tilt-right {
+      transform: rotate(3deg);
+    }
+    .backdrop-blur-street {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+  </style>
+<style data-purpose="custom-scrollbars-and-glow">
+    /* Custom scrollbar for modern feel */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #130815;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #381E3D;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FFC83D;
+    }
+    .neon-border-yellow {
+      box-shadow: 0 0 25px rgba(255, 200, 61, 0.25);
+    }
+    .cart-drawer-transition {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="bg-brand-purpleDeep text-brand-cream font-sans antialiased overflow-x-hidden selection:bg-brand-yellow selection:text-brand-purple">
+<!-- BEGIN: TopBar -->
+<div class="bg-brand-yellow text-brand-purpleDeep font-grotesk text-xs sm:text-sm font-bold tracking-wide py-2 px-4 border-b border-yellow-400" data-purpose="announcement-bar">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-1.5 text-center">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+<span>📍 San Andrés 5ta Etapa Mz "S" lote 10, Trujillo</span>
+</div>
+<div class="flex items-center gap-4 text-xs">
+<span>🕒 Miércoles a Lunes: 6:00 PM – 1:00 AM (Martes cerrado)</span>
+<span class="hidden sm:inline-flex items-center gap-1 bg-brand-purple text-brand-yellow px-2 py-0.5 rounded-full font-black text-[10px] tracking-wider uppercase">
+          🛵 Delivery Activo
+        </span>
+</div>
+</div>
+</div>
+<!-- END: TopBar -->
+<!-- BEGIN: StickyHeader -->
+<header class="sticky top-0 z-40 bg-brand-purple/95 backdrop-blur-street border-b border-brand-purpleMuted/70 transition-all duration-300">
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+<!-- Brand Logo SVG -->
+<a aria-label="La Patata Street Food Home" class="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-yellow rounded-lg p-1" href="#">
+<svg class="h-10 sm:h-12 w-auto" fill="none" viewbox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(10, 8)">
+<path d="M12 24 L22 48 L32 24 Z" fill="#E11D48"></path>
+<path d="M14 24 L22 48 L30 24 Z" fill="#F15A32"></path>
+<rect fill="#FFC83D" height="20" rx="1.5" transform="rotate(-12 17 18)" width="4.5" x="15" y="8"></rect>
+<rect fill="#FFE082" height="24" rx="1.5" width="4.5" x="20" y="4"></rect>
+<rect fill="#FFB300" height="22" rx="1.5" transform="rotate(10 27 17)" width="4.5" x="25" y="6"></rect>
+<rect fill="#FFD54F" height="16" rx="1.5" transform="rotate(-20 13 20)" width="4" x="11" y="12"></rect>
+<rect fill="#FFA000" height="17" rx="1.5" transform="rotate(18 31 18)" width="4" x="29" y="10"></rect>
+</g>
+<text fill="#FFFFFF" font-family="'Anton', 'Impact', sans-serif" font-size="34" font-weight="900" letter-spacing="1.5" x="62" y="38">LA PATATA</text>
+<rect fill="#FFC83D" height="12" rx="2" width="138" x="63" y="44"></rect>
+<text fill="#241622" font-family="'DM Sans', 'Inter', sans-serif" font-size="9" font-weight="800" letter-spacing="2.5" x="66" y="53.5">STREET FOOD</text>
+<text fill="#FFC83D" font-family="'DM Sans', sans-serif" font-size="8" font-weight="700" letter-spacing="1" x="208" y="53">TRUJILLO</text>
+</svg>
+</a>
+<!-- Desktop Navigation Links -->
+<div class="hidden md:flex items-center space-x-7 text-sm font-bold tracking-wide">
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#nosotros">Nosotros</a>
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#especialidades">Especialidades</a>
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#carta">Menú</a>
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#diferencia">Diferencia</a>
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#galeria">Galería</a>
+<a class="text-brand-cream/80 hover:text-brand-yellow transition-colors" href="#contacto">Contacto</a>
+</div>
+<!-- Header Action Buttons -->
+<div class="flex items-center gap-3">
+<!-- Cart Drawer Trigger Button -->
+<button aria-label="Abrir Carrito" class="relative bg-brand-purpleMuted/80 hover:bg-brand-purpleMuted text-brand-cream p-2.5 rounded-full border border-brand-purpleMuted transition-all" id="cart-toggle-btn">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="absolute -top-1.5 -right-1.5 bg-brand-yellow text-brand-purple font-black text-[11px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-purpleDeep shadow-md" id="cart-counter-badge">0</span>
+</button>
+<!-- Pedir WhatsApp Button -->
+<a class="hidden sm:inline-flex items-center gap-2 bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple font-black text-xs uppercase tracking-wider px-4 py-2.5 rounded-full transition-transform active:scale-95 shadow-lg" href="https://wa.me/51970743356?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20La%20Patata" rel="noopener noreferrer" target="_blank">
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+</svg>
+          Pedir por WhatsApp
+        </a>
+<!-- Mobile Menu Hamburger Button -->
+<button aria-label="Abrir menú de navegación" class="md:hidden text-brand-cream hover:text-brand-yellow p-2" id="mobile-menu-btn">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</nav>
+<!-- Mobile Drawer Menu -->
+<div class="hidden md:hidden bg-brand-purpleCard border-b border-brand-purpleMuted px-4 pt-2 pb-6 space-y-3" id="mobile-menu">
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#nosotros">Nosotros</a>
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#especialidades">Especialidades</a>
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#carta">Nuestra Carta</a>
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#diferencia">¿Por qué somos diferentes?</a>
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#galeria">La Patata en Acción</a>
+<a class="block py-2 text-brand-cream hover:text-brand-yellow font-bold" href="#contacto">Ubícanos y Contacto</a>
+<div class="pt-2">
+<a class="w-full text-center inline-block bg-brand-yellow text-brand-purple py-3 rounded-xl font-black uppercase text-sm tracking-wider shadow" href="https://wa.me/51970743356?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20La%20Patata" target="_blank">
+          Pedir por WhatsApp →
+        </a>
+</div>
+</div>
+</header>
+<!-- END: StickyHeader -->
+<!-- BEGIN: HeroSection -->
+<section class="relative overflow-hidden pt-8 pb-16 lg:py-24 bg-gradient-to-b from-brand-purple via-brand-purpleDeep to-brand-purpleDeep" data-purpose="hero-section">
+<!-- Background Ambient Glows -->
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-brand-yellow/15 blur-[140px] pointer-events-none rounded-full"></div>
+<div class="absolute top-1/3 -right-20 w-[400px] h-[400px] bg-brand-orange/15 blur-[120px] pointer-events-none rounded-full"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<!-- Top Stickers / Tags row -->
+<div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+<span class="inline-flex items-center gap-1.5 bg-brand-yellow text-brand-purple text-xs font-black px-3.5 py-1 rounded-full badge-tilt-left uppercase tracking-wider shadow-lg">
+          🍟 ¡Papas!
+        </span>
+<span class="inline-flex items-center gap-1.5 bg-brand-orange text-white text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow-lg">
+          🔥 Crujiente
+        </span>
+<span class="inline-flex items-center gap-1.5 bg-brand-purpleCard border border-brand-yellow text-brand-yellow text-xs font-black px-3.5 py-1 rounded-full badge-tilt-right uppercase tracking-wider shadow-lg">
+          ✨ ¡Sabor!
+        </span>
+</div>
+<!-- Massive Street Food Title -->
+<div class="text-center max-w-5xl mx-auto">
+<h1 class="font-street text-6xl sm:text-8xl md:text-9xl lg:text-[140px] leading-none tracking-tight uppercase select-none text-white drop-shadow-2xl">
+          ENVUELTO <br/>
+<span class="text-brand-yellow inline-block relative">
+            EN SABOR
+            <!-- Small Flame SVG Accent -->
+<svg class="absolute -top-2 -right-6 sm:-right-10 w-8 h-8 sm:w-12 sm:h-12 text-brand-orange animate-bounce" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2c-.6 0-1 .4-1 1 0 2.2-1.3 4-3 5-1.7 1-3 3-3 6 0 4.4 3.6 8 8 8s8-3.6 8-8c0-3.3-1.6-5.8-3.5-7.5-.4-.4-1.1-.3-1.4.2-.3.5-.2 1.1.2 1.5 1.5 1.4 2.7 3.3 2.7 5.8 0 3.3-2.7 6-6 6s-6-2.7-6-6c0-2.3.9-3.7 2.4-4.6 2.3-1.4 3.6-3.8 3.6-6.4 0-.6-.4-1-1-1z"></path>
+</svg>
+</span>
+</h1>
+<p class="mt-4 sm:mt-6 text-lg sm:text-2xl text-brand-cream/90 font-medium max-w-2xl mx-auto">
+          Convertimos las papas en las <strong class="text-brand-yellow font-extrabold underline decoration-brand-yellow decoration-4 underline-offset-4">verdaderas protagonistas</strong>.
+        </p>
+<!-- CTA Buttons -->
+<div class="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
+<a class="bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple font-street text-xl tracking-wider px-8 py-4 rounded-2xl shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2" href="#carta">
+            Ver Menú 🍟
+          </a>
+<a class="bg-brand-purpleCard hover:bg-brand-purpleMuted border-2 border-brand-cream/20 text-brand-cream font-street text-xl tracking-wider px-8 py-4 rounded-2xl transition-all hover:border-brand-yellow hover:scale-105 active:scale-95" href="#contacto">
+            Ubícanos 📍
+          </a>
+</div>
+</div>
+<!-- Hero Featured Dish Showcase with Real Provided Image -->
+<div class="mt-12 sm:mt-16 max-w-2xl mx-auto relative flex justify-center">
+<!-- Circular Glow & Plate Frame -->
+<div class="relative group">
+<div class="absolute inset-0 bg-brand-yellow/20 rounded-full blur-2xl animate-pulse-glow"></div>
+<div class="relative w-72 h-72 sm:w-96 sm:h-96 md:w-[440px] md:h-[440px] rounded-full p-2.5 bg-gradient-to-tr from-brand-yellow via-brand-orange to-brand-purpleMuted shadow-2xl transition-transform duration-700 hover:rotate-3">
+<img alt="Plato estrella Salchi Fest con papas nativas doradas, chorizo parrillero y queso fundido" class="w-full h-full object-cover rounded-full shadow-inner border-4 border-brand-purpleDeep" loading="eager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+</div>
+<!-- Floating Interactive Badge on Hero Image -->
+<div class="absolute -bottom-4 right-4 sm:right-8 bg-brand-purple border-2 border-brand-yellow rounded-2xl p-3 sm:p-4 shadow-2xl flex items-center gap-3 backdrop-blur-md badge-tilt-right">
+<div class="bg-brand-yellow text-brand-purple font-black w-10 h-10 rounded-xl flex items-center justify-center text-lg">
+              ★
+            </div>
+<div>
+<p class="text-xs font-bold text-brand-graySub uppercase tracking-wider">Favorito indiscutible</p>
+<h4 class="font-street text-lg sm:text-xl text-brand-yellow leading-none">SALCHI FEST XL</h4>
+<p class="text-xs font-extrabold text-white mt-0.5">S/ 28.00</p>
+</div>
+<button class="ml-2 bg-brand-yellow text-brand-purple hover:bg-brand-yellowDark p-2 rounded-xl transition" onclick="addToCart('Salchi Fest', 28.00, 'Papas fritas + hot dog + chorizo parrillero + pollo broaster + queso fundido')" title="Añadir al pedido">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: InfiniteMarquee1 -->
+<div class="bg-brand-yellow text-brand-purpleDeep font-street text-xl sm:text-2xl py-3 overflow-hidden whitespace-nowrap border-y-2 border-brand-purple relative z-20" data-purpose="ticker-strip">
+<div class="inline-flex animate-marquee-slow gap-8">
+<span>★ PAPAS CON ACTITUD</span>
+<span>•</span>
+<span>LAS VERDADERAS PROTAGONISTAS</span>
+<span>•</span>
+<span>FAST DELIVERY TRUJILLO</span>
+<span>•</span>
+<span>FRITURA AL MINUTO</span>
+<span>•</span>
+<span>SABOR CALLEJERO 100% ARTESANAL</span>
+<span>•</span>
+<span>CREMAS CASERAS DE LA CASA</span>
+<span>★</span>
+<!-- Repeated for continuous loop -->
+<span>PAPAS CON ACTITUD</span>
+<span>•</span>
+<span>LAS VERDADERAS PROTAGONISTAS</span>
+<span>•</span>
+<span>FAST DELIVERY TRUJILLO</span>
+<span>•</span>
+<span>FRITURA AL MINUTO</span>
+<span>•</span>
+<span>SABOR CALLEJERO 100% ARTESANAL</span>
+<span>•</span>
+<span>CREMAS CASERAS DE LA CASA</span>
+<span>★</span>
+</div>
+</div>
+<!-- END: InfiniteMarquee1 -->
+<!-- BEGIN: SobreNosotros -->
+<section class="py-20 lg:py-28 bg-brand-purpleDeep relative border-b border-brand-purpleMuted/40" id="nosotros">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Left: Street Photography Collage -->
+<div class="lg:col-span-6 relative">
+<!-- Backing glow -->
+<div class="absolute -inset-4 bg-brand-yellow/10 rounded-3xl blur-2xl"></div>
+<div class="relative grid grid-cols-12 gap-4">
+<!-- Main Photo (Using Salchi Fest close-up) -->
+<div class="col-span-8 overflow-hidden rounded-3xl border-2 border-brand-yellow/30 shadow-2xl group">
+<img alt="Proceso de bañado de cremas artesanales sobre papas crujientes" class="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+</div>
+<!-- Secondary Mascot & Brand Card -->
+<div class="col-span-4 flex flex-col gap-4">
+<div class="bg-brand-purpleCard border border-brand-purpleMuted p-4 rounded-3xl flex-1 flex flex-col justify-center items-center text-center">
+<img alt="Mascota oficial Hércules" class="w-24 h-24 object-cover rounded-2xl border-2 border-brand-yellow shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI6MyB0tlm3iSk1Nywk9b1NrEKUr3L-TJbWkfPZV9jrY_dUvIb_908GOZR4HGb5BQ_BEMwXzWxrFfKCypy80FuAI6m4C0GqOyE5NBdGK-Y0qLILhR1AcUsSItqvhDapPFyT8PNiSF1V2308LFxzUtxFHGSQVcdL6ZJE0LRRJy7nBoMyPsbk61hEMbrHJdukxU8dpny6Zfmq3tweGl-j5Q-B5wVvpm_Nj6DkiaJ0Jxh"/>
+<span class="mt-2 text-xs font-bold text-brand-yellow font-street">HÉRCULES</span>
+<span class="text-[10px] text-brand-graySub uppercase">Guardián del Sabor</span>
+</div>
+<div class="bg-brand-yellow text-brand-purple p-4 rounded-3xl text-center shadow-lg">
+<p class="font-street text-3xl leading-none">100%</p>
+<p class="text-[11px] font-black uppercase tracking-tight mt-1">Papas Nativas Crujientes</p>
+</div>
+</div>
+</div>
+<!-- Attitude Ribbon Sticker -->
+<div class="absolute -bottom-5 left-6 bg-brand-orange text-white font-street text-sm tracking-wider px-5 py-2 rounded-xl shadow-xl badge-tilt-left">
+            🔥 RECETA SECRETA TRUJILLANA
+          </div>
+</div>
+<!-- Right: Brand Philosophy Editorial Copy -->
+<div class="lg:col-span-6 space-y-6">
+<div class="inline-flex items-center gap-2 bg-brand-purpleMuted text-brand-yellow text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest border border-brand-yellow/20">
+            Papas con Actitud
+          </div>
+<h2 class="font-street text-5xl sm:text-6xl lg:text-7xl text-white tracking-wide uppercase leading-tight">
+            SOBRE <br/><span class="text-brand-yellow">NOSOTROS</span>
+</h2>
+<p class="text-brand-cream/80 text-base sm:text-lg leading-relaxed">
+            En <strong class="text-brand-yellow font-bold">La Patata Street Food</strong> nos diferenciamos por convertir las papas en las <span class="underline decoration-brand-yellow font-semibold">verdaderas protagonistas</span>, ofreciendo una variedad de combinaciones únicas y presentaciones creativas.
+          </p>
+<p class="text-brand-cream/80 text-base sm:text-lg leading-relaxed">
+            Nuestra propuesta va mucho más allá de las salchipapas tradicionales: cada creación está pensada con identidad propia, fritura al minuto y cremas de la casa bajo nuestro sello distintivo: <strong class="text-white bg-brand-purpleMuted px-2 py-0.5 rounded font-bold">Papas con Actitud</strong>.
+          </p>
+<!-- Core Values Badges -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-3 rounded-2xl text-center">
+<span class="text-2xl">⚡</span>
+<p class="font-bold text-xs text-brand-yellow mt-1">Fritura al Minuto</p>
+</div>
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-3 rounded-2xl text-center">
+<span class="text-2xl">🥣</span>
+<p class="font-bold text-xs text-brand-yellow mt-1">Cremas de la Casa</p>
+</div>
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-3 rounded-2xl text-center col-span-2 sm:col-span-1">
+<span class="text-2xl">🔥</span>
+<p class="font-bold text-xs text-brand-yellow mt-1">Cortes Parrilleros</p>
+</div>
+</div>
+<div class="pt-4">
+<a class="inline-flex items-center gap-3 bg-brand-purpleCard hover:bg-brand-purpleMuted text-brand-yellow font-bold px-7 py-3.5 rounded-2xl border-2 border-brand-yellow/30 hover:border-brand-yellow transition-all" href="#diferencia">
+<span>Conoce la Diferencia</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: SobreNosotros -->
+<!-- BEGIN: Especialidades -->
+<section class="py-20 lg:py-28 bg-brand-purple relative border-b border-brand-purpleMuted/50 overflow-hidden" id="especialidades">
+<!-- Visual background accent -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<span class="text-brand-yellow font-black text-xs uppercase tracking-widest bg-brand-purpleMuted px-4 py-1.5 rounded-full inline-block mb-3">
+          Selección Magistral
+        </span>
+<h2 class="font-street text-5xl sm:text-7xl text-white tracking-wide uppercase">
+          ESPECIALIDADES <br/><span class="text-brand-yellow">DE LA CASA</span>
+</h2>
+<p class="mt-3 text-brand-graySub text-sm sm:text-base">
+          Nuestras obras maestras callejeras más aclamadas de Trujillo. Diseñadas para devorar.
+        </p>
+</div>
+<!-- 3 Featured Circular Specialties Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+<!-- Specialty Card 1: Salchi Patata -->
+<div class="bg-brand-purpleCard rounded-3xl p-6 border border-brand-purpleMuted hover:border-brand-yellow transition-all duration-300 group flex flex-col items-center text-center shadow-xl">
+<div class="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-brand-yellow/60 to-transparent mb-6 transition-transform duration-500 group-hover:scale-105">
+<img alt="Salchi Patata con chorizo parrillero y trozos broaster" class="w-full h-full object-cover rounded-full shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+<span class="absolute bottom-2 right-2 bg-brand-yellow text-brand-purple font-black text-xs px-3 py-1 rounded-full shadow-md font-street">
+              S/ 25.00
+            </span>
+</div>
+<h3 class="font-street text-2xl sm:text-3xl text-white tracking-wider group-hover:text-brand-yellow transition-colors">
+            SALCHI PATATA
+          </h3>
+<p class="text-brand-cream/70 text-sm mt-2 flex-grow">
+            Papas fritas nativas + hot dog + chorizo parrillero ahumado + trozos crujientes de pollo broaster.
+          </p>
+<button class="mt-5 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all flex items-center justify-center gap-2" onclick="addToCart('Salchi Patata', 25.00, 'Papas fritas + hot dog + chorizo parrillero + pollo broaster')">
+<span>Agregar al Pedido</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<!-- Specialty Card 2: Salchi Fest (Center Star) -->
+<div class="bg-brand-purpleCard rounded-3xl p-6 border-2 border-brand-yellow relative transition-all duration-300 group flex flex-col items-center text-center shadow-2xl transform md:-translate-y-4">
+<div class="absolute -top-4 bg-brand-yellow text-brand-purple font-black text-xs uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+            ★ La Más Pedida
+          </div>
+<div class="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full p-2 bg-gradient-to-tr from-brand-yellow via-brand-orange to-brand-yellowLight mb-6 transition-transform duration-500 group-hover:scale-105">
+<img alt="Salchi Fest con abundante queso fundido y salsas" class="w-full h-full object-cover rounded-full shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+<span class="absolute bottom-2 right-2 bg-brand-yellow text-brand-purple font-black text-sm px-3.5 py-1.5 rounded-full shadow-lg font-street">
+              S/ 28.00
+            </span>
+</div>
+<h3 class="font-street text-3xl sm:text-4xl text-brand-yellow tracking-wider">
+            SALCHI FEST
+          </h3>
+<p class="text-brand-cream/80 text-sm mt-2 flex-grow">
+            Papas fritas + hot dog + chorizo parrillero + trozos de pollo broaster + espectacular volcán de queso fundido.
+          </p>
+<button class="mt-5 w-full bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple font-black text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2" onclick="addToCart('Salchi Fest', 28.00, 'Papas fritas + hot dog + chorizo + broaster + queso fundido')">
+<span>Agregar al Pedido</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<!-- Specialty Card 3: Broaster Clásico XL -->
+<div class="bg-brand-purpleCard rounded-3xl p-6 border border-brand-purpleMuted hover:border-brand-yellow transition-all duration-300 group flex flex-col items-center text-center shadow-xl">
+<div class="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full p-2 bg-gradient-to-b from-brand-orange/60 to-transparent mb-6 transition-transform duration-500 group-hover:scale-105">
+<img alt="Broaster Clásico XL crocante marinado" class="w-full h-full object-cover rounded-full shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+<span class="absolute bottom-2 right-2 bg-brand-yellow text-brand-purple font-black text-xs px-3 py-1 rounded-full shadow-md font-street">
+              S/ 24.00
+            </span>
+</div>
+<h3 class="font-street text-2xl sm:text-3xl text-white tracking-wider group-hover:text-brand-yellow transition-colors">
+            BROASTER CLÁSICO XL
+          </h3>
+<p class="text-brand-cream/70 text-sm mt-2 flex-grow">
+            Pollo broaster marinado crocante con receta de la casa, porción contundente de papas fritas nativas y cremas caseras.
+          </p>
+<button class="mt-5 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all flex items-center justify-center gap-2" onclick="addToCart('Broaster Clásico XL', 24.00, 'Pollo broaster crocante marinado + papas nativas + cremas')">
+<span>Agregar al Pedido</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Especialidades -->
+<!-- BEGIN: InfiniteMarquee2 -->
+<div class="bg-brand-purpleCard text-brand-yellow font-street text-lg sm:text-xl py-2.5 overflow-hidden whitespace-nowrap border-y border-brand-purpleMuted relative z-20" data-purpose="ticker-strip-accent">
+<div class="inline-flex animate-marquee-reverse gap-8">
+<span>⚡ MÁS QUE SALCHIPAPAS</span>
+<span>•</span>
+<span>COMBINACIONES ÚNICAS</span>
+<span>•</span>
+<span>PRESENTACIONES CREATIVAS</span>
+<span>•</span>
+<span>LA MEJOR BAJONA DE TRUJILLO</span>
+<span>•</span>
+<span>ABIERTO HASTA LA 1:00 AM</span>
+<span>•</span>
+<span>SALSAS ARTESANALES ILIMITADAS</span>
+<span>⚡</span>
+<!-- Repeated for continuous loop -->
+<span>MÁS QUE SALCHIPAPAS</span>
+<span>•</span>
+<span>COMBINACIONES ÚNICAS</span>
+<span>•</span>
+<span>PRESENTACIONES CREATIVAS</span>
+<span>•</span>
+<span>LA MEJOR BAJONA DE TRUJILLO</span>
+<span>•</span>
+<span>ABIERTO HASTA LA 1:00 AM</span>
+<span>•</span>
+<span>SALSAS ARTESANALES ILIMITADAS</span>
+<span>⚡</span>
+</div>
+</div>
+<!-- END: InfiniteMarquee2 -->
+<!-- BEGIN: CartaGastronomica -->
+<section class="py-20 lg:py-28 bg-brand-purpleDeep relative" id="carta">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header -->
+<div class="text-center max-w-3xl mx-auto">
+<span class="inline-flex items-center gap-1.5 bg-brand-yellow/10 text-brand-yellow border border-brand-yellow/30 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider badge-tilt-left">
+          ¡Irresistible!
+        </span>
+<h2 class="font-street text-5xl sm:text-7xl lg:text-8xl text-white tracking-wide uppercase mt-2">
+          SABOR QUE <br/><span class="text-brand-yellow">HABLA FUERTE</span>
+</h2>
+<h3 class="font-street text-3xl sm:text-4xl text-brand-cream/90 mt-1 uppercase">
+          NUESTRA CARTA
+        </h3>
+<p class="text-brand-graySub text-sm sm:text-base mt-2">
+          La calidad que te ofrecemos en cada bocado. Selecciona tus favoritos o busca directo.
+        </p>
+</div>
+<!-- Real-time Search Input -->
+<div class="mt-10 max-w-2xl mx-auto relative">
+<div class="relative flex items-center">
+<svg class="absolute left-4 w-5 h-5 text-brand-graySub pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<input class="w-full bg-brand-purpleCard border-2 border-brand-purpleMuted focus:border-brand-yellow text-white pl-12 pr-10 py-3.5 rounded-2xl text-sm placeholder-brand-graySub focus:outline-none focus:ring-0 transition-all shadow-inner" id="menu-search-input" placeholder="Buscar en la carta (ej. alitas, picante, wrap, bowl, box)..." type="text"/>
+<button class="hidden absolute right-4 text-brand-graySub hover:text-white" id="clear-search-btn" title="Limpiar búsqueda">
+            ✕
+          </button>
+</div>
+</div>
+<!-- Category Filter Pills -->
+<div class="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-4xl mx-auto">
+<button class="filter-pill active px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-yellow text-brand-purple transition-all shadow-sm" data-category="all">
+          ★ Lo Más Pedido
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="salchipapas">
+          Salchipapas &amp; Bowls
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="broaster">
+          Pollo Broaster
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="crunch">
+          Alitas &amp; Crunch
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="boxes">
+          Boxes &amp; Barco
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="bebidas">
+          Bebidas
+        </button>
+<button class="filter-pill px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-brand-purpleCard text-brand-cream/80 hover:text-white border border-brand-purpleMuted transition-all" data-category="toda">
+          Toda la Carta
+        </button>
+</div>
+<!-- INSIGNIA MONUMENTAL EXPERIENCE BANNER: BARCO LA PATATA -->
+<div class="mt-12 bg-gradient-to-r from-brand-purpleMuted via-brand-purpleCard to-brand-purpleDeep border-2 border-brand-yellow/80 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+<div class="lg:col-span-8 space-y-3">
+<span class="inline-block bg-brand-yellow text-brand-purple font-black text-[11px] px-3 py-1 rounded-md uppercase tracking-wider">
+              ⛵ EXPERIENCIA MONUMENTAL · 60 CM
+            </span>
+<h3 class="font-street text-4xl sm:text-5xl text-white">BARCO LA PATATA</h3>
+<p class="text-brand-cream/85 text-sm sm:text-base leading-relaxed">
+              Servido en un auténtico barco plano de madera de ~60 cm. La experiencia insuperable para cumpleaños, bajonas épicas y reuniones: <strong class="text-brand-yellow font-bold">~800g papas nativas crujientes, 6 piezas broaster, 12 alitas en salsas, 8 boneless, 4 tenders, 1 porción salchipapa clásica y pocillos de salsas de la casa</strong>.
+            </p>
+</div>
+<div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-center lg:items-end justify-center gap-4">
+<div class="text-center lg:text-right">
+<span class="text-xs uppercase text-brand-graySub block">Precio Monumental</span>
+<span class="font-street text-4xl sm:text-5xl text-brand-yellow">S/ 115.00</span>
+</div>
+<button class="w-full sm:w-auto bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple font-street text-lg px-6 py-3.5 rounded-xl uppercase tracking-wider shadow-lg transition-transform active:scale-95" onclick="addToCart('Barco La Patata (~60cm)', 115.00, 'Experiencia Monumental 60cm con papas, 6 broaster, 12 alitas, boneless, tenders')">
+              Pedir Barco Insignia ⛵
+            </button>
+</div>
+</div>
+</div>
+<!-- Menu Items Grid Container -->
+<div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="menu-items-grid">
+<!-- Salchi Fest -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas all" data-name="salchi fest bomba queso fundido">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Salchi Fest</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 28.00</span>
+</div>
+<span class="inline-block bg-brand-orange text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">¡Bomba Favorita!</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Papas fritas + hot dog + chorizo parrillero + trozos de pollo broaster + abundante queso fundido.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Salchi Fest', 28.00, 'Papas, hot dog, chorizo, broaster y queso fundido')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Broaster Clásico -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="broaster all" data-name="broaster clasico pollo papas cremas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Broaster Clásico</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 18.00</span>
+</div>
+<span class="inline-block bg-brand-purpleMuted text-brand-yellow text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">Clásico de Oro</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Pollo broaster marinado crocante con papas fritas nativas con piel y cremas caseras.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Broaster Clásico', 18.00, 'Pollo broaster crocante marinado con papas nativas')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Salchi Patata -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas all" data-name="salchi patata chorizo broaster">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Salchi Patata</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 25.00</span>
+</div>
+<span class="inline-block bg-brand-purpleMuted text-brand-yellow text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">Identidad de la Casa</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Papas fritas + hot dog frankfurter + chorizo parrillero ahumado + trozos crujientes de pollo broaster.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Salchi Patata', 25.00, 'Papas, frankfurter, chorizo parrillero y trozos broaster')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Alitas Crocantes en Salsa -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="crunch all" data-name="alitas crocantes salsas bbq bufalo chimichurri">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Alitas Crocantes (6 pcs)</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 21.00</span>
+</div>
+<span class="inline-block bg-brand-orange text-white text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">Salsas a Elección</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              6 unidades crujientes bañadas en tu salsa favorita (BBQ, Maracuyá, Chimichurri o Picante) servidas con papas nativas.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Alitas Crocantes (6 pcs)', 21.00, '6 alitas en salsa artesanal a elección con papas')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Wrap Especial -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="broaster all" data-name="wrap especial queso tocino broaster">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Wrap Especial</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 18.00</span>
+</div>
+<span class="inline-block bg-brand-yellow text-brand-purple text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">Recomendado</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Tortilla suave + pulpa broaster deshuesada + delicioso queso derretido + tocino crocante ahumado.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Wrap Especial', 18.00, 'Tortilla, pollo broaster, queso derretido y tocino')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Box Hércules -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="boxes all" data-name="box hercules combo familiar pepsi wrap tenders boneless alitas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Box Hércules (Combo Estrella)</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 62.00</span>
+</div>
+<span class="inline-block bg-brand-yellow text-brand-purple text-[10px] font-black px-2 py-0.5 rounded tracking-wide mt-1 uppercase">Para Compartir</span>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              1 Wrap clásico + 4 tenders + 4 boneless + 8 alitas en salsa + papas fritas nativas + 1 Pepsi de 1L helada.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Box Hércules (Combo Estrella)', 62.00, 'Wrap + 4 tenders + 4 boneless + 8 alitas + papas + Pepsi 1L')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Salchipapa Clásica -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas" data-name="salchipapa clasica papas doradas frankfurter">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Salchipapa Clásica</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 16.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Base de papas nativas doradas al momento, hot dog frankfurter laminado y cremas caseras.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Salchipapa Clásica', 16.00, 'Papas doradas con frankfurter laminado')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Salchi Cheese -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas" data-name="salchi cheese queso derretido fundido">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Salchi Cheese</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 20.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Papas fritas con piel, hot dog frankfurter y abundante manto de queso derretido por encima.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Salchi Cheese', 20.00, 'Papas fritas, hot dog y queso derretido')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Salchipollo Broaster -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas broaster" data-name="salchipollo broaster presa dorada">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Salchipollo Broaster</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 20.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Papas fritas crujientes con hot dog y presa dorada y crocante de pollo broaster.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Salchipollo Broaster', 20.00, 'Papas fritas con hot dog y presa de pollo broaster')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Arma tu Bowl -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="salchipapas" data-name="arma tu bowl personalizado papas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Arma tu Bowl Personalizado</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 15.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Base: Papas fritas nativas + frankfurter laminado + cremas. Puedes agregarle hasta 14 adicionales en caja.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Arma tu Bowl (Base)', 15.00, 'Base de papas nativas + frankfurter + cremas caseras')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Broaster Picante Spicy -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="broaster" data-name="broaster picante spicy aji">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Broaster Picante Spicy 🔥</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 19.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Piezas crocantes con marinado especial picante callejero + papas nativas con piel + cremas caseras.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Broaster Picante Spicy', 19.00, 'Pollo broaster marinado picante con papas')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Boneless de Pechuga -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="crunch" data-name="boneless de pechuga salsa">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Boneless de Pechuga (6 unid)</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 19.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Bocados tiernos y sin hueso, bien empanizados y bañados en salsa artesanal a elección con papas.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Boneless de Pechuga (6 pcs)', 19.00, '6 boneless sin hueso bañados en salsa')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Tenders Ultra Crocantes -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="crunch" data-name="tenders de pechuga filetes">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Tenders Ultra Crocantes (3 unid)</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 12.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Filetes de pechuga crocantes empanizados servidos con porción de papas nativas y salsas caseras.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Tenders Ultra Crocantes (3 pcs)', 12.00, '3 filetes de pechuga ultra crocantes')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Box Chester -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="boxes" data-name="box chester combo piezas broaster alitas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Box Chester</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 44.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              4 piezas de pollo broaster + 4 alitas con salsa + porción generosa de papas + 1 Pepsi de 1 Litro.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Box Chester', 44.00, '4 piezas broaster + 4 alitas + papas + 1L Pepsi')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Limonada Frozen -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="bebidas all" data-name="limonada frozen frappe refrescante bebidas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Limonada Frozen</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 9.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Frappé helado ultra refrescante batido en licuadora al instante con limones frescos del norte.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Limonada Frozen', 9.00, 'Limonada frappé bien helada')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Limonada Eléctrica -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="bebidas" data-name="limonada electrica blue curacao bebidas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Limonada Eléctrica (Autor)</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 10.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Twist cítrico refrescante de la casa con un toque azul eléctrico de blue curaçao.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Limonada Eléctrica', 10.00, 'Limonada de autor con toque blue curaçao')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+<!-- Chicha Morada Casera -->
+<article class="menu-item-card bg-brand-purpleCard border border-brand-purpleMuted/80 hover:border-brand-yellow rounded-2xl p-5 flex flex-col justify-between transition-all" data-category="bebidas" data-name="chicha morada tradicional casera bebidas">
+<div>
+<div class="flex items-start justify-between gap-3">
+<h4 class="font-street text-xl text-white">Chicha Morada Tradicional</h4>
+<span class="font-street text-xl text-brand-yellow whitespace-nowrap">S/ 7.00</span>
+</div>
+<p class="text-xs text-brand-cream/70 mt-2 leading-relaxed">
+              Hervida con maíz morado, piña, manzana, membrillo y canela clavo. Receta auténtica casera.
+            </p>
+</div>
+<button class="mt-4 w-full bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5" onclick="addToCart('Chicha Morada Tradicional', 7.00, 'Vaso helado de chicha morada artesanal')">
+<span>+ Agregar al Pedido</span>
+</button>
+</article>
+</div>
+<!-- Search No Results Prompt -->
+<div class="hidden text-center py-16 bg-brand-purpleCard rounded-3xl border border-brand-purpleMuted mt-8" id="no-search-results">
+<span class="text-4xl">🐶🍟</span>
+<h4 class="font-street text-2xl text-white mt-3">No encontramos ese plato</h4>
+<p class="text-sm text-brand-graySub max-w-md mx-auto mt-1">
+          Prueba buscando con otra palabra como "broaster", "alitas", "wrap" o consúltale directamente a Hércules.
+        </p>
+<a class="mt-5 inline-flex items-center gap-2 bg-brand-yellow text-brand-purple px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider" href="https://wa.me/51970743356?text=Hola%20La%20Patata!%20Quisiera%20consultar%20por%20la%20carta" target="_blank">
+          Consultar por WhatsApp →
+        </a>
+</div>
+<!-- Quick WhatsApp CTA Bar -->
+<div class="mt-12 bg-brand-yellow text-brand-purple p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+<div>
+<h4 class="font-street text-2xl uppercase">¿Quieres hacer tu pedido al instante?</h4>
+<p class="text-xs sm:text-sm font-bold text-brand-purple/80">Atención directa por WhatsApp o carta digital interactiva</p>
+</div>
+<a class="w-full sm:w-auto bg-brand-purple hover:bg-brand-purpleDeep text-brand-yellow font-street text-lg px-7 py-3 rounded-xl uppercase tracking-wider text-center transition" href="https://app.lapatatape.com/menu" target="_blank">
+          Ver Carta Digital &amp; Pedir →
+        </a>
+</div>
+</div>
+</section>
+<!-- END: CartaGastronomica -->
+<!-- BEGIN: PorQueSomosDiferentes -->
+<section class="py-20 lg:py-28 bg-brand-purple relative border-t border-brand-purpleMuted" id="diferencia">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="font-street text-5xl sm:text-7xl text-white tracking-wide uppercase">
+          ¿POR QUÉ SOMOS <span class="text-brand-yellow">DIFERENTES?</span>
+</h2>
+<p class="mt-3 text-brand-graySub text-base sm:text-lg">
+          Calidad real, sin atajos y con sabor que se nota en cada bocado.
+        </p>
+</div>
+<!-- 4 Pillars Grid with Central Food Imagery -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Pillar 01 -->
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-6 rounded-3xl relative hover:border-brand-yellow transition-all">
+<span class="font-street text-4xl text-brand-yellow/30 absolute top-4 right-5">01</span>
+<div class="w-12 h-12 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-2xl text-brand-yellow mb-5">
+            ⏱️
+          </div>
+<h3 class="font-street text-xl text-white uppercase tracking-wider">
+            PREPARACIÓN AL MOMENTO
+          </h3>
+<p class="text-xs text-brand-cream/70 mt-3 leading-relaxed">
+            Cada porción entra a la freidora y a la plancha en el instante que pides para llegar crujiente y caliente directo a tu mesa.
+          </p>
+</div>
+<!-- Pillar 02 -->
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-6 rounded-3xl relative hover:border-brand-yellow transition-all">
+<span class="font-street text-4xl text-brand-yellow/30 absolute top-4 right-5">02</span>
+<div class="w-12 h-12 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-2xl text-brand-yellow mb-5">
+            📦
+          </div>
+<h3 class="font-street text-xl text-white uppercase tracking-wider">
+            PORCIONES GENEROSAS
+          </h3>
+<p class="text-xs text-brand-cream/70 mt-3 leading-relaxed">
+            Platos contundentes bien taipá con abundante papa nativa, embutidos parrilleros y trozos crujientes pensados para saciar de verdad.
+          </p>
+</div>
+<!-- Pillar 03 -->
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-6 rounded-3xl relative hover:border-brand-yellow transition-all">
+<span class="font-street text-4xl text-brand-yellow/30 absolute top-4 right-5">03</span>
+<div class="w-12 h-12 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-2xl text-brand-yellow mb-5">
+            🥔
+          </div>
+<h3 class="font-street text-xl text-white uppercase tracking-wider">
+            INGREDIENTES SELECCIONADOS
+          </h3>
+<p class="text-xs text-brand-cream/70 mt-3 leading-relaxed">
+            Papas con piel de textura dorada, embutidos parrilleros ahumados y pollo broaster marinado con receta secreta de la casa.
+          </p>
+</div>
+<!-- Pillar 04 -->
+<div class="bg-brand-purpleCard border border-brand-purpleMuted/80 p-6 rounded-3xl relative hover:border-brand-yellow transition-all">
+<span class="font-street text-4xl text-brand-yellow/30 absolute top-4 right-5">04</span>
+<div class="w-12 h-12 rounded-2xl bg-brand-yellow/10 flex items-center justify-center text-2xl text-brand-yellow mb-5">
+            🥣
+          </div>
+<h3 class="font-street text-xl text-white uppercase tracking-wider">
+            VARIEDAD DE SALSAS Y CREMAS
+          </h3>
+<p class="text-xs text-brand-cream/70 mt-3 leading-relaxed">
+            Cremas caseras y variedad de salsas como chimichurri parrillero, maracuyá agridulce y acevichada para acompañar cada pedido.
+          </p>
+</div>
+</div>
+<!-- Center Explore Action -->
+<div class="mt-12 text-center">
+<a class="inline-flex items-center gap-2 bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple font-street text-lg tracking-wider px-8 py-3.5 rounded-2xl shadow-xl transition-transform active:scale-95" href="#carta">
+          Explora la Carta Completa 🍟
+        </a>
+</div>
+</div>
+</section>
+<!-- END: PorQueSomosDiferentes -->
+<!-- BEGIN: LaPatataEnAccion -->
+<section class="py-20 lg:py-28 bg-brand-purpleDeep border-t border-brand-purpleMuted/50" id="galeria">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-12">
+<h2 class="font-street text-5xl sm:text-7xl text-white tracking-wide uppercase">
+          LA PATATA <span class="text-brand-yellow">EN ACCIÓN</span>
+</h2>
+<p class="mt-2 text-brand-graySub text-sm sm:text-base">
+          Menciónanos en Instagram <strong class="text-brand-yellow">@lapatataa.pe</strong> para aparecer en nuestra pizarra callejera
+        </p>
+</div>
+<!-- Social & Community Showcase Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+<!-- Interactive Community Instagram Card -->
+<div class="bg-gradient-to-br from-amber-500 via-orange-500 to-yellow-500 text-brand-purpleDeep rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 text-white/10 text-9xl font-black">@</div>
+<div>
+<div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white mb-6">
+<svg class="w-7 h-7 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</div>
+<h3 class="font-street text-2xl uppercase tracking-wider text-brand-purpleDeep">
+              ÚNETE A LA COMUNIDAD
+            </h3>
+<p class="font-street text-xl text-white tracking-widest mt-1">@LAPATATAA.PE</p>
+<p class="text-xs font-semibold text-brand-purpleDeep/80 mt-2">
+              Sube tu story con la bajona, etiquétanos y llévate cremas extra en tu siguiente pedido.
+            </p>
+</div>
+<a class="mt-6 bg-brand-purple hover:bg-brand-purpleDeep text-brand-yellow font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl text-center shadow-lg transition" href="https://www.instagram.com/lapatataa.pe/" rel="noopener" target="_blank">
+            Seguir en Instagram →
+          </a>
+</div>
+<!-- Gallery Card 2 (Salchi Dish Close-up) -->
+<div class="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl h-80 sm:h-auto min-h-[300px]">
+<img alt="Papas doradas al estilo La Patata servidas al momento" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-purpleDeep via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<span class="text-[10px] font-black uppercase text-brand-yellow tracking-widest bg-brand-purple/80 px-2 py-0.5 rounded">Local San Andrés</span>
+<p class="text-sm font-bold text-white mt-1">Sabor callejero auténtico</p>
+</div>
+</div>
+<!-- Gallery Card 3 (Mascot Hércules in action) -->
+<div class="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl h-80 sm:h-auto min-h-[300px] bg-brand-purpleCard flex items-center justify-center p-3">
+<img alt="Hércules la mascota de La Patata invitando a probar las papas" class="w-full h-full object-contain rounded-2xl group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI6MyB0tlm3iSk1Nywk9b1NrEKUr3L-TJbWkfPZV9jrY_dUvIb_908GOZR4HGb5BQ_BEMwXzWxrFfKCypy80FuAI6m4C0GqOyE5NBdGK-Y0qLILhR1AcUsSItqvhDapPFyT8PNiSF1V2308LFxzUtxFHGSQVcdL6ZJE0LRRJy7nBoMyPsbk61hEMbrHJdukxU8dpny6Zfmq3tweGl-j5Q-B5wVvpm_Nj6DkiaJ0Jxh"/>
+<div class="absolute bottom-4 left-4 right-4 bg-brand-purple/90 backdrop-blur-sm p-3 rounded-xl border border-brand-yellow/30">
+<p class="text-xs font-bold text-brand-yellow font-street">HÉRCULES</p>
+<p class="text-[11px] text-brand-cream/80">"Las papas aquí son las verdaderas protagonistas"</p>
+</div>
+</div>
+<!-- Gallery Card 4 (Ambience and food shots) -->
+<div class="relative group rounded-3xl overflow-hidden border border-brand-purpleMuted/80 shadow-xl h-80 sm:h-auto min-h-[300px]">
+<img alt="Ambiente callejero y sabor en Trujillo" class="w-full h-full object-cover filter contrast-125 group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDysC8KpJjxV1FTS1PWpycrgUUorVryOHbFO6mMp0AuHOn7e4eB_XcauWQZnf6IWYKqA5wI9QWZo9ohFzT6fBD47YggdmLEiiNcRxot8P0QkOHtW05VklGOIG1E01PRIpqC5jVaefYNy8gQADhqhIJO2krf-futDjnck0JlTNJuIWVE-gOBhDj5f24H62qMjwZayRrBMsANrkRBY3fQxpDbmmbh4Gj3flUHgJz4hNSp"/>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-purpleDeep via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<span class="text-[10px] font-black uppercase text-brand-yellow tracking-widest bg-brand-purple/80 px-2 py-0.5 rounded">#PapasConActitud</span>
+<p class="text-sm font-bold text-white mt-1">Directo de la sartén a tu boca</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: LaPatataEnAccion -->
+<!-- BEGIN: DeliveryCallToAction -->
+<section class="py-16 bg-gradient-to-r from-brand-yellow via-yellow-400 to-brand-yellow text-brand-purple relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+<div>
+<span class="bg-brand-purple text-brand-yellow font-black text-xs uppercase px-3.5 py-1 rounded-full tracking-wider inline-block mb-2">
+          🛵 DELIVERY EN MENOS DE 35 MINUTOS EN TRUJILLO
+        </span>
+<h2 class="font-street text-4xl sm:text-6xl text-brand-purpleDeep uppercase leading-tight">
+          PIDE EL AUTÉNTICO <br/>SABOR CALLEJERO
+        </h2>
+<p class="font-bold text-sm sm:text-base text-brand-purple/90 mt-1">
+          ¿Tienes alguna duda o pedido especial? Atendemos de Miércoles a Lunes de 6:00 PM a 1:00 AM.
+        </p>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider px-7 py-4 rounded-2xl shadow-xl transition-transform active:scale-95" href="https://wa.me/51970743356?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20La%20Patata" rel="noopener noreferrer" target="_blank">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+<span>Escríbenos por WhatsApp</span>
+</a>
+<a class="w-full sm:w-auto inline-flex items-center justify-center bg-brand-purple hover:bg-brand-purpleDeep text-brand-yellow font-street text-lg uppercase tracking-wider px-7 py-4 rounded-2xl shadow-xl transition-transform active:scale-95" href="#carta">
+          Haz tu pedido aquí →
+        </a>
+</div>
+</div>
+</section>
+<!-- END: DeliveryCallToAction -->
+<!-- BEGIN: ContactSection -->
+<section class="py-20 lg:py-28 bg-brand-purpleCard border-t border-brand-purpleMuted/60" id="contacto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<span class="text-brand-yellow font-black text-xs uppercase tracking-widest bg-brand-purpleMuted px-4 py-1.5 rounded-full inline-block mb-3">
+          Ubícanos
+        </span>
+<h2 class="font-street text-5xl sm:text-6xl text-white tracking-wide uppercase">
+          HABLEMOS
+        </h2>
+<p class="text-brand-graySub text-sm sm:text-base mt-2">
+          Visítanos en nuestro local o contáctate directamente para eventos y pedidos grandes.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Info Card 1: Dirección -->
+<div class="bg-brand-purple p-6 rounded-3xl border border-brand-purpleMuted/80 text-center flex flex-col items-center">
+<span class="text-3xl mb-3">📍</span>
+<h3 class="font-street text-lg text-white uppercase tracking-wider">Dirección</h3>
+<p class="text-xs text-brand-cream/80 mt-2 leading-relaxed">
+            San Andrés 5ta Etapa Mz "S" lote 10,<br/>Trujillo, Perú
+          </p>
+<a class="mt-4 text-xs font-bold text-brand-yellow hover:underline" href="https://maps.google.com/?q=San+Andres+Trujillo+La+Patata" rel="noopener" target="_blank">
+            Ver en Google Maps →
+          </a>
+</div>
+<!-- Info Card 2: Horarios -->
+<div class="bg-brand-purple p-6 rounded-3xl border border-brand-purpleMuted/80 text-center flex flex-col items-center">
+<span class="text-3xl mb-3">🕒</span>
+<h3 class="font-street text-lg text-white uppercase tracking-wider">Horarios</h3>
+<p class="text-xs text-brand-cream/80 mt-2 leading-relaxed">
+            Miércoles a Lunes:<br/><strong class="text-brand-yellow">6:00 PM – 1:00 AM</strong><br/>
+<span class="text-brand-orange text-[11px]">(Martes cerrado)</span>
+</p>
+</div>
+<!-- Info Card 3: Teléfono y WhatsApp -->
+<div class="bg-brand-purple p-6 rounded-3xl border border-brand-purpleMuted/80 text-center flex flex-col items-center">
+<span class="text-3xl mb-3">📞</span>
+<h3 class="font-street text-lg text-white uppercase tracking-wider">Teléfono &amp; WhatsApp</h3>
+<p class="text-xs text-brand-cream/80 mt-2 leading-relaxed">
+            Línea oficial de pedidos:
+          </p>
+<a class="mt-1 text-sm font-bold text-brand-yellow hover:underline block font-mono" href="tel:+51970743356">
+            +51 970 743 356
+          </a>
+<a class="mt-3 text-[11px] font-bold text-emerald-400 hover:underline" href="https://wa.me/51970743356" target="_blank">
+            Chatear por WhatsApp →
+          </a>
+</div>
+<!-- Info Card 4: Correo -->
+<div class="bg-brand-purple p-6 rounded-3xl border border-brand-purpleMuted/80 text-center flex flex-col items-center">
+<span class="text-3xl mb-3">✉️</span>
+<h3 class="font-street text-lg text-white uppercase tracking-wider">Correo Electrónico</h3>
+<p class="text-xs text-brand-cream/80 mt-2 leading-relaxed">
+            Consultas, alianzas y proveedores:
+          </p>
+<a class="mt-2 text-xs font-bold text-brand-yellow hover:underline" href="mailto:hola@lapatatape.com">
+            hola@lapatatape.com
+          </a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ContactSection -->
+<!-- BEGIN: MainFooter -->
+<footer class="bg-brand-purpleDeep border-t border-brand-purpleMuted text-brand-graySub pt-16 pb-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col items-center text-center space-y-6">
+<!-- Logo SVG in Footer -->
+<svg class="h-12 w-auto" fill="none" viewbox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(10, 8)">
+<path d="M12 24 L22 48 L32 24 Z" fill="#E11D48"></path>
+<path d="M14 24 L22 48 L30 24 Z" fill="#F15A32"></path>
+<rect fill="#FFC83D" height="20" rx="1.5" transform="rotate(-12 17 18)" width="4.5" x="15" y="8"></rect>
+<rect fill="#FFE082" height="24" rx="1.5" width="4.5" x="20" y="4"></rect>
+<rect fill="#FFB300" height="22" rx="1.5" transform="rotate(10 27 17)" width="4.5" x="25" y="6"></rect>
+<rect fill="#FFD54F" height="16" rx="1.5" transform="rotate(-20 13 20)" width="4" x="11" y="12"></rect>
+<rect fill="#FFA000" height="17" rx="1.5" transform="rotate(18 31 18)" width="4" x="29" y="10"></rect>
+</g>
+<text fill="#FFFFFF" font-family="'Anton', 'Impact', sans-serif" font-size="34" font-weight="900" letter-spacing="1.5" x="62" y="38">LA PATATA</text>
+<rect fill="#FFC83D" height="12" rx="2" width="138" x="63" y="44"></rect>
+<text fill="#241622" font-family="'DM Sans', 'Inter', sans-serif" font-size="9" font-weight="800" letter-spacing="2.5" x="66" y="53.5">STREET FOOD</text>
+<text fill="#FFC83D" font-family="'DM Sans', sans-serif" font-size="8" font-weight="700" letter-spacing="1" x="208" y="53">TRUJILLO</text>
+</svg>
+<p class="max-w-md text-xs sm:text-sm text-brand-cream/70">
+<strong class="text-brand-yellow">Papas con Actitud</strong> · Convertimos las papas en protagonistas con combinaciones creativas y opciones únicas en la ciudad de la primavera.
+        </p>
+<!-- Navigation Anchors -->
+<div class="flex flex-wrap justify-center gap-6 text-xs font-bold text-brand-cream/80">
+<a class="hover:text-brand-yellow transition" href="#">Inicio</a>
+<a class="hover:text-brand-yellow transition" href="#nosotros">Nosotros</a>
+<a class="hover:text-brand-yellow transition" href="#especialidades">Especialidades</a>
+<a class="hover:text-brand-yellow transition" href="#carta">Menú</a>
+<a class="hover:text-brand-yellow transition" href="#diferencia">Diferencia</a>
+<a class="hover:text-brand-yellow transition" href="#galeria">Galería</a>
+<a class="hover:text-brand-yellow transition" href="#contacto">Contacto</a>
+</div>
+<!-- Social Media Links -->
+<div class="flex items-center gap-4 text-xs font-black uppercase tracking-wider">
+<a class="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition" href="https://www.instagram.com/lapatataa.pe/" rel="noopener" target="_blank">
+            Instagram
+          </a>
+<a class="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition" href="https://www.tiktok.com/@lapatataa.pe" rel="noopener" target="_blank">
+            TikTok
+          </a>
+<a class="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition" href="https://www.facebook.com/profile.php?id=61594265227729" rel="noopener" target="_blank">
+            Facebook
+          </a>
+<a class="bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream px-3 py-1.5 rounded-lg transition" href="https://wa.me/51970743356" rel="noopener" target="_blank">
+            WhatsApp
+          </a>
+</div>
+<!-- Legal Disclaimer & Watermark -->
+<div class="pt-6 border-t border-brand-purpleMuted/40 text-[11px] text-brand-graySub space-y-1">
+<p>© 2026 LA PATATA STREET FOOD. Todos los derechos reservados.</p>
+<p>
+<a class="hover:underline" href="#">Política de Privacidad</a> • <a class="hover:underline" href="#">Términos y Condiciones</a>
+</p>
+<p class="text-brand-yellow/70">Desarrollado con pasión artesanal por la comida callejera.</p>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- BEGIN: HerculesAssistantWidget -->
+<div class="fixed bottom-5 right-5 z-40 flex flex-col items-end" data-purpose="mascot-widget">
+<!-- Mascot Speech Greeting Bubble -->
+<div class="hidden sm:flex items-center gap-2 bg-brand-yellow text-brand-purple px-4 py-2 rounded-2xl rounded-br-none shadow-2xl mb-2 text-xs font-bold border-2 border-brand-purple animate-bounce" id="hercules-bubble">
+<span>¡Guau! ¿Tienes dudas con la carta? 🐶🍟</span>
+<button class="text-brand-purple hover:text-red-700 ml-1 font-black" onclick="document.getElementById('hercules-bubble').remove()">×</button>
+</div>
+<!-- Mascot Round Floating Trigger -->
+<button aria-label="Hablar con Hércules" class="relative group p-1 bg-brand-yellow rounded-full shadow-2xl border-2 border-brand-purpleDeep hover:scale-110 transition-transform active:scale-95 focus:outline-none" id="hercules-modal-open">
+<div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-brand-purple">
+<img alt="Hércules mascota asistente" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI6MyB0tlm3iSk1Nywk9b1NrEKUr3L-TJbWkfPZV9jrY_dUvIb_908GOZR4HGb5BQ_BEMwXzWxrFfKCypy80FuAI6m4C0GqOyE5NBdGK-Y0qLILhR1AcUsSItqvhDapPFyT8PNiSF1V2308LFxzUtxFHGSQVcdL6ZJE0LRRJy7nBoMyPsbk61hEMbrHJdukxU8dpny6Zfmq3tweGl-j5Q-B5wVvpm_Nj6DkiaJ0Jxh"/>
+</div>
+<span class="absolute -top-1 -left-1 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-brand-purple"></span>
+</span>
+</button>
+</div>
+<!-- Hércules Interactive Chat Assistant Modal -->
+<div class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4" id="hercules-modal">
+<div class="bg-brand-purpleCard border-2 border-brand-yellow w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Modal Header -->
+<div class="bg-brand-purple p-4 border-b border-brand-purpleMuted flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Hércules" class="w-12 h-12 rounded-full border border-brand-yellow object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI6MyB0tlm3iSk1Nywk9b1NrEKUr3L-TJbWkfPZV9jrY_dUvIb_908GOZR4HGb5BQ_BEMwXzWxrFfKCypy80FuAI6m4C0GqOyE5NBdGK-Y0qLILhR1AcUsSItqvhDapPFyT8PNiSF1V2308LFxzUtxFHGSQVcdL6ZJE0LRRJy7nBoMyPsbk61hEMbrHJdukxU8dpny6Zfmq3tweGl-j5Q-B5wVvpm_Nj6DkiaJ0Jxh"/>
+<div>
+<h3 class="font-street text-xl text-brand-yellow leading-tight">HÉRCULES</h3>
+<p class="text-[11px] text-emerald-400 font-bold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              El perro guardián del sabor • ¡En línea!
+            </p>
+</div>
+</div>
+<button class="text-brand-graySub hover:text-white p-2 text-xl font-bold" id="hercules-modal-close">✕</button>
+</div>
+<!-- Modal Body / Dialogue -->
+<div class="p-4 overflow-y-auto space-y-3 text-xs flex-1" id="hercules-chat-history">
+<!-- Message 1 -->
+<div class="bg-brand-purpleMuted p-3 rounded-2xl rounded-tl-none border border-brand-purpleMuted text-brand-cream leading-relaxed">
+          ¡Hola! Soy <strong class="text-brand-yellow">Hércules</strong> 🐶🍟, el perro guardián del sabor en <strong>La Patata</strong>.<br/><br/>
+          ¡Aquí nuestras papas nativas son las verdaderas protagonistas! Estoy listo para ayudarte a elegir tu combinación ideal, recomendarte las mejores <strong>Papas con Actitud</strong> o resolver cualquier duda.
+        </div>
+<p class="text-[11px] font-bold text-brand-yellow">Toca cualquier pregunta rápida para responderte al instante:</p>
+</div>
+<!-- Quick Action Question Chips -->
+<div class="p-3 bg-brand-purple/70 border-t border-brand-purpleMuted flex flex-col gap-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="faq-chip text-left bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream/90 p-2 rounded-xl text-[11px] font-bold transition" data-question="promos">
+            🍟 ¿Cuáles son las promos?
+          </button>
+<button class="faq-chip text-left bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream/90 p-2 rounded-xl text-[11px] font-bold transition" data-question="top">
+            🥔 ¿Cuál es el más pedido?
+          </button>
+<button class="faq-chip text-left bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream/90 p-2 rounded-xl text-[11px] font-bold transition" data-question="horario">
+            📍 ¿Ubicación y horario?
+          </button>
+<button class="faq-chip text-left bg-brand-purpleMuted hover:bg-brand-yellow hover:text-brand-purple text-brand-cream/90 p-2 rounded-xl text-[11px] font-bold transition" data-question="delivery">
+            🛵 ¿Cómo pido delivery?
+          </button>
+</div>
+<a class="w-full text-center bg-brand-yellow hover:bg-brand-yellowDark text-brand-purple py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition" href="https://wa.me/51970743356?text=Hola%20Hercules!%20Vengo%20de%20la%20web%20y%20quiero%20hacer%20un%20pedido" target="_blank">
+          Hablar directo con una persona por WhatsApp →
+        </a>
+</div>
+</div>
+</div>
+<!-- END: HerculesAssistantWidget -->
+<!-- BEGIN: ShoppingCartDrawer -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity" id="cart-drawer-backdrop"></div>
+<aside class="fixed top-0 right-0 h-full w-full max-w-md bg-brand-purpleCard border-l-2 border-brand-yellow z-50 transform translate-x-full cart-drawer-transition flex flex-col shadow-2xl" id="cart-drawer">
+<!-- Cart Header -->
+<div class="p-5 bg-brand-purple border-b border-brand-purpleMuted flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="text-2xl">🍟</span>
+<div>
+<h3 class="font-street text-2xl text-white">TU PEDIDO</h3>
+<p class="text-[11px] text-brand-yellow font-bold uppercase tracking-wider">Papas con Actitud</p>
+</div>
+</div>
+<button class="text-brand-graySub hover:text-white p-2 text-xl font-bold" id="cart-drawer-close">✕</button>
+</div>
+<!-- Cart Items List Container -->
+<div class="flex-1 overflow-y-auto p-5 space-y-4" id="cart-items-container">
+<!-- Empty State -->
+<div class="text-center py-20 text-brand-graySub" id="cart-empty-state">
+<span class="text-5xl block mb-3 opacity-40">🛒</span>
+<h4 class="font-street text-xl text-white">Tu bolsa está vacía</h4>
+<p class="text-xs mt-1">Añade tus salchipapas, alitas y bebidas favoritas para empezar.</p>
+</div>
+</div>
+<!-- Cart Footer & WhatsApp Checkout -->
+<div class="p-5 bg-brand-purple border-t border-brand-purpleMuted space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-xs uppercase tracking-wider text-brand-graySub font-bold">Subtotal estimado:</span>
+<span class="font-street text-3xl text-brand-yellow" id="cart-total-price">S/ 0.00</span>
+</div>
+<button class="w-full bg-brand-yellow hover:bg-brand-yellowDark disabled:opacity-50 disabled:cursor-not-allowed text-brand-purple font-street text-xl py-3.5 rounded-2xl uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2" disabled="" id="cart-checkout-btn">
+<span>Pedir por WhatsApp</span>
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+</button>
+<p class="text-[10px] text-center text-brand-graySub">Se enviará el detalle exacto formateado al WhatsApp oficial de La Patata.</p>
+</div>
+</aside>
+<!-- END: ShoppingCartDrawer -->
+<!-- BEGIN: InteractiveScripts -->
+<!-- Script for Mobile Menu -->
+<script data-purpose="mobile-navigation">
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      // Close on anchor click
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+    }
+  </script>
+<!-- Script for Menu Search & Filtering -->
+<script data-purpose="menu-filtering">
+    const searchInput = document.getElementById('menu-search-input');
+    const clearBtn = document.getElementById('clear-search-btn');
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const menuCards = document.querySelectorAll('.menu-item-card');
+    const noResults = document.getElementById('no-search-results');
+
+    let currentCategory = 'all';
+
+    function filterMenu() {
+      const query = (searchInput.value || '').toLowerCase().trim();
+      let visibleCount = 0;
+
+      menuCards.forEach(card => {
+        const itemCategories = card.getAttribute('data-category') || '';
+        const itemName = card.getAttribute('data-name') || '';
+
+        const matchesCategory = (currentCategory === 'all' || currentCategory === 'toda') 
+          ? true 
+          : itemCategories.includes(currentCategory);
+
+        const matchesQuery = query === '' || itemName.includes(query);
+
+        if (matchesCategory && matchesQuery) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (noResults) {
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        if (clearBtn) {
+          if (searchInput.value.length > 0) {
+            clearBtn.classList.remove('hidden');
+          } else {
+            clearBtn.classList.add('hidden');
+          }
+        }
+        filterMenu();
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        filterMenu();
+      });
+    }
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => {
+          p.classList.remove('active', 'bg-brand-yellow', 'text-brand-purple');
+          p.classList.add('bg-brand-purpleCard', 'text-brand-cream/80');
+        });
+        pill.classList.add('active', 'bg-brand-yellow', 'text-brand-purple');
+        pill.classList.remove('bg-brand-purpleCard', 'text-brand-cream/80');
+
+        currentCategory = pill.getAttribute('data-category');
+        filterMenu();
+      });
+    });
+  </script>
+<!-- Script for Shopping Cart State & Drawer -->
+<script data-purpose="shopping-cart-engine">
+    let cart = [];
+
+    const cartToggleBtn = document.getElementById('cart-toggle-btn');
+    const cartDrawerClose = document.getElementById('cart-drawer-close');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartBackdrop = document.getElementById('cart-drawer-backdrop');
+    const cartBadge = document.getElementById('cart-counter-badge');
+    const cartContainer = document.getElementById('cart-items-container');
+    const cartTotalEl = document.getElementById('cart-total-price');
+    const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
+
+    function openCart() {
+      cartBackdrop.classList.remove('hidden');
+      cartDrawer.classList.remove('translate-x-full');
+    }
+
+    function closeCart() {
+      cartDrawer.classList.add('translate-x-full');
+      setTimeout(() => cartBackdrop.classList.add('hidden'), 300);
+    }
+
+    if (cartToggleBtn) cartToggleBtn.addEventListener('click', openCart);
+    if (cartDrawerClose) cartDrawerClose.addEventListener('click', closeCart);
+    if (cartBackdrop) cartBackdrop.addEventListener('click', closeCart);
+
+    function addToCart(title, price, desc) {
+      const existing = cart.find(item => item.title === title);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ title, price, desc, quantity: 1 });
+      }
+      updateCartUI();
+      openCart();
+    }
+
+    function changeQuantity(title, delta) {
+      const item = cart.find(i => i.title === title);
+      if (!item) return;
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        cart = cart.filter(i => i.title !== title);
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      if (cartBadge) cartBadge.textContent = totalCount;
+      if (cartTotalEl) cartTotalEl.textContent = `S/ ${totalPrice.toFixed(2)}`;
+
+      if (cartCheckoutBtn) {
+        cartCheckoutBtn.disabled = cart.length === 0;
+      }
+
+      if (!cartContainer) return;
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = `
+          <div id="cart-empty-state" class="text-center py-20 text-brand-graySub">
+            <span class="text-5xl block mb-3 opacity-40">🛒</span>
+            <h4 class="font-street text-xl text-white">Tu bolsa está vacía</h4>
+            <p class="text-xs mt-1">Añade tus salchipapas, alitas y bebidas favoritas para empezar.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      cart.forEach(item => {
+        html += `
+          <div class="bg-brand-purple p-3.5 rounded-2xl border border-brand-purpleMuted flex items-center justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <h5 class="font-street text-base text-white truncate">${item.title}</h5>
+              <p class="text-[11px] text-brand-yellow font-bold">S/ ${item.price.toFixed(2)} c/u</p>
+            </div>
+            <div class="flex items-center gap-2 bg-brand-purpleMuted px-2 py-1 rounded-xl">
+              <button onclick="changeQuantity('${item.title}', -1)" class="w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm">-</button>
+              <span class="text-xs font-black text-white px-1">${item.quantity}</span>
+              <button onclick="changeQuantity('${item.title}', 1)" class="w-6 h-6 rounded-lg bg-brand-purpleCard text-white hover:text-brand-yellow flex items-center justify-center font-bold text-sm">+</button>
+            </div>
+          </div>
+        `;
+      });
+      cartContainer.innerHTML = html;
+    }
+
+    if (cartCheckoutBtn) {
+      cartCheckoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) return;
+        let message = `¡Hola La Patata! 🍟 Quisiera hacer el siguiente pedido:%0A%0A`;
+        let total = 0;
+        cart.forEach(item => {
+          const itemSub = item.price * item.quantity;
+          total += itemSub;
+          message += `• ${item.quantity}x ${item.title} (S/ ${itemSub.toFixed(2)})%0A`;
+        });
+        message += `%0A💰 *Total estimado: S/ ${total.toFixed(2)}*%0A📍 Dirección de entrega:%0A👤 Nombre:`;
+        window.open(`https://wa.me/51970743356?text=${message}`, '_blank');
+      });
+    }
+  </script>
+<!-- Script for Hercules Mascot Dialogues -->
+<script data-purpose="hercules-mascot-dialogue">
+    const herculesModal = document.getElementById('hercules-modal');
+    const openMascotBtn = document.getElementById('hercules-modal-open');
+    const closeMascotBtn = document.getElementById('hercules-modal-close');
+    const chatHistory = document.getElementById('hercules-chat-history');
+    const faqChips = document.querySelectorAll('.faq-chip');
+
+    if (openMascotBtn && herculesModal) {
+      openMascotBtn.addEventListener('click', () => {
+        herculesModal.classList.remove('hidden');
+        herculesModal.classList.add('flex');
+      });
+    }
+
+    if (closeMascotBtn && herculesModal) {
+      closeMascotBtn.addEventListener('click', () => {
+        herculesModal.classList.add('hidden');
+        herculesModal.classList.remove('flex');
+      });
+    }
+
+    const answers = {
+      promos: "¡Guau! 🐶 Nuestras mejores opciones para compartir son el **Box Hércules** (S/ 62.00) con Wrap, tenders, boneless, alitas y Pepsi de 1L, o el monumental **Barco La Patata de 60 cm** (S/ 115.00) para 4 a 6 personas. ¡Una locura!",
+      top: "¡Sin dudarlo! 🍟 La reina de la casa es la **Salchi Fest** (S/ 28.00): papas crujientes con piel, hot dog, chorizo parrillero, trozos broaster y una montaña de queso derretido.",
+      horario: "Estamos ubicados en **San Andrés 5ta Etapa Mz 'S' lote 10, Trujillo**. Atendemos de **Miércoles a Lunes de 6:00 PM a 1:00 AM** (los Martes descansamos para afilar las freidoras).",
+      delivery: "¡Súper fácil! 🛵 Puedes agregar los platos a tu carrito aquí en la web y darle al botón de WhatsApp, o escribir directamente al **+51 970 743 356**. Llegamos en menos de 35 minutos."
+    };
+
+    faqChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const key = chip.getAttribute('data-question');
+        const questionText = chip.textContent.trim();
+        const reply = answers[key] || "¡Contáctanos directo y te ayudo con tu pedido!";
+
+        // Append user question
+        const userDiv = document.createElement('div');
+        userDiv.className = "bg-brand-yellow text-brand-purple p-2.5 rounded-2xl rounded-tr-none font-bold text-[11px] self-end ml-auto max-w-[80%]";
+        userDiv.textContent = questionText;
+        chatHistory.appendChild(userDiv);
+
+        // Append Hércules Answer
+        setTimeout(() => {
+          const herculesDiv = document.createElement('div');
+          herculesDiv.className = "bg-brand-purpleMuted p-3 rounded-2xl rounded-tl-none border border-brand-yellow/30 text-brand-cream text-xs leading-relaxed";
+          herculesDiv.innerHTML = `🐶 <strong>Hércules:</strong> ${reply}`;
+          chatHistory.appendChild(herculesDiv);
+          chatHistory.scrollTop = chatHistory.scrollHeight;
+        }, 300);
+      });
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>
