@@ -105,7 +105,7 @@ export default function HerculesModal() {
 
   return (
     <>
-      <div className={'hercules-launcher' + (isOpen ? ' hercules-launcher-open' : '')} data-purpose="mascot-widget">
+      <div className={'hercules-launcher' + (isOpen ? ' hercules-launcher-open' : '') + (activePromo.id === 'carta' ? ' hercules-on-menu' : '')} data-purpose="mascot-widget">
         {showBubble && !isOpen && (
           <div className={'hercules-speech' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')} role="status">
             <span>{activePromo.text}</span>

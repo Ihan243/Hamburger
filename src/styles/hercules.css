@@ -405,3 +405,30 @@
   .hercules-chat-avatar img,
   .hercules-mascot-trigger > img { object-position: center 22%; }
 }
+
+
+/* Menu-specific unobtrusive assistant: keep the dog accessible without
+   covering product names, prices or the orange ordering panel. */
+.hercules-launcher.hercules-on-menu { width: min(132px, 12vw); }
+.hercules-launcher.hercules-on-menu .hercules-mascot-trigger {
+  height: min(147px, 14vw);
+}
+.hercules-launcher.hercules-on-menu .hercules-speech {
+  width: 226px;
+  margin-right: 5px;
+  padding: 10px 35px 10px 13px;
+  font-size: 11px;
+}
+@media (max-width:700px) {
+  .hercules-launcher.hercules-on-menu {
+    width: 71px;
+    right: max(7px, env(safe-area-inset-right));
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .hercules-launcher.hercules-on-menu .hercules-mascot-trigger {
+    width: 68px;
+    height: 68px;
+  }
+  .hercules-launcher.hercules-on-menu .hercules-speech,
+  .hercules-launcher.hercules-on-menu .hercules-trigger-label { display: none; }
+}
