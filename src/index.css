@@ -1902,3 +1902,20 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   .hero-reference-bottom {opacity:1 !important;}
   .reference-giant-scrub {transform:none !important;}
 }
+
+
+/* REAL INERTIAL WHEEL SCROLL
+   SmoothWheelScroll.jsx interpolates actual scrollTop on fine-pointer
+   desktops. This CSS complements it without affecting mobile scrolling. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html { overscroll-behavior-y: none; }
+}
+/* Keep the scrolled scene composited and avoid expensive full-page effects
+   during rapid wheel sequences. */
+@media (prefers-reduced-motion: no-preference) {
+  .ref-about-inner,
+  .ref-difference-grid,
+  .gallery-loop-window {
+    backface-visibility: hidden;
+  }
+}

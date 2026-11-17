@@ -75,7 +75,7 @@ export default function ScrollCinematics() {
       previousFrame = timestamp;
       // Framerate-independent interpolation: an inertial camera, not a
       // linear one-to-one CSS transition.
-      const alpha = 1 - Math.exp(-dt / 130);
+      const alpha = 1 - Math.exp(-dt / 92);
       let moving = false;
       for (const item of sections) {
         item.target = getTarget(item);

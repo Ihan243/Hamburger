@@ -6,6 +6,7 @@ import HeroSection from './components/HeroSection';
 import EditorialPointerGlow from './components/EditorialPointerGlow';
 import ScrollReveal from './components/ScrollReveal';
 import ScrollCinematics from './components/ScrollCinematics';
+import SmoothWheelScroll from './components/SmoothWheelScroll';
 import MarqueeBanner from './components/MarqueeBanner';
 import AboutSection from './components/AboutSection';
 import SpecialtiesSection from './components/SpecialtiesSection';
@@ -23,6 +24,7 @@ export default function App() {
       <div className="min-h-screen bg-brand-purpleDeep text-brand-cream font-sans">
         <EditorialPointerGlow />
         <ScrollReveal />
+        <SmoothWheelScroll />
         <ScrollCinematics />
         <TopAnnouncement />
         <Navbar />
