@@ -30,18 +30,27 @@ jobs:
           curl --retry 3 --retry-delay 3 --fail --location --silent --show-error --head \
             https://ihan243.github.io/Hamburger/images/hercules-mascot.webp
 
+      - name: Smoke-test rendered page
+        continue-on-error: true
+        run: |
+          curl --fail --location --silent --show-error https://ihan243.github.io/Hamburger/ -o page.html
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --disable-gpu --virtual-time-budget=9000 --dump-dom \
+            https://ihan243.github.io/Hamburger/ > rendered.html 2> chrome-errors.log || true
+          node -e "const fs=require('fs');const p=fs.readFileSync('page.html','utf8');const r=fs.existsSync('rendered.html')?fs.readFileSync('rendered.html','utf8'):'';console.log('HTML',p.length,'RENDERED',r.length,'HERO',r.includes('ENVUELTO'),'ROOT',r.includes('id=\\\"root\\\"')); console.log(r.slice(0,350));"
+          tail -n 28 chrome-errors.log || true
+
       - name: Run mobile Lighthouse
         continue-on-error: true
         run: |
           npx --yes lighthouse@12.8.2 \
             https://ihan243.github.io/Hamburger/ \
             --only-categories=performance,accessibility,best-practices,seo \
-            --preset=perf \
+            --throttling-method=simulate \
             --form-factor=mobile \
             --screenEmulation.mobile=true \
             --output=json \
             --output-path=./lighthouse-mobile.json \
-            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu" \
             --quiet
 
       - name: Summarize results and goals
