@@ -747,3 +747,67 @@ html { scroll-padding-top: 76px; }
   .nav-reference-contact { display: none; }
   .hero-reference-title { font-size: 12.2vw; }
 }
+
+/* Hero final matching the user's screenshot: real cutout, larger type, correct vertical rhythm. */
+.nav-reference-logo-mark {
+  width: 30px;
+  height: 36px;
+  color: #fff;
+  display: block;
+  flex-shrink: 0;
+  transform: rotate(-8deg);
+}
+.hero-reference { background: #1a0823; }
+.hero-reference-stage { background: #1a0823; }
+.hero-reference-title {
+  font-size: clamp(94px, 10.65vw, 171px);
+  top: 22.7%;
+  gap: clamp(27px, 3.4vw, 55px);
+  letter-spacing: -0.025em;
+}
+.hero-reference-food {
+  top: 33.1%;
+  width: clamp(248px, 22.2vw, 352px);
+  height: auto;
+  aspect-ratio: 340 / 235;
+  transform: translateX(-50%) rotate(-4deg);
+  filter: drop-shadow(0 17px 11px rgba(0,0,0,.24));
+}
+.hero-reference-food img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+.hero-reference-bottom { top: 74%; bottom: auto; }
+.hero-reference-stickers { top: 26%; left: 20%; }
+.hero-reference-emoji-tasty { top: 43%; right: 28%; }
+.hero-reference-emoji-fire { top: 54%; right: 31%; }
+@media (max-width: 940px) {
+  .hero-reference-title { top: 26%; font-size: clamp(78px, 11.2vw, 130px); gap: 39px; }
+  .hero-reference-food { top: 34.5%; width: clamp(250px, 25vw, 312px); }
+  .hero-reference-stickers { top: 29%; left: 10%; }
+  .hero-reference-emoji-tasty { top: 43%; right: 18%; }
+  .hero-reference-emoji-fire { top: 54%; right: 23%; }
+  .hero-reference-bottom { top: 76%; }
+}
+@media (max-width: 680px) {
+  .hero-reference-title {
+    top: 26%;
+    font-size: clamp(55px, 12.2vw, 82px);
+    line-height: 1.04;
+    gap: 31px;
+  }
+  .hero-reference-food { top: 34%; width: clamp(233px, 58vw, 315px); }
+  .hero-reference-stickers { top: 20%; left: 5%; }
+  .hero-reference-emoji-tasty { top: 42%; right: 5%; }
+  .hero-reference-emoji-fire { top: 51%; right: 9%; }
+  .hero-reference-bottom { top: auto; bottom: 11%; }
+}
+@media (max-width: 380px) {
+  .hero-reference-title { font-size: 12vw; }
+  .hero-reference-food { width: 62vw; }
+}

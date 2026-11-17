@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function HeroSection() {
-  const photo = `${import.meta.env.BASE_URL}images/salchipapa-dish.png`;
+  const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
 
   return (
     <section id="inicio" className="hero-reference" aria-labelledby="hero-reference-title">

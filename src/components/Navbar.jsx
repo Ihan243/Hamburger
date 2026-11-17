@@ -16,13 +16,11 @@ export default function Navbar() {
     <header className="nav-reference">
       <nav className="nav-reference-inner" aria-label="Navegación principal">
         <a className="nav-reference-brand" href="#inicio" onClick={close} aria-label="La Patata, volver al inicio">
-          <img
-            src={`${import.meta.env.BASE_URL}images/logo.png`}
-            alt=""
-            aria-hidden="true"
-            width="34"
-            height="38"
-          />
+          <svg className="nav-reference-logo-mark" viewBox="0 0 56 65" aria-hidden="true" focusable="false" fill="none">
+            <path d="M8 22L12 52Q27 62 44 52L48 22Q29 30 8 22Z" stroke="currentColor" strokeWidth="2.8" strokeLinejoin="round"/>
+            <path d="M14 17L12 4L18 3L22 24M23 20L22 2L29 2L30 25M32 23L35 3L42 6L41 24M44 21L48 11L52 15L45 27" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M17 32L19 48M27 35L28 52M37 32L35 49" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+          </svg>
           <span>LA PATATA</span>
         </a>
 
