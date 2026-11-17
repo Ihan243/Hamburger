@@ -1,49 +1,51 @@
 export const businessInfo = {
   name: "LA PATATA",
-  tagline: "Street Food Trujillo - Papas con Actitud",
+  tagline: "Street Food Ciudad de México - Papas con Actitud",
   slogan: "Convertimos las papas en las verdaderas protagonistas",
-  phone: "+51 970 743 356",
-  phoneDisplay: "+51 970 743 356",
-  whatsappNumber: "51970743356",
-  whatsappUrl: "https://wa.me/51970743356?text=Hola!%20Quiero%20hacer%20un%20pedido%20de%20La%20Patata",
-  address: "San Andrés 5ta Etapa Mz \"S\" lote 10, Trujillo, Perú",
-  mapsUrl: "https://maps.google.com/?q=San+Andres+Trujillo+La+Patata",
-  schedule: "Miércoles a Lunes - 6:00 PM a 1:00 AM",
-  closedDay: "Martes cerrado (afilando freidoras)",
-  deliveryPromise: "Delivery en Trujillo en menos de 35 minutos",
-  email: "hola@lapatatape.com",
+  // Completar con datos locales reales antes de habilitar el checkout.
+  phone: "",
+  phoneDisplay: "",
+  whatsappNumber: "",
+  whatsappUrl: "",
+  address: "Ciudad de México, México",
+  locationNote: "Dirección exacta por confirmar",
+  mapsUrl: "",
+  schedule: "Horario por confirmar",
+  closedDay: "",
+  deliveryPromise: "Pedidos a domicilio próximamente en CDMX",
+  email: "",
   social: {
-    instagram: "https://www.instagram.com/lapatataa.pe/",
-    instagramUser: "@lapatataa.pe",
-    tiktok: "https://www.tiktok.com/@lapatataa.pe",
-    facebook: "https://www.facebook.com/profile.php?id=61594265227729",
-    digitalMenu: "https://app.lapatatape.com/menu"
+    instagram: "",
+    instagramUser: "",
+    tiktok: "",
+    facebook: "",
+    digitalMenu: ""
   },
   mascot: {
     name: "Hércules",
-    title: "El perro guardián del sabor",
-    avatar: "/images/hercules-mascot.png",
-    initialGreeting: "¡Hola! Soy Hércules 🐶🍟, el perro guardián del sabor en La Patata. ¡Aquí nuestras papas nativas son las verdaderas protagonistas! ¿Qué te provoca pedir hoy?",
+    title: "El guardián del sabor · asistente automático",
+    avatar: `${import.meta.env.BASE_URL}images/hercules-mascot.png`,
+    initialGreeting: "¡Hola! Soy Hércules 🐶🍟, tu guía de la carta de La Patata en CDMX. Los precios de muestra están en dólares (USD). ¿Qué te gustaría descubrir?",
     faqs: [
       {
         id: "promos",
         label: "🍟 ¿Cuáles son las promos?",
-        answer: "¡Guau! 🐶 Nuestras mejores opciones para compartir son el **Box Hércules** (S/ 62.00) con Wrap, tenders, boneless, alitas y Pepsi de 1L, o el monumental **Barco La Patata de 60 cm** (S/ 115.00) para 4 a 6 personas. ¡Una locura de sabor!"
+        answer: "Para compartir tenemos el Box Hércules (US$ 18.15) y el Barco La Patata de 60 cm (US$ 33.67). Son precios de referencia, sujetos a confirmación."
       },
       {
         id: "top",
         label: "🥔 ¿Cuál es el más pedido?",
-        answer: "¡Sin dudarlo! 🍟 La reina de la casa es la **Salchi Fest** (S/ 28.00): papas crujientes con piel, hot dog, chorizo parrillero, trozos broaster y una montaña de queso derretido."
+        answer: "El favorito de nuestra carta es Salchi Fest (US$ 8.20): papas, chorizo, broaster y queso derretido."
       },
       {
         id: "horario",
         label: "📍 ¿Ubicación y horario?",
-        answer: "Estamos en **San Andrés 5ta Etapa Mz 'S' lote 10, Trujillo**. Atendemos de **Miércoles a Lunes de 6:00 PM a 1:00 AM** (los Martes descansamos)."
+        answer: "Estamos preparando nuestra versión para Ciudad de México. La dirección exacta y los horarios todavía no están confirmados."
       },
       {
         id: "delivery",
         label: "🛵 ¿Cómo pido delivery?",
-        answer: "¡Súper fácil! 🛵 Agrega tus platos favoritos al carrito aquí en la web y presiona 'Pedir por WhatsApp', o escríbenos directamente al **+51 970 743 356**. ¡Llegamos calientes y crujientes!"
+        answer: "Puedes explorar el menú y armar un carrito de muestra. El envío de pedidos por WhatsApp se activará al configurar el contacto local de CDMX."
       }
     ]
   }

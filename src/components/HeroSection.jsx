@@ -1,17 +1,12 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
+import { specialties } from '../data/menuData';
 
 export default function HeroSection() {
   const { addToCart } = useCart();
 
-  const handleAddHeroDish = () => {
-    addToCart({
-      id: 'salchi-fest',
-      title: 'Salchi Fest XL',
-      price: 28.00,
-      desc: 'Papas fritas + hot dog + chorizo parrillero + trozos broaster + queso fundido'
-    });
-  };
+  const heroDish = specialties.find(item => item.id === 'salchi-fest');
+  const handleAddHeroDish = () => addToCart(heroDish);
 
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:py-24 bg-gradient-to-b from-brand-purple via-brand-purpleDeep to-brand-purpleDeep" data-purpose="hero-section">
@@ -73,7 +68,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 bg-brand-yellow/20 rounded-full blur-2xl animate-pulse-glow"></div>
             <div className="relative w-72 h-72 sm:w-96 sm:h-96 md:w-[440px] md:h-[440px] rounded-full p-2.5 bg-gradient-to-tr from-brand-yellow via-brand-orange to-brand-purpleMuted shadow-2xl transition-transform duration-700 hover:rotate-3">
               <img 
-                src="/images/salchipapa-dish.png" 
+                src={`${import.meta.env.BASE_URL}images/salchipapa-dish.png`} 
                 alt="Plato estrella Salchi Fest con papas nativas doradas, chorizo parrillero y queso fundido"
                 className="w-full h-full object-cover rounded-full shadow-inner border-4 border-brand-purpleDeep"
                 loading="eager"
@@ -88,7 +83,7 @@ export default function HeroSection() {
               <div className="text-left">
                 <p className="text-xs font-bold text-brand-graySub uppercase tracking-wider">Favorito indiscutible</p>
                 <h4 className="font-street text-lg sm:text-xl text-brand-yellow leading-none">SALCHI FEST XL</h4>
-                <p className="text-xs font-extrabold text-white mt-0.5">S/ 28.00</p>
+                <p className="text-xs font-extrabold text-white mt-0.5">US$ {heroDish.price.toFixed(2)}</p>
               </div>
               <button 
                 onClick={handleAddHeroDish}

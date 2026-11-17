@@ -11,9 +11,8 @@ export default function MenuSection() {
   const filteredItems = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
     return menuItems.filter(item => {
-      const matchesCategory = 
-        activeCategory === 'all' || 
-        activeCategory === 'toda' || 
+      const matchesCategory =
+        activeCategory === 'toda' ||
         item.categories.includes(activeCategory);
 
       const matchesSearch = 
@@ -41,7 +40,7 @@ export default function MenuSection() {
             NUESTRA CARTA
           </h3>
           <p className="text-brand-graySub text-sm sm:text-base mt-2">
-            La calidad que te ofrecemos en cada bocado. Selecciona tus favoritos o busca directo.
+            Precios de referencia en dólares estadounidenses (USD). Selecciona tus favoritos o busca directo.
           </p>
         </div>
 
@@ -107,7 +106,7 @@ export default function MenuSection() {
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-center lg:items-end justify-center gap-4">
                 <div className="text-center lg:text-right">
                   <span className="text-xs uppercase text-brand-graySub block">Precio Monumental</span>
-                  <span className="font-street text-4xl sm:text-5xl text-brand-yellow">S/ {boatDish.price.toFixed(2)}</span>
+                  <span className="font-street text-4xl sm:text-5xl text-brand-yellow">US$ {boatDish.price.toFixed(2)}</span>
                 </div>
                 <button 
                   onClick={() => addToCart(boatDish)}
@@ -133,7 +132,7 @@ export default function MenuSection() {
                     {item.title}
                   </h4>
                   <span className="font-street text-xl text-brand-yellow whitespace-nowrap">
-                    S/ {item.price.toFixed(2)}
+                    US$ {item.price.toFixed(2)}
                   </span>
                 </div>
                 
@@ -170,14 +169,12 @@ export default function MenuSection() {
             <p className="text-sm text-brand-graySub max-w-md mx-auto mt-1">
               Prueba buscando con otra palabra como "broaster", "alitas", "wrap" o consúltale directamente a Hércules.
             </p>
-            <a 
-              href="https://wa.me/51970743356?text=Hola%20La%20Patata!%20Quisiera%20consultar%20por%20la%20carta"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => { setSearchQuery(''); setActiveCategory('toda'); }}
               className="mt-5 inline-flex items-center gap-2 bg-brand-yellow text-brand-purple px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider"
             >
-              Consultar por WhatsApp →
-            </a>
+              Ver toda la carta →
+            </button>
           </div>
         )}
 
@@ -185,15 +182,15 @@ export default function MenuSection() {
         <div className="mt-12 bg-brand-yellow text-brand-purple p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div>
             <h4 className="font-street text-2xl uppercase">¿Quieres hacer tu pedido al instante?</h4>
-            <p className="text-xs sm:text-sm font-bold text-brand-purple/80">Atención directa por WhatsApp o carta digital interactiva</p>
+            <p className="text-xs sm:text-sm font-bold text-brand-purple/80">Precios en USD. Los pedidos para CDMX se habilitarán próximamente.</p>
           </div>
           <a 
-            href={businessInfo.social.digitalMenu} 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={businessInfo.social.digitalMenu || '#contacto'} 
+            target={businessInfo.social.digitalMenu ? "_blank" : undefined}
+            rel={businessInfo.social.digitalMenu ? "noopener noreferrer" : undefined}
             className="w-full sm:w-auto bg-brand-purple hover:bg-brand-purpleDeep text-brand-yellow font-street text-lg px-7 py-3 rounded-xl uppercase tracking-wider text-center transition shadow-md"
           >
-            Ver Carta Digital &amp; Pedir →
+            {businessInfo.social.digitalMenu ? 'Ver Carta Digital & Pedir →' : 'Ver información de contacto →'}
           </a>
         </div>
       </div>

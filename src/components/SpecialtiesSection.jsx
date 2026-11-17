@@ -16,7 +16,7 @@ export default function SpecialtiesSection() {
             ESPECIALIDADES <br /><span className="text-brand-yellow">DE LA CASA</span>
           </h2>
           <p className="mt-3 text-brand-graySub text-sm sm:text-base">
-            Nuestras obras maestras callejeras más aclamadas de Trujillo. Diseñadas para devorar.
+            Combinaciones callejeras para disfrutar en Ciudad de México. Diseñadas para devorar.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function SpecialtiesSection() {
                     className="w-full h-full object-cover rounded-full shadow-lg"
                   />
                   <span className="absolute bottom-2 right-2 bg-brand-yellow text-brand-purple font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full shadow-md font-street">
-                    S/ {item.price.toFixed(2)}
+                    US$ {item.price.toFixed(2)}
                   </span>
                 </div>
 

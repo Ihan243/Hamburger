@@ -6,7 +6,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
     try {
-      const saved = localStorage.getItem('la_patata_cart');
+      const saved = localStorage.getItem('la_patata_cart_usd_v1');
       return saved ? JSON.parse(saved) : [];
     } catch (e) {
       return [];
@@ -20,7 +20,7 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem('la_patata_cart', JSON.stringify(cart));
+      localStorage.setItem('la_patata_cart_usd_v1', JSON.stringify(cart));
     } catch (e) {
       console.error(e);
     }
@@ -78,7 +78,7 @@ export function CartProvider({ children }) {
   const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   const generateWhatsAppCheckout = (customInfo = {}) => {
-    if (cart.length === 0) return;
+    if (cart.length === 0 || !businessInfo.whatsappNumber) return;
 
     const name = customInfo.name || customerName;
     const address = customInfo.address || deliveryAddress;
@@ -88,14 +88,14 @@ export function CartProvider({ children }) {
 
     cart.forEach(item => {
       const itemSub = item.price * item.quantity;
-      message += `• ${item.quantity}x ${item.title} — S/ ${itemSub.toFixed(2)}`;
+      message += `• ${item.quantity}x ${item.title} — US$ ${itemSub.toFixed(2)}`;
       if (item.notes) {
         message += ` (Nota: ${item.notes})`;
       }
       message += `\n`;
     });
 
-    message += `\n💰 *Total estimado: S/ ${totalPrice.toFixed(2)}*`;
+    message += `\n💰 *Total estimado: US$ ${totalPrice.toFixed(2)} (USD)*`;
     if (name) message += `\n👤 *Cliente:* ${name}`;
     if (address) message += `\n📍 *Dirección de entrega:* ${address}`;
     if (notes) message += `\n📝 *Observaciones:* ${notes}`;

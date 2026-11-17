@@ -12,28 +12,28 @@ export const specialties = [
   {
     id: 'salchi-patata',
     title: 'SALCHI PATATA',
-    price: 25.00,
+    price: 7.32,
     desc: 'Papas fritas nativas + hot dog + chorizo parrillero ahumado + trozos crujientes de pollo broaster.',
     badge: 'Identidad de la Casa',
-    image: '/images/salchipapa-dish.png',
+    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
     featured: false
   },
   {
     id: 'salchi-fest',
     title: 'SALCHI FEST XL',
-    price: 28.00,
+    price: 8.20,
     desc: 'Papas fritas + hot dog + chorizo parrillero + trozos de pollo broaster + espectacular volcán de queso fundido.',
     badge: '★ La Más Pedida',
-    image: '/images/salchipapa-dish.png',
+    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
     featured: true
   },
   {
     id: 'broaster-clasico-xl',
     title: 'BROASTER CLÁSICO XL',
-    price: 24.00,
+    price: 7.03,
     desc: 'Pollo broaster marinado crocante con receta de la casa, porción contundente de papas fritas nativas y cremas caseras.',
     badge: 'Porción Generosa',
-    image: '/images/salchipapa-dish.png',
+    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
     featured: false
   }
 ];
@@ -42,7 +42,7 @@ export const boatDish = {
   id: 'barco-la-patata',
   title: 'BARCO LA PATATA',
   subtitle: '⛵ EXPERIENCIA MONUMENTAL · 60 CM',
-  price: 115.00,
+  price: 33.67,
   desc: 'Servido en un auténtico barco plano de madera de ~60 cm. La experiencia insuperable para cumpleaños, bajonas épicas y reuniones: ~800g papas nativas crujientes, 6 piezas broaster, 12 alitas en salsas, 8 boneless, 4 tenders, 1 porción salchipapa clásica y pocillos de salsas de la casa.',
   categories: ['boxes', 'all']
 };
@@ -51,7 +51,7 @@ export const menuItems = [
   {
     id: 'salchi-fest',
     title: 'Salchi Fest',
-    price: 28.00,
+    price: 8.20,
     categories: ['salchipapas', 'all'],
     badge: '¡Bomba Favorita!',
     badgeType: 'orange',
@@ -61,7 +61,7 @@ export const menuItems = [
   {
     id: 'broaster-clasico',
     title: 'Broaster Clásico',
-    price: 18.00,
+    price: 5.27,
     categories: ['broaster', 'all'],
     badge: 'Clásico de Oro',
     badgeType: 'yellow',
@@ -71,7 +71,7 @@ export const menuItems = [
   {
     id: 'salchi-patata',
     title: 'Salchi Patata',
-    price: 25.00,
+    price: 7.32,
     categories: ['salchipapas', 'all'],
     badge: 'Identidad de la Casa',
     badgeType: 'purple',
@@ -81,17 +81,17 @@ export const menuItems = [
   {
     id: 'alitas-crocantes',
     title: 'Alitas Crocantes (6 pcs)',
-    price: 21.00,
+    price: 6.15,
     categories: ['crunch', 'all'],
     badge: 'Salsas a Elección',
     badgeType: 'orange',
-    desc: '6 unidades crujientes bañadas en tu salsa favorita (BBQ, Maracuyá, Chimichurri o Picante) servidas con papas nativas.',
+    desc: '6 unidades crujientes bañadas en tu salsa favorita (BBQ, chimichurri o picante) servidas con papas nativas.',
     tags: 'alitas crocantes salsas bbq bufalo chimichurri picante maracuya'
   },
   {
     id: 'wrap-especial',
     title: 'Wrap Especial',
-    price: 18.00,
+    price: 5.27,
     categories: ['broaster', 'all'],
     badge: 'Recomendado',
     badgeType: 'yellow',
@@ -101,7 +101,7 @@ export const menuItems = [
   {
     id: 'box-hercules',
     title: 'Box Hércules (Combo Estrella)',
-    price: 62.00,
+    price: 18.15,
     categories: ['boxes', 'all'],
     badge: 'Para Compartir',
     badgeType: 'yellow',
@@ -111,7 +111,7 @@ export const menuItems = [
   {
     id: 'barco-la-patata',
     title: 'Barco La Patata (~60cm)',
-    price: 115.00,
+    price: 33.67,
     categories: ['boxes', 'all'],
     badge: 'Monumental 60cm',
     badgeType: 'orange',
@@ -121,7 +121,7 @@ export const menuItems = [
   {
     id: 'broaster-clasico-xl',
     title: 'Broaster Clásico XL',
-    price: 24.00,
+    price: 7.03,
     categories: ['broaster'],
     badge: 'Porción Generosa',
     badgeType: 'purple',
@@ -131,7 +131,7 @@ export const menuItems = [
   {
     id: 'salchipapa-clasica',
     title: 'Salchipapa Clásica',
-    price: 16.00,
+    price: 4.68,
     categories: ['salchipapas'],
     badge: null,
     desc: 'Base de papas nativas doradas al momento, hot dog frankfurter laminado y cremas caseras.',
@@ -140,7 +140,7 @@ export const menuItems = [
   {
     id: 'salchi-cheese',
     title: 'Salchi Cheese',
-    price: 20.00,
+    price: 5.86,
     categories: ['salchipapas'],
     badge: 'Queso Extra',
     badgeType: 'yellow',
@@ -150,7 +150,7 @@ export const menuItems = [
   {
     id: 'salchipollo-broaster',
     title: 'Salchipollo Broaster',
-    price: 20.00,
+    price: 5.86,
     categories: ['salchipapas', 'broaster'],
     badge: null,
     desc: 'Papas fritas crujientes con hot dog y presa dorada y crocante de pollo broaster.',
@@ -159,7 +159,7 @@ export const menuItems = [
   {
     id: 'arma-tu-bowl',
     title: 'Arma tu Bowl Personalizado',
-    price: 15.00,
+    price: 4.39,
     categories: ['salchipapas'],
     badge: 'Crea el Tuyo',
     badgeType: 'purple',
@@ -169,7 +169,7 @@ export const menuItems = [
   {
     id: 'broaster-spicy',
     title: 'Broaster Picante Spicy 🔥',
-    price: 19.00,
+    price: 5.56,
     categories: ['broaster'],
     badge: 'Hot Street',
     badgeType: 'orange',
@@ -179,7 +179,7 @@ export const menuItems = [
   {
     id: 'boneless-pechuga',
     title: 'Boneless de Pechuga (6 unid)',
-    price: 19.00,
+    price: 5.56,
     categories: ['crunch'],
     badge: null,
     desc: 'Bocados tiernos y sin hueso, bien empanizados y bañados en salsa artesanal a elección con papas.',
@@ -188,7 +188,7 @@ export const menuItems = [
   {
     id: 'tenders-crocantes',
     title: 'Tenders Ultra Crocantes (3 unid)',
-    price: 12.00,
+    price: 3.51,
     categories: ['crunch'],
     badge: null,
     desc: 'Filetes de pechuga crocantes empanizados servidos con porción de papas nativas y salsas caseras.',
@@ -197,7 +197,7 @@ export const menuItems = [
   {
     id: 'box-chester',
     title: 'Box Chester',
-    price: 44.00,
+    price: 12.88,
     categories: ['boxes'],
     badge: 'Combo Dúo',
     badgeType: 'yellow',
@@ -207,7 +207,7 @@ export const menuItems = [
   {
     id: 'limonada-frozen',
     title: 'Limonada Frozen',
-    price: 9.00,
+    price: 2.64,
     categories: ['bebidas', 'all'],
     badge: 'Helada Frappé',
     badgeType: 'yellow',
@@ -217,17 +217,17 @@ export const menuItems = [
   {
     id: 'limonada-electrica',
     title: 'Limonada Eléctrica (Autor)',
-    price: 10.00,
+    price: 2.93,
     categories: ['bebidas'],
     badge: 'Especial Azul',
     badgeType: 'purple',
-    desc: 'Twist cítrico refrescante de la casa con un toque azul eléctrico de blue curaçao.',
+    desc: 'Twist cítrico refrescante de la casa con un toque de jarabe azul sin alcohol.',
     tags: 'limonada electrica blue curacao bebidas azul'
   },
   {
     id: 'chicha-morada',
     title: 'Chicha Morada Tradicional',
-    price: 7.00,
+    price: 2.05,
     categories: ['bebidas'],
     badge: '100% Artesanal',
     badgeType: 'purple',
@@ -237,7 +237,7 @@ export const menuItems = [
   {
     id: 'gaseosa-500ml',
     title: 'Gaseosa Helada 500ml',
-    price: 5.00,
+    price: 1.46,
     categories: ['bebidas'],
     badge: null,
     desc: 'Botella personal bien helada: Inca Kola, Pepsi, 7Up o Concordia.',
@@ -248,17 +248,17 @@ export const menuItems = [
 export const galleryItems = [
   {
     title: "Sabor callejero auténtico",
-    tag: "Local San Andrés",
-    image: "/images/salchipapa-dish.png"
+    tag: "Ciudad de México",
+    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`
   },
   {
     title: "Hércules guardián del sabor",
     tag: "Mascota Oficial",
-    image: "/images/hercules-mascot.png"
+    image: `${import.meta.env.BASE_URL}images/hercules-mascot.png`
   },
   {
     title: "Directo de la sartén a tu boca",
     tag: "#PapasConActitud",
-    image: "/images/salchipapa-dish.png"
+    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`
   }
 ];
