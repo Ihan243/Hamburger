@@ -171,3 +171,34 @@ main { overflow-x: clip; }
   .gallery-loop-track, .spec-products-track, .reference-giant-track,
   .spec-spinning-image { animation: none !important; }
 }
+
+
+/* Accessible ordering controls: all interactive targets work on small phones. */
+.cart-panel { overscroll-behavior: contain; }
+.cart-panel .cart-qty-btn,
+.cart-panel .cart-remove-btn {
+  min-width: 48px !important;
+  min-height: 48px !important;
+  display: inline-grid;
+  place-items: center;
+}
+.cart-panel input {
+  min-height: 48px;
+  font-size: 1rem;
+}
+.cart-panel button:focus-visible,
+.cart-panel input:focus-visible {
+  outline: 2px solid #ffc83d;
+  outline-offset: 3px;
+}
+.cart-panel > div { min-width:0; }
+@media (max-width: 380px) {
+  .cart-panel .cart-qty-btn, .cart-panel .cart-remove-btn {
+    min-width: 44px !important;
+    min-height: 48px !important;
+  }
+  .cart-panel .cart-qty-btn + span {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
