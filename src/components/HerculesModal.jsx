@@ -105,7 +105,7 @@ export default function HerculesModal() {
 
   return (
     <>
-      <div className="hercules-launcher" data-purpose="mascot-widget">
+      <div className={'hercules-launcher' + (isOpen ? ' hercules-launcher-open' : '')} data-purpose="mascot-widget">
         {showBubble && !isOpen && (
           <div className={'hercules-speech' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')} role="status">
             <span>{activePromo.text}</span>
@@ -128,6 +128,9 @@ export default function HerculesModal() {
         <div className="hercules-overlay" data-native-scroll>
           <div className="hercules-backdrop" onClick={() => setOpen(false)}
             aria-hidden="true" />
+          <div className="hercules-scene-mascot" aria-hidden="true">
+            <img src={mascotImage} alt="" width="420" height="490" decoding="async" />
+          </div>
           <section className="hercules-dialog" role="dialog" aria-modal="true"
             aria-labelledby="hercules-heading" aria-describedby="hercules-subtitle"
             ref={dialogRef}>
@@ -139,7 +142,7 @@ export default function HerculesModal() {
                 <h2 id="hercules-heading">HÉRCULES</h2>
                 <p id="hercules-subtitle">
                   <span>El perro guardián del sabor</span>
-                  <span className="hercules-online"><i aria-hidden="true" /> Asistente virtual</span>
+                  <span className="hercules-online"><i aria-hidden="true" /> ¡En línea!</span>
                 </p>
               </div>
               <button type="button" className="hercules-chat-close"
@@ -150,8 +153,8 @@ export default function HerculesModal() {
 
             <div className="hercules-chat-scroll" data-native-scroll>
               <div className="hercules-chat-intro">
-                <p><strong>¡Hola! Soy <em>Hércules</em> 🐶🍟</strong>, el perro guardián del sabor en <em>La Patata</em>.</p>
-                <p>¡Aquí nuestras papas son protagonistas! Te ayudo a encontrar tu combinación ideal, conocer los favoritos y resolver dudas sobre la carta.</p>
+                <p>¡Hola! Soy <em>Hércules</em> 🐶🍟, el perro guardián del sabor en <em>La Patata</em>.</p>
+                <p>¡Aquí nuestras papas son las verdaderas protagonistas! Estoy listo para ayudarte a elegir tu combinación ideal, recomendarte las mejores <em>Papas con Actitud</em> o resolver cualquier duda.</p>
                 <p className="hercules-intro-hint">Elige una pregunta y te respondo al instante:</p>
               </div>
 
@@ -159,8 +162,8 @@ export default function HerculesModal() {
                 {businessInfo.mascot.faqs.map(faq => (
                   <button key={faq.id} className="hercules-question"
                     type="button" onClick={() => chooseFaq(faq)}>
-                    <span>{faq.label}</span>
-                    <span className="hercules-question-arrow" aria-hidden="true">↗</span>
+                    <span className="hercules-question-icon" aria-hidden="true">{faq.icon}</span>
+                    <span className="hercules-question-label">{faq.label}</span>
                   </button>
                 ))}
               </div>

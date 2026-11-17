@@ -29,22 +29,26 @@ export const businessInfo = {
     faqs: [
       {
         id: "promos",
-        label: "🍟 ¿Cuáles son las promos?",
-        answer: "Para compartir tenemos el Box Hércules (US$ 18.15) y el Barco La Patata de 60 cm (US$ 33.67). Son precios de referencia, sujetos a confirmación."
+        icon: "🍟",
+        label: "¿Cuáles son las promos de hoy?",
+        answer: "Todavía no tenemos promociones del día confirmadas. Para compartir puedes explorar el Box Hércules (US$ 18.15) y el Barco La Patata de 60 cm (US$ 33.67). Son precios de referencia, sujetos a confirmación."
       },
       {
         id: "top",
-        label: "🥔 ¿Cuál es el más pedido?",
+        icon: "🥔",
+        label: "¿Cuál es el plato más pedido?",
         answer: "El favorito de nuestra carta es Salchi Fest (US$ 8.20): papas, chorizo, broaster y queso derretido."
       },
       {
         id: "horario",
-        label: "📍 ¿Ubicación y horario?",
+        icon: "📍",
+        label: "¿Dónde están ubicados y horario?",
         answer: "Estamos preparando nuestra versión para Ciudad de México. La dirección exacta y los horarios todavía no están confirmados."
       },
       {
         id: "delivery",
-        label: "🛵 ¿Cómo pido delivery?",
+        icon: "🛵",
+        label: "¿Cómo hago mi pedido?",
         answer: "Puedes explorar el menú y armar un carrito de muestra. El envío de pedidos por WhatsApp se activará al configurar el contacto local de CDMX."
       }
     ]
