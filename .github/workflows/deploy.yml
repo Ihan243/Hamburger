@@ -33,6 +33,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate optimized WebP images
+        run: |
+          npm install --no-save --no-package-lock sharp
+          node scripts/optimize-assets.mjs
+          test -s public/images/salchipapa-dish.webp
+          test -s public/images/salchipapa-dish-480.webp
+          test -s public/images/hercules-mascot.webp
+
       - name: Build
         run: npm run build
 

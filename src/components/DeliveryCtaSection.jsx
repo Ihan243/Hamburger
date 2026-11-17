@@ -5,7 +5,9 @@ import { useCart } from '../context/CartContext';
 export default function DeliveryCtaSection() {
   const { openCart } = useCart();
   return (
-    <section className="closing-section" id="delivery" aria-labelledby="closing-heading" style={{ backgroundImage: `linear-gradient(90deg, #1c0b23ed 0%, #1c0b23cb 55%, #1c0b23bc), url("${import.meta.env.BASE_URL}images/salchipapa-dish.png")` }}>
+    <section className="closing-section" id="delivery" aria-labelledby="closing-heading">
+      <img className="closing-lazy-photo" src={foodImage} srcSet={foodImageSrcSet}
+        sizes="100vw" alt="" loading="lazy" decoding="async" width="960" height="640"/>
       <div className="closing-overlay" />
       <div className="closing-content">
         <div className="closing-lead">

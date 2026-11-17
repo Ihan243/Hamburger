@@ -1,3 +1,4 @@
+import { mascotImage } from '../utils/imageAssets.js';
 import React, { useState } from 'react';
 import { businessInfo } from '../data/businessInfo';
 
@@ -53,8 +54,8 @@ export default function HerculesModal() {
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-brand-purple">
             <img 
-              src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
-              alt="Hércules mascota asistente" 
+              src={mascotImage} 
+              alt="Hércules mascota asistente" decoding="async" width="64" height="64" 
               className="w-full h-full object-cover"
             />
           </div>
@@ -73,8 +74,8 @@ export default function HerculesModal() {
             <div className="bg-brand-purple p-4 border-b border-brand-purpleMuted flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img 
-                  src={`${import.meta.env.BASE_URL}images/hercules-mascot.png`} 
-                  alt="Hércules" 
+                  src={mascotImage} 
+                  alt="Hércules" decoding="async" width="48" height="48" 
                   className="w-12 h-12 rounded-full border border-brand-yellow object-cover"
                 />
                 <div>

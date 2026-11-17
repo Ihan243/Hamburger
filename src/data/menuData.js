@@ -1,3 +1,4 @@
+import { foodImage } from '../utils/imageAssets.js';
 export const menuCategories = [
   { id: 'all', label: '★ Lo Más Pedido' },
   { id: 'salchipapas', label: 'Salchipapas & Bowls' },
@@ -15,7 +16,7 @@ export const specialties = [
     price: 7.32,
     desc: 'Papas fritas nativas + hot dog + chorizo parrillero ahumado + trozos crujientes de pollo broaster.',
     badge: 'Identidad de la Casa',
-    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
+    image: foodImage,
     featured: false
   },
   {
@@ -24,7 +25,7 @@ export const specialties = [
     price: 8.20,
     desc: 'Papas fritas + hot dog + chorizo parrillero + trozos de pollo broaster + espectacular volcán de queso fundido.',
     badge: '★ La Más Pedida',
-    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
+    image: foodImage,
     featured: true
   },
   {
@@ -33,7 +34,7 @@ export const specialties = [
     price: 7.03,
     desc: 'Pollo broaster marinado crocante con receta de la casa, porción contundente de papas fritas nativas y cremas caseras.',
     badge: 'Porción Generosa',
-    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`,
+    image: foodImage,
     featured: false
   }
 ];
@@ -249,16 +250,16 @@ export const galleryItems = [
   {
     title: "Sabor callejero auténtico",
     tag: "Ciudad de México",
-    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`
+    image: foodImage
   },
   {
     title: "Hércules guardián del sabor",
     tag: "Mascota Oficial",
-    image: `${import.meta.env.BASE_URL}images/hercules-mascot.png`
+    image: mascotImage
   },
   {
     title: "Directo de la sartén a tu boca",
     tag: "#PapasConActitud",
-    image: `${import.meta.env.BASE_URL}images/salchipapa-dish.png`
+    image: foodImage
   }
 ];

@@ -1,9 +1,10 @@
+import { foodImage, foodImageSrcSet, mascotImage } from '../utils/imageAssets.js';
 import React from 'react';
 import { businessInfo } from '../data/businessInfo';
 import useDraggableMarquee from '../hooks/useDraggableMarquee';
 
-const dish = import.meta.env.BASE_URL + 'images/salchipapa-dish.png';
-const mascot = import.meta.env.BASE_URL + 'images/hercules-mascot.png';
+const dish = foodImage;
+const mascot = mascotImage;
 const cards = [
   { title: 'Papas con actitud', image: dish, style: 'zoom' },
   { title: 'Salchi Fest', image: dish, style: 'warm' },
@@ -27,7 +28,7 @@ export default function GallerySection() {
       ref={slider.viewportRef} {...slider.bind}
       aria-label="Galería fotográfica continua, arrastrable con mouse o dedo">
       <div className="gallery-loop-track" ref={slider.trackRef}>
-        {[0, 1, 2, 3].map(copy => <div className="gallery-loop-group" key={copy}
+        {[0, 1].map(copy => <div className="gallery-loop-group" key={copy}
           ref={copy === 0 ? slider.groupRef : undefined}
           aria-hidden={copy === 0 ? undefined : true}>
           <article className="gallery-social-tile">
@@ -42,8 +43,9 @@ export default function GallerySection() {
           </article>
           {cards.map((card, index) => <article className={'gallery-image-tile gallery-' + card.style}
             key={copy + '-' + index}>
-            <img src={card.image} alt={copy === 0 ? card.title : ''}
-              loading="lazy" draggable={false}/>
+            <img src={card.image} srcSet={card.image === foodImage ? foodImageSrcSet : undefined}
+              sizes="(max-width: 768px) 190px, 250px" alt={copy === 0 ? card.title : ''}
+              width="250" height="325" loading="lazy" decoding="async" draggable={false}/>
             <p>{card.title}</p>
           </article>)}
         </div>)}

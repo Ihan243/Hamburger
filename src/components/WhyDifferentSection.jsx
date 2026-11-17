@@ -1,3 +1,4 @@
+import { foodImage, foodImageSrcSet } from '../utils/imageAssets.js';
 
 import React from 'react';
 const points = [
@@ -16,7 +17,7 @@ export default function WhyDifferentSection() {
      <h3>{p.title}<span aria-hidden="true"> ↗</span></h3><p>{p.body}</p>
     </div>)}</div>
     <figure className="ref-difference-photo">
-     <img src={import.meta.env.BASE_URL + 'images/salchipapa-dish.png'} alt="Papas crujientes y salsas de la casa" loading="lazy"/>
+     <img src={foodImage} alt="Papas crujientes y salsas de la casa" loading="lazy" decoding="async" width="480" height="640"/>
     </figure>
     <div className="ref-difference-points right">{points.slice(2).map(p => <div className="ref-difference-point" key={p.title}>
      <h3><span aria-hidden="true">↖ </span>{p.title}</h3><p>{p.body}</p>

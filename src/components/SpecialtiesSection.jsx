@@ -1,3 +1,4 @@
+import { foodImage, foodImageSrcSet } from '../utils/imageAssets.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { specialties, menuItems } from '../data/menuData';
@@ -24,14 +25,14 @@ function ProductLoop({ onAdd }) {
     <div className={'spec-products-viewport draggable-marquee' + (slider.dragging ? ' is-dragging' : '')}
       ref={slider.viewportRef} {...slider.bind} aria-label="Galería de productos arrastrable">
       <div className="spec-products-track" ref={slider.trackRef}>
-        {[0, 1, 2, 3].map(copy => <div className="spec-products-group" key={copy}
+        {[0, 1].map(copy => <div className="spec-products-group" key={copy}
           ref={copy === 0 ? slider.groupRef : undefined}
           aria-hidden={copy === 0 ? undefined : true}>
           {products.map((item, index) => <article className="spec-product" key={copy + '-' + item.id}>
             <div className={'spec-product-photo spec-product-photo-' + (index % 4)}>
-              <img src={import.meta.env.BASE_URL + 'images/salchipapa-dish.png'}
+              <img src={foodImage} srcSet={foodImageSrcSet} sizes="(max-width: 768px) 190px, 225px"
                 alt={copy === 0 ? 'Fotografía ilustrativa de comida callejera' : ''}
-                draggable={false} loading="lazy" />
+                draggable={false} loading="lazy" decoding="async" width="225" height="169" />
             </div>
             <div className="spec-product-details"><h4>{item.title}</h4>
               <span>US$ {item.price.toFixed(2)}</span></div>
@@ -230,8 +231,8 @@ export default function SpecialtiesSection() {
           <button type="button" className="spec-choose" onClick={() => select(index)}
             aria-pressed={active === index} aria-label={'Centrar ' + dish.title}>
             <span className="spec-image-wrap">
-              <img className="spec-spinning-image" src={dish.image} alt={dish.title} draggable={false}
-                loading="lazy" />
+              <img className="spec-spinning-image" src={dish.image} srcSet={foodImageSrcSet} sizes="(max-width: 768px) 270px, 310px" alt={dish.title} draggable={false}
+                loading="lazy" decoding="async" />
               <span className="spec-index">0{index + 1}</span>
             </span>
             <span className="spec-card-title">{dish.title}</span>
