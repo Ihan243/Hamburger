@@ -130,7 +130,7 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="w-full text-center inline-block bg-brand-yellow text-brand-purple py-3 rounded-xl font-black uppercase text-sm tracking-wider shadow"
             >
-              {businessInfo.whatsappUrl ? '{businessInfo.whatsappUrl ? 'Pedir por WhatsApp' : 'Ver menú'} →' : 'Ver menú →'}
+              {businessInfo.whatsappUrl ? 'Pedir por WhatsApp →' : 'Ver menú →'}
             </a>
           </div>
         </div>
