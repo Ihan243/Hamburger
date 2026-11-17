@@ -41,6 +41,19 @@ try {
   if (!state.rootSize || state.rootSize < 300) {
     throw new Error('React content did not render in the deployed browser');
   }
+  // Exercise the assistant instead of checking compilation alone.
+  await page.locator('.hercules-mascot-trigger').click();
+  await page.waitForSelector('.hercules-dialog[role="dialog"]');
+  await page.locator('.hercules-question').first().click();
+  await page.waitForSelector('.hercules-bot-message');
+  console.log('CHAT TEST:', JSON.stringify({
+    questions: await page.locator('.hercules-question').count(),
+    answers: await page.locator('.hercules-bot-message').count(),
+    text: (await page.locator('.hercules-bot-message').last().innerText()).slice(0,110)
+  }));
+  await page.screenshot({path: 'browser-smoke-chat-mobile.png', fullPage: false});
+  await page.keyboard.press('Escape');
+  if (await page.locator('.hercules-dialog').count()) throw new Error('Escape did not close assistant');
   await page.setViewportSize({width: 320, height: 640});
   await page.waitForTimeout(300);
   const narrow = await page.evaluate(() => ({
@@ -53,6 +66,10 @@ try {
   await page.screenshot({path: 'browser-smoke-narrow.png', fullPage: false});
 
   await page.setViewportSize({width: 1440, height: 900});
+  await page.locator('.hercules-mascot-trigger').click();
+  await page.waitForSelector('.hercules-dialog');
+  await page.screenshot({path: 'browser-smoke-chat-desktop.png', fullPage:false});
+  await page.keyboard.press('Escape');
   await page.screenshot({path: 'browser-smoke-desktop.png', fullPage:false});
 } finally {
   await browser.close();
