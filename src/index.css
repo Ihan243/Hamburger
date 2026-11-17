@@ -811,3 +811,388 @@ html { scroll-padding-top: 76px; }
   .hero-reference-title { font-size: 12vw; }
   .hero-reference-food { width: 62vw; }
 }
+
+
+/* --------------------------------------------------------------------------
+   AB STUDIO / LA PATATA — editorial material layer
+   Subtle paper grain, technical grids, ambient lighting and tactile elevation.
+   These styles enhance the existing composition instead of moving its content.
+   -------------------------------------------------------------------------- */
+:root {
+  --material-gold: #ffa400;
+  --material-ember: #ff6b00;
+  --material-ink: #210b2b;
+  --material-paper: #fcf7ee;
+  --material-ease: cubic-bezier(.22, 1, .36, 1);
+  --material-shadow-soft:
+    0 1px 2px rgba(28, 7, 34, .07),
+    0 7px 18px rgba(28, 7, 34, .08),
+    0 25px 45px rgba(28, 7, 34, .09);
+  --material-shadow-deep:
+    0 2px 3px rgba(20, 4, 28, .1),
+    0 12px 24px rgba(20, 4, 28, .14),
+    0 30px 60px rgba(20, 4, 28, .16);
+}
+
+/* Static SVG turbulence: tiny, tileable and non-interactive. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: .105;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch' seed='11'/%3E%3C/filter%3E%3Crect width='160' height='160' opacity='.54' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* The actual sections form a spatial hierarchy without losing their colors. */
+.hero-reference,
+.ref-about,
+.spec-section,
+.ref-menu-section,
+.ref-difference,
+.gallery-loop-section,
+.closing-section {
+  isolation: isolate;
+  position: relative;
+}
+
+/* Organic atmospheric light on dark panels. */
+.hero-reference {
+  background-color: #1a0823;
+  background-image:
+    radial-gradient(ellipse 52% 37% at 50% 43%, rgba(103, 42, 115, .25), transparent 73%),
+    radial-gradient(ellipse 40% 35% at 87% 23%, rgba(255, 140, 29, .055), transparent 84%),
+    linear-gradient(165deg, #190720, #210b2d 57%, #1a0823);
+}
+.hero-reference-stage { background: transparent; }
+.ref-menu-section {
+  background-color: #1c0825;
+  background-image:
+    radial-gradient(ellipse 55% 40% at 53% 23%, rgba(134, 51, 117, .13), transparent 75%),
+    radial-gradient(ellipse 35% 31% at 9% 80%, rgba(255, 121, 25, .05), transparent 80%),
+    linear-gradient(155deg, #1b0823, #251030 65%, #190720);
+}
+.ref-difference {
+  background-color: #1b0824;
+  background-image:
+    radial-gradient(ellipse 47% 45% at 52% 57%, rgba(102, 44, 111, .19), transparent 79%),
+    linear-gradient(180deg, #1a0823, #210b2c);
+}
+
+/* On paper surfaces, the lights warm the cream without making it gray. */
+.ref-about,
+.spec-section,
+.gallery-loop-section {
+  background-color: #fcf7ee;
+  background-image:
+    radial-gradient(ellipse 46% 48% at 87% 17%, rgba(254, 190, 97, .115), transparent 75%),
+    radial-gradient(ellipse 50% 43% at 8% 78%, rgba(145, 79, 125, .075), transparent 80%),
+    linear-gradient(180deg, #fcf7ee, #f9f2e8 76%, #fcf7ee);
+}
+.spec-products-enter {
+  background-color: #f5eee6;
+  background-image: radial-gradient(ellipse 65% 95% at 80% 24%, rgba(255, 176, 75, .09), transparent 73%);
+}
+.spec-section-end { background: rgba(252, 247, 238, .9); }
+
+/* Low-opacity technical grids, reduced to an ambient patch of the page.
+   The masked layer is behind text, photos and interactive elements. */
+.hero-reference::before,
+.ref-about::before,
+.spec-section::before,
+.ref-menu-section::before,
+.ref-difference::before,
+.gallery-loop-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 43px 43px;
+  opacity: .026;
+  -webkit-mask-image: radial-gradient(ellipse 50% 44% at 75% 32%, black, transparent 93%);
+  mask-image: radial-gradient(ellipse 50% 44% at 75% 32%, black, transparent 93%);
+}
+.hero-reference::before,
+.ref-menu-section::before,
+.ref-difference::before { color: #ffd8c0; opacity: .043; }
+.ref-about::before,
+.spec-section::before,
+.gallery-loop-section::before { color: #39213f; opacity: .04; }
+.spec-section::before {
+  background-size: 37px 37px;
+  -webkit-mask-image: radial-gradient(ellipse 58% 38% at 29% 43%, black, transparent 88%);
+  mask-image: radial-gradient(ellipse 58% 38% at 29% 43%, black, transparent 88%);
+}
+.gallery-loop-section::before {
+  background-image: radial-gradient(currentColor 1px, transparent 1.2px);
+  background-size: 15px 15px;
+  -webkit-mask-image: radial-gradient(ellipse 38% 63% at 84% 30%, black, transparent 88%);
+  mask-image: radial-gradient(ellipse 38% 63% at 84% 30%, black, transparent 88%);
+}
+
+/* Preserve each section's stacking order and working links. */
+.hero-reference-stage,
+.ref-about-inner,
+.spec-intro,
+.spec-window,
+.spec-controls,
+.spec-current-label,
+.spec-loop-reveal,
+.spec-section-end,
+.ref-menu-heading,
+.ref-menu-panel,
+.ref-difference-inner,
+.gallery-loop-heading,
+.gallery-loop-window,
+.gallery-loop-bottom {
+  position: relative;
+  z-index: 1;
+}
+
+/* Semi-translucent glass: local reflections and real backplate blur. */
+.nav-reference {
+  background: linear-gradient(180deg, rgba(32, 11, 43, .94), rgba(27, 8, 36, .92));
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.nav-reference-links,
+.nav-reference-mobile {
+  background: linear-gradient(148deg, rgba(110, 67, 120, .49), rgba(49, 23, 58, .78));
+  border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 8px 22px rgba(10,3,15,.13);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+}
+.nav-reference-links a {
+  transition: color .24s ease, text-shadow .24s ease;
+}
+.nav-reference-links a:hover { text-shadow: 0 0 12px rgba(255, 179, 74, .4); }
+
+/* Menu board as lifted paper, with a subtle glossy top edge. */
+.ref-menu-panel {
+  background: linear-gradient(155deg, rgba(255, 252, 246, .99), rgba(248, 237, 226, .99));
+  border: 1px solid rgba(255, 255, 255, .94);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 5px rgba(8, 2, 12, .08),
+    0 20px 48px rgba(8, 2, 12, .22),
+    0 40px 90px rgba(8, 2, 12, .17);
+}
+.ref-menu-search {
+  border-color: rgba(94, 56, 99, .21);
+  box-shadow: inset 0 2px 3px rgba(42, 16, 48, .035), 0 4px 10px rgba(42, 16, 48, .04);
+}
+.ref-menu-search:focus-within {
+  border-color: rgba(255, 107, 0, .6);
+  box-shadow: 0 0 0 3px rgba(255, 149, 56, .14), 0 7px 20px rgba(42, 16, 48, .085);
+}
+
+/* Photos and product cards feel like physical pieces above the page. */
+.ref-polaroid {
+  box-shadow:
+    0 2px 2px rgba(30, 13, 29, .1),
+    0 14px 23px rgba(30, 13, 29, .16),
+    0 27px 45px rgba(30, 13, 29, .09);
+  border: 1px solid rgba(255, 255, 255, .8);
+  transition: box-shadow .45s var(--material-ease), filter .45s var(--material-ease);
+}
+.ref-polaroid:hover {
+  filter: saturate(1.08);
+  box-shadow:
+    0 5px 6px rgba(30, 13, 29, .13),
+    0 23px 43px rgba(30, 13, 29, .2),
+    0 43px 70px rgba(30, 13, 29, .1);
+}
+.spec-card {
+  border: 1px solid rgba(255, 255, 255, .65);
+  border-radius: 30px;
+  padding: 15px 19px 24px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, .75), rgba(251, 242, 233, .47));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .94), var(--material-shadow-soft);
+}
+.spec-card-active {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 5px 10px rgba(38, 14, 42, .07),
+    0 17px 35px rgba(38, 14, 42, .12),
+    0 35px 62px rgba(38, 14, 42, .09);
+}
+.spec-card-idle { background: rgba(255,255,255,.42); }
+.spec-card-idle:hover { opacity: .86; }
+.spec-image-wrap { filter: drop-shadow(0 9px 8px rgba(25, 8, 29, .12)) drop-shadow(0 18px 15px rgba(25, 8, 29, .09)); }
+.spec-product {
+  border: 1px solid rgba(255, 255, 255, .84);
+  background: linear-gradient(152deg, #fff, #fcf6f0);
+  box-shadow: var(--material-shadow-soft);
+  transition: box-shadow .32s var(--material-ease), filter .32s var(--material-ease);
+}
+.spec-product:hover {
+  filter: brightness(1.015);
+  box-shadow: var(--material-shadow-deep);
+}
+.gallery-image-tile,
+.gallery-social-tile {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 3px 5px rgba(28, 8, 31, .1),
+    0 14px 26px rgba(28, 8, 31, .14),
+    0 30px 58px rgba(28, 8, 31, .10);
+}
+.ref-difference-photo {
+  box-shadow:
+    0 3px 4px rgba(0, 0, 0, .16),
+    0 18px 33px rgba(0, 0, 0, .26),
+    0 36px 65px rgba(0, 0, 0, .15);
+}
+
+/* Spotlight follows pointer coordinates; no React re-render is needed.
+   Inactive in touch devices and when the user requests reduced motion. */
+@media (hover: hover) and (pointer: fine) {
+  :is(.spec-card, .spec-product, .ref-menu-panel, .ref-menu-order-box, .gallery-social-tile, .closing-contact, .ref-polaroid) {
+    position: relative;
+    isolation: isolate;
+    --glow-x: 50%;
+    --glow-y: 35%;
+  }
+  :is(.spec-card, .spec-product, .ref-menu-panel, .ref-menu-order-box, .gallery-social-tile, .closing-contact, .ref-polaroid)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      240px circle at var(--glow-x) var(--glow-y),
+      rgba(255, 180, 90, .18), transparent 78%
+    );
+    transition: opacity .3s ease;
+  }
+  :is(.spec-card, .spec-product, .ref-menu-panel, .ref-menu-order-box, .gallery-social-tile, .closing-contact, .ref-polaroid):hover::before { opacity: 1; }
+  :is(.spec-card, .spec-product, .ref-menu-panel, .ref-menu-order-box, .gallery-social-tile, .closing-contact, .ref-polaroid) > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Buttons: light-catching top rim, stacked depth and responsive press. */
+:is(
+  .nav-reference-contact,
+  .hero-reference-button,
+  .spec-add,
+  .spec-loop-toggle,
+  .gallery-pause,
+  .ref-menu-filters button,
+  .ref-menu-order-box button,
+  .ref-boat-footnote button,
+  .spec-product > button,
+  .spec-products-end a,
+  .spec-section-end a,
+  .gallery-social-tile a,
+  .closing-order-btn,
+  .closing-whatsapp
+) {
+  border-top: 1px solid rgba(255, 255, 255, .42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28),
+    0 2px 3px rgba(25, 7, 30, .10),
+    0 7px 15px rgba(25, 7, 30, .14);
+  transition: transform .22s var(--material-ease),
+    filter .22s ease, box-shadow .22s var(--material-ease),
+    background-color .22s ease;
+}
+:is(
+  .nav-reference-contact,
+  .hero-reference-button,
+  .spec-add,
+  .spec-loop-toggle,
+  .gallery-pause,
+  .ref-menu-filters button,
+  .ref-menu-order-box button,
+  .ref-boat-footnote button,
+  .spec-product > button,
+  .spec-products-end a,
+  .spec-section-end a,
+  .gallery-social-tile a,
+  .closing-order-btn,
+  .closing-whatsapp
+):hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.33),
+    0 4px 7px rgba(25, 7, 30, .12),
+    0 12px 23px rgba(25, 7, 30, .16);
+}
+:is(
+  .nav-reference-contact,
+  .hero-reference-button,
+  .spec-add,
+  .spec-loop-toggle,
+  .gallery-pause,
+  .ref-menu-filters button,
+  .ref-menu-order-box button,
+  .ref-boat-footnote button,
+  .spec-product > button,
+  .spec-products-end a,
+  .spec-section-end a,
+  .gallery-social-tile a,
+  .closing-order-btn,
+  .closing-whatsapp
+):active {
+  transform: translateY(1px) scale(.985);
+  filter: brightness(.98);
+  box-shadow: inset 0 2px 4px rgba(25, 7, 30, .18),
+    0 1px 2px rgba(25, 7, 30, .07);
+}
+
+/* Localized luminous border and responsive press on menu items. */
+.ref-menu-item-button {
+  border-radius: 9px;
+  padding-inline: 7px;
+  transition: transform .19s ease, background .2s ease, box-shadow .2s ease;
+}
+.ref-menu-item-button:hover,
+.ref-menu-item-button:focus-visible {
+  background: linear-gradient(100deg, rgba(255, 173, 88, .13), rgba(255,255,255,.3));
+  box-shadow: inset 1px 0 0 rgba(255, 124, 42, .36);
+  transform: translateX(3px);
+}
+.ref-menu-item-button:active { transform: translateX(3px) scale(.99); }
+.closing-contact {
+  background: linear-gradient(144deg, rgba(68, 35, 63, .34), rgba(31, 10, 39, .17));
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), 0 20px 50px rgba(11,3,18,.12);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Strong accessible focus while keeping default navigation intact. */
+:is(a, button, input):focus-visible {
+  outline: 2px solid #ffb32f;
+  outline-offset: 3px;
+}
+@media (max-width: 720px) {
+  body::after { opacity: .07; }
+  .nav-reference { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .spec-card { padding: 15px 14px 22px; }
+  .closing-contact { padding: 20px; }
+}
+
+/* Motion sensitivity: no ambient movement, no hover-driven lifts. */
+@media (prefers-reduced-motion: reduce) {
+  :is(.spec-card, .spec-product, .ref-polaroid, .nav-reference-contact,
+    .hero-reference-button, .spec-add, .spec-loop-toggle, .gallery-pause,
+    .ref-menu-item-button, .ref-menu-filters button, .ref-menu-order-box button,
+    .closing-order-btn):is(:hover, :active) { transform: none; }
+  :is(.spec-card, .spec-product, .ref-polaroid, .ref-menu-panel)::before { transition: none; }
+}

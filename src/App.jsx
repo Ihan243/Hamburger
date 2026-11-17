@@ -2,6 +2,7 @@ import React from 'react';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import EditorialPointerGlow from './components/EditorialPointerGlow';
 import MarqueeBanner from './components/MarqueeBanner';
 import AboutSection from './components/AboutSection';
 import SpecialtiesSection from './components/SpecialtiesSection';
@@ -17,6 +18,7 @@ export default function App() {
   return (
     <CartProvider>
       <div className="min-h-screen bg-brand-purpleDeep text-brand-cream font-sans">
+        <EditorialPointerGlow />
         <Navbar />
         <main>
           <HeroSection />
