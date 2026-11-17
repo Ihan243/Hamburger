@@ -41,6 +41,23 @@ try {
   if (!state.rootSize || state.rootSize < 300) {
     throw new Error('React content did not render in the deployed browser');
   }
+  // Validate the reference menu and preserve its real shopping interactions.
+  await page.locator('#carta').scrollIntoViewIfNeeded();
+  const featuredCount = await page.locator('#carta .ref-menu-line').count();
+  if (featuredCount !== 7)
+    throw new Error('Expected 5 featured items plus 2 combo/drink items, got ' + featuredCount);
+  await page.screenshot({path: 'browser-smoke-menu-mobile.png', fullPage: false});
+  await page.locator('#carta .ref-menu-filters button').filter({hasText: 'Pollo Broaster'}).click();
+  if ((await page.locator('#carta .ref-menu-line').count()) < 2)
+    throw new Error('Broaster category was empty');
+  await page.locator('#carta input[type="search"]').fill('limonada');
+  if ((await page.locator('#carta .ref-menu-line').count()) < 1)
+    throw new Error('Live menu search did not find limonada');
+  await page.locator('#carta input[type="search"]').fill('producto-imposible-xyz');
+  if (!(await page.locator('#carta .ref-menu-empty').isVisible()))
+    throw new Error('Search missing-results state did not render');
+  await page.locator('#carta .ref-menu-filters button').filter({hasText:'Lo Más Pedido'}).click();
+  console.log('MENU TEST:', JSON.stringify({featuredCount, currency: await page.locator('#carta .ref-menu-price').first().innerText()}));
   // Exercise the assistant instead of checking compilation alone.
   await page.locator('.hercules-mascot-trigger').click();
   await page.waitForSelector('.hercules-dialog[role="dialog"]');
@@ -81,6 +98,10 @@ try {
   await page.waitForTimeout(500); // allow panel entrance to settle before screenshot
   await page.screenshot({path: 'browser-smoke-chat-desktop.png', fullPage:false});
   await page.keyboard.press('Escape');
+  await page.locator('#carta').scrollIntoViewIfNeeded();
+  await page.evaluate(() => document.querySelector('#carta').scrollIntoView({behavior:'instant',block:'start'}));
+  await page.waitForTimeout(850);
+  await page.screenshot({path: 'browser-smoke-menu-desktop.png', fullPage:false});
   await page.screenshot({path: 'browser-smoke-desktop.png', fullPage:false});
 } finally {
   await browser.close();
