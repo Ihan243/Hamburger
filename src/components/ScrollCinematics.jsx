@@ -75,7 +75,7 @@ export default function ScrollCinematics() {
       previousFrame = timestamp;
       // Framerate-independent interpolation: an inertial camera, not a
       // linear one-to-one CSS transition.
-      const alpha = 1 - Math.exp(-dt / 65);
+      const alpha = 1 - Math.exp(-dt / 40);
       let moving = false;
       for (const item of sections) {
         item.target = getTarget(item);
@@ -89,8 +89,8 @@ export default function ScrollCinematics() {
         apply(item, item.value);
       }
 
-      velocity += (velocityTarget - velocity) * (1 - Math.exp(-dt / 68));
-      velocityTarget *= Math.exp(-dt / 72);
+      velocity += (velocityTarget - velocity) * (1 - Math.exp(-dt / 45));
+      velocityTarget *= Math.exp(-dt / 48);
       if (Math.abs(velocity) > .1 || Math.abs(velocityTarget) > .1) moving = true;
       const drift = clamp(velocity * .34, -42, 42);
       document.documentElement.style.setProperty('--cinematic-scroll-drift', round(drift) + 'px');

@@ -70,8 +70,8 @@ export default function SmoothWheelScroll() {
       lastTime = timestamp;
       desired = limit(desired, 0, maxY());
       // Short trailing motion responds immediately without a floating/delayed feel.
-      // About 90ms response constant, frame-rate independent.
-      const ease = 1 - Math.exp(-dt / 90);
+      // About 38ms response constant, frame-rate independent.
+      const ease = 1 - Math.exp(-dt / 38);
       position += (desired - position) * ease;
 
       if (Math.abs(desired - position) < .45) position = desired;
