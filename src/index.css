@@ -406,3 +406,7 @@ html { scroll-padding-top: 76px; }
   .spec-products-track,.gallery-loop-track { width:max-content; }
   .spec-products-group:nth-child(2),.gallery-loop-group:nth-child(2) { display:none; }
 }
+
+/* Keep the closing image on the base-aware inline background (GitHub Pages). */
+.closing-section { background-size:cover; background-position:center; }
+.closing-section::before { background:none; }
