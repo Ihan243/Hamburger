@@ -1,3 +1,4 @@
+import { foodImage, foodImageSrcSet } from '../utils/imageAssets.js';
 import React from 'react';
 import { businessInfo } from '../data/businessInfo';
 import { useCart } from '../context/CartContext';

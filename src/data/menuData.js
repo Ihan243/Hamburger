@@ -1,4 +1,4 @@
-import { foodImage } from '../utils/imageAssets.js';
+import { foodImage, mascotImage } from '../utils/imageAssets.js';
 export const menuCategories = [
   { id: 'all', label: '★ Lo Más Pedido' },
   { id: 'salchipapas', label: 'Salchipapas & Bowls' },
