@@ -70,7 +70,7 @@ export default function ScrollCinematics() {
 
     const draw = timestamp => {
       frame = 0;
-      if (!alive) return;
+      if (!alive || motion.matches) return;
       const dt = previousFrame ? Math.min(50, timestamp - previousFrame) : 16;
       previousFrame = timestamp;
       // Framerate-independent interpolation: an inertial camera, not a
@@ -92,15 +92,15 @@ export default function ScrollCinematics() {
       velocity += (velocityTarget - velocity) * (1 - Math.exp(-dt / 95));
       velocityTarget *= Math.exp(-dt / 100);
       if (Math.abs(velocity) > .1 || Math.abs(velocityTarget) > .1) moving = true;
-      document.documentElement.style.setProperty(
-        '--cinematic-scroll-drift', round(clamp(velocity * .34, -42, 42)) + 'px'
-      );
+      const drift = clamp(velocity * .34, -42, 42);
+      document.documentElement.style.setProperty('--cinematic-scroll-drift', round(drift) + 'px');
+      document.documentElement.style.setProperty('--cinematic-scroll-drift-reverse', round(-drift) + 'px');
 
       if (moving) frame = window.requestAnimationFrame(draw);
     };
 
     const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(draw);
+      if (!motion.matches && !frame) frame = window.requestAnimationFrame(draw);
     };
     const onScroll = () => {
       const y = window.scrollY;
@@ -109,8 +109,7 @@ export default function ScrollCinematics() {
       schedule();
     };
     const onResize = () => schedule();
-    const onMotionChange = () => {
-      if (!motion.matches) return;
+    const resetMotion = () => {
       if (frame) window.cancelAnimationFrame(frame);
       frame = 0;
       for (const item of sections) {
@@ -121,6 +120,15 @@ export default function ScrollCinematics() {
         keys.forEach(key => item.element.style.removeProperty(key));
       }
       document.documentElement.style.removeProperty('--cinematic-scroll-drift');
+      document.documentElement.style.removeProperty('--cinematic-scroll-drift-reverse');
+    };
+    const onMotionChange = () => {
+      if (motion.matches) resetMotion();
+      else {
+        previousScroll = window.scrollY;
+        previousFrame = 0;
+        schedule();
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -133,7 +141,7 @@ export default function ScrollCinematics() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       motion.removeEventListener?.('change', onMotionChange);
-      onMotionChange();
+      resetMotion();
     };
   }, []);
   return null;

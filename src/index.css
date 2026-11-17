@@ -1878,7 +1878,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
     transform: translate3d(var(--cinematic-scroll-drift,0px),0,0);
   }
   .reference-giant-line-reverse .reference-giant-scrub {
-    transform: translate3d(calc(var(--cinematic-scroll-drift,0px) * -1),0,0);
+    transform: translate3d(var(--cinematic-scroll-drift-reverse,0px),0,0);
   }
 }
 @media (max-width:899px) {
