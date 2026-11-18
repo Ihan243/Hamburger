@@ -77,7 +77,8 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
             {!isDrink(product) &&
               <span className="dc-sheet-photo-note">Fotografía ilustrativa</span>}
           </div>
-          <div className="dc-sheet-product-desc">
+          <div className="dc-sheet-options">
+            <div className="dc-sheet-product-desc">
             <strong>{money(product.price)}</strong>
             <h2 id="dc-customize-title">{product.title}</h2>
             <p id="dc-customize-description">{product.desc}</p>
@@ -176,6 +177,7 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
             <textarea id="dc-product-notes" maxLength={250} rows={2}
               value={notes} onChange={event => setNotes(event.target.value)}
               placeholder="Ej.: bien crocantes, cremas aparte, sin queso..."/>
+          </div>
           </div>
         </div>
 
