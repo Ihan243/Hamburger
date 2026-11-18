@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import '../styles/digital-catalog.css';
 import {
   ArrowLeft, Check, ClipboardCopy, Minus, Plus, Search,
   ShoppingBag, Trash2, X
