@@ -90,17 +90,36 @@ try {
   await overlay.locator('.dc-category-strip button').filter({hasText:'Alitas y crunch'}).click();
   const wing = overlay.locator('.dc-product').filter({hasText:'Alitas Crocantes'}).first();
   await wing.locator('.dc-add-btn').click();
-  await page.waitForSelector('.dc-customize-dialog');
-  const mustChoose = await page.locator('.dc-customize-confirm').isDisabled();
-  if (!mustChoose) throw new Error('Required sauce was not validated');
-  await page.locator('.dc-customize-dialog select').first().selectOption({label:'BBQ'});
-  await page.locator('.dc-customize-dialog textarea').fill('Salsa aparte');
-  await page.locator('.dc-customize-confirm').click();
-  if (await page.locator('.dc-customize-dialog').count()) throw new Error('Customize dialog did not close');
-  await overlay.locator('.dc-cart-shortcut').click();
+  await page.waitForSelector('.dc-customize-sheet');
+  const requiredSauce = await page.locator('.dc-sheet-submit').isDisabled();
+  if (!requiredSauce) throw new Error('Required sauce was not validated');
+  await page.getByRole('radio',{name:'BBQ'}).check();
+  await page.getByRole('checkbox',{name:'Mayonesa'}).check();
+  await page.getByRole('checkbox',{name:'Porción de Queso'}).check();
+  await page.locator('#dc-product-notes').fill('Salsa aparte');
+  await page.locator('.dc-sheet-submit').click();
+  if (await page.locator('.dc-customize-sheet').count()) throw new Error('Product sheet did not close');
   await overlay.locator('.dc-summary.mobile-open').waitFor();
-  if (!(await overlay.locator('.dc-selected-lines li').count())) throw new Error('Added item missing in summary');
-  // Copy must carry selected sauce, notes and the estimated USD subtotal.
+  if ((await overlay.locator('.dc-cart-line').count()) !== 1)
+    throw new Error('New product was not shown in mobile cart');
+  const cartLine = overlay.locator('.dc-cart-line').first();
+  if (!(await cartLine.locator('.dc-cart-modify').isVisible()) ||
+      !(await cartLine.locator('.dc-cart-thumb').isVisible())) {
+    throw new Error('Custom cart item card is missing thumbnail or Modify button');
+  }
+  await cartLine.locator('.dc-cart-modify').click();
+  await page.waitForSelector('.dc-customize-sheet');
+  if (!(await page.getByRole('radio',{name:'BBQ'}).isChecked()) ||
+      !(await page.getByRole('checkbox',{name:'Mayonesa'}).isChecked()) ||
+      !(await page.getByRole('checkbox',{name:'Porción de Queso'}).isChecked()) ||
+      (await page.locator('#dc-product-notes').inputValue()) !== 'Salsa aparte') {
+    throw new Error('Modificar did not restore product customizations');
+  }
+  await page.getByRole('checkbox',{name:'Kétchup'}).check();
+  await page.locator('.dc-sheet-submit').click();
+  if ((await overlay.locator('.dc-cart-line').count()) !== 1)
+    throw new Error('Modifying an item duplicated the cart line');
+  // Validate copied order contains all selected options and real USD amounts.
   const copyButton = overlay.getByRole('button', { name: /Copiar resumen del pedido/ });
   if (await copyButton.count()) {
     await page.context().grantPermissions(['clipboard-read','clipboard-write'], {
@@ -109,18 +128,24 @@ try {
     await copyButton.click();
     const copiedOrder = await page.evaluate(() => navigator.clipboard.readText());
     if (!copiedOrder.includes('Salsa: BBQ') ||
+        !copiedOrder.includes('Mayonesa') ||
+        !copiedOrder.includes('Kétchup') ||
+        !copiedOrder.includes('Porción de Queso') ||
         !copiedOrder.includes('Salsa aparte') ||
         !copiedOrder.includes('US$') ||
-        !copiedOrder.includes('\n')) {
-      throw new Error('Copied order is missing customization, USD or line breaks');
+        !copiedOrder.includes('\\n')) {
+      throw new Error('Copied order omitted options, cream, extras, USD or line breaks');
     }
-    console.log('ORDER COPY TEST:', copiedOrder.slice(0, 130));
+    console.log('ORDER COPY TEST:', copiedOrder.slice(0, 190));
   }
+  console.log('CUSTOMIZATION TEST:', JSON.stringify({
+    requiredSauce, autoOpenedCart: true, editable: true, noDuplicates: true
+  }));
   await page.screenshot({path:'browser-smoke-catalog-cart-mobile.png',fullPage:false});
   await overlay.locator('.dc-summary-mobile-close').click();
   await page.keyboard.press('Escape');
   if (await page.locator('.dc-overlay').count()) throw new Error('Escape failed to dismiss catalog');
-  console.log('DIGITAL CATALOG:', JSON.stringify({products:count,requiredSauce:mustChoose,spa:page.url()===originalUrl}));
+  console.log('DIGITAL CATALOG:', JSON.stringify({products:count,requiredSauce,spa:page.url()===originalUrl}));
 
   // Exercise the assistant instead of checking compilation alone.
   await page.locator('.hercules-mascot-trigger').click();
@@ -136,15 +161,19 @@ try {
   await page.keyboard.press('Escape');
   if (await page.locator('.hercules-dialog').count()) throw new Error('Escape did not close assistant');
 
-  // User can add a product and dismiss the cart without getting trapped.
+  // The editorial featured menu must also lead through the same product sheet.
   await page.locator('#carta .ref-menu-item-button').first().click();
-  await page.waitForSelector('.cart-panel');
-  console.log('CART TEST:', JSON.stringify({
-    items: await page.locator('.cart-panel h5').count(),
-    focusInside: await page.evaluate(() => document.querySelector('.cart-panel')?.contains(document.activeElement))
-  }));
+  await page.waitForSelector('.dc-customize-sheet');
+  if ((await page.locator('.dc-overlay')).count() !== 1)
+    throw new Error('Adding from the featured menu did not open the integrated catalog');
   await page.keyboard.press('Escape');
-  if (await page.locator('.cart-panel').count()) throw new Error('Cart did not close with Escape');
+  if (await page.locator('.dc-customize-sheet').count())
+    throw new Error('Escape did not close customization sheet');
+  await page.keyboard.press('Escape');
+  if (await page.locator('.dc-overlay').count())
+    throw new Error('Escape did not close integrated catalog');
+  console.log('FEATURED MENU TEST:', 'opens product sheet without navigating');
+
   await page.setViewportSize({width: 320, height: 640});
   await page.waitForTimeout(300);
   const narrow = await page.evaluate(() => ({
