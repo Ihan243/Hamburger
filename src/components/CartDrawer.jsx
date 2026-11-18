@@ -130,6 +130,9 @@ export default function CartDrawer() {
                     <p className="text-[11px] text-brand-yellow font-bold">
                       US$ {item.price.toFixed(2)} c/u
                     </p>
+                    {Object.entries(item.customizations || {}).map(([name, value]) => (
+                      <p key={name} className="text-[10px] text-brand-graySub mt-0.5">{name}: {value}</p>
+                    ))}
                     {item.notes && (
                       <p className="text-[10px] text-brand-graySub italic mt-0.5">Nota: {item.notes}</p>
                     )}
