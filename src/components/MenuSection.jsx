@@ -55,7 +55,7 @@ function MenuColumn({ title, subtitle, items, onAdd }) {
 export default function MenuSection() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const { addToCart, openCatalog } = useCart();
+  const { requestCustomization, openCatalog } = useCart();
 
   const featured = activeCategory === 'all' && !searchQuery.trim();
 
@@ -125,7 +125,7 @@ export default function MenuSection() {
             <MenuColumn
               title={featured ? 'LOS FAVORITOS DEL PÚBLICO' : 'NUESTRA SELECCIÓN'}
               items={left}
-              onAdd={addToCart}
+              onAdd={requestCustomization}
             />
             <div className="ref-menu-col-right">
               {right.length > 0 && (
@@ -133,7 +133,7 @@ export default function MenuSection() {
                   title={featured ? 'COMBO ESTRELLA' : 'MÁS PARA DISFRUTAR'}
                   subtitle={featured ? 'PARA COMPARTIR' : undefined}
                   items={right}
-                  onAdd={addToCart}
+                  onAdd={requestCustomization}
                 />
               )}
               <aside className="ref-menu-order-box">

@@ -47,7 +47,7 @@ function ProductLoop({ onAdd, onOpenCatalog }) {
 }
 
 export default function SpecialtiesSection() {
-  const { addToCart, openCatalog } = useCart();
+  const { requestCustomization, openCatalog } = useCart();
   const [active, setActive] = useState(1);
   const [locked, setLocked] = useState(false);
   const activeRef = useRef(1);
@@ -240,7 +240,7 @@ export default function SpecialtiesSection() {
           <p>{dish.desc}</p>
           <div className="spec-card-bottom">
             <span>US$ {dish.price.toFixed(2)}</span>
-            <button type="button" className="spec-add" onClick={() => addToCart(dish)}>Agregar +</button>
+            <button type="button" className="spec-add" onClick={() => requestCustomization(dish)}>Agregar +</button>
           </div>
         </article>)}
       </div>
@@ -264,7 +264,7 @@ export default function SpecialtiesSection() {
     </div>
     <div className={'spec-loop-reveal' + (active === 2 ? ' spec-loop-visible' : '')}
       aria-hidden={active !== 2}>
-      {active === 2 && <ProductLoop onAdd={addToCart} onOpenCatalog={openCatalog}/>}
+      {active === 2 && <ProductLoop onAdd={requestCustomization} onOpenCatalog={openCatalog}/>}
     </div>
     <div className="spec-section-end">
       <span className="spec-kicker">TRES FAVORITOS. INFINITAS GANAS.</span>
