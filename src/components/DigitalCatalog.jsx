@@ -296,6 +296,10 @@ export default function DigitalCatalog() {
     setSelected(null);
   };
 
+  useEffect(() => {
+    setCopied(false);
+  }, [cart, mode, payment, table, orderNotes, customerName, deliveryAddress]);
+
   const copyOrder = async () => {
     setCopyError('');
     if (!cart.length) return;
@@ -388,7 +392,12 @@ export default function DigitalCatalog() {
           table={table} setTable={setTable} copyOrder={copyOrder}
           copied={copied} busy={false}
           generateWhatsAppCheckout={generateWhatsAppCheckout}/>
-        {copyError && <p className="dc-copy-error" role="alert">{copyError}</p>}
+        {copyError && <div className="dc-copy-fallback" role="alert">
+          <p>{copyError} Selecciona el texto y cópialo manualmente:</p>
+          <textarea readOnly aria-label="Resumen del pedido para copiar"
+            value={formatOrderMessage({ mode, payment, table })}
+            onFocus={event => event.target.select()} rows={6}/>
+        </div>}
       </aside>
 
       {selected && (

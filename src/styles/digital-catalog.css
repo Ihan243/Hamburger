@@ -297,3 +297,10 @@
   .dc-overlay * { scroll-behavior: auto !important; }
   .dc-product, .dc-product-visual img, .dc-category-strip button { transition: none !important; }
 }
+
+
+.dc-copy-fallback { padding: 8px 17px 16px; background: #fff9f4; }
+.dc-copy-fallback p { color: #9b4b2e; font: 700 11px/1.4 'DM Sans', sans-serif; margin: 0 0 7px; }
+.dc-copy-fallback textarea { display:block; width:100%; min-height: 112px; max-height: 180px;
+  border: 1px solid #d5bdb2; border-radius: 10px; resize: vertical; padding: 9px;
+  color:#322038; background:white; font: 500 11px/1.35 monospace; }
