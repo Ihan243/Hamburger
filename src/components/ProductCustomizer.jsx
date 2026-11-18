@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, Minus, Plus, X } from 'lucide-react';
-import { foodImage, foodImageSrcSet } from '../utils/imageAssets.js';
+const platterCutout = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
 import {
   creamOptions, extraOptions, sauces, isDrink,
   needsSauce, canChooseCreams, canChooseExtras, canChooseSauce
@@ -68,8 +68,8 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
             {isDrink(product) ? (
               <div className="dc-sheet-drink" aria-hidden="true">🥤</div>
             ) : (
-              <img src={foodImage} srcSet={foodImageSrcSet}
-                sizes="(max-width:600px) 95vw, 450px" width="480" height="315"
+              <img src={platterCutout}
+                width="480" height="315"
                 decoding="async" alt={'Imagen ilustrativa de comida callejera; no corresponde necesariamente a ' + product.title}/>
             )}
             <button type="button" className="dc-sheet-dismiss" ref={closeButton}

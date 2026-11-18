@@ -13,6 +13,7 @@ import ProductCustomizer from './ProductCustomizer.jsx';
 import { isDrink } from '../data/productOptions.js';
 
 const money = amount => 'US$ ' + Number(amount).toFixed(2);
+const platterCutout = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
 const categories = [
   { id: 'toda', label: 'Toda la carta' },
   { id: 'salchipapas', label: 'Salchipapas y bowls' },
@@ -106,7 +107,7 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
                       {menuItems.find(product => product.id === (item.productId || item.id))?.categories.includes('bebidas') ? (
                         <span role="img" aria-label="Bebida">🥤</span>
                       ) : (
-                        <img src={foodImage} srcSet={foodImageSrcSet} width="58" height="58"
+                        <img src={platterCutout} width="58" height="58"
                           loading="lazy" decoding="async" alt="Imagen ilustrativa de comida"/>
                       )}
                     </div>
