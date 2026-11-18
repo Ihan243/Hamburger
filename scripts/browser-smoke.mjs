@@ -127,13 +127,14 @@ try {
     });
     await copyButton.click();
     const copiedOrder = await page.evaluate(() => navigator.clipboard.readText());
+    console.log('ORDER COPY RAW:', JSON.stringify(copiedOrder.slice(0, 650)));
     if (!copiedOrder.includes('Salsa: BBQ') ||
         !copiedOrder.includes('Mayonesa') ||
         !copiedOrder.includes('Kétchup') ||
         !copiedOrder.includes('Porción de Queso') ||
         !copiedOrder.includes('Salsa aparte') ||
         !copiedOrder.includes('US$') ||
-        !copiedOrder.includes('\\n')) {
+        !copiedOrder.includes(String.fromCharCode(10))) {
       throw new Error('Copied order omitted options, cream, extras, USD or line breaks');
     }
     console.log('ORDER COPY TEST:', copiedOrder.slice(0, 190));
