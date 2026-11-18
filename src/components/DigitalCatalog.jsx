@@ -78,6 +78,7 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
   clearCart, customerName, setCustomerName, deliveryAddress, setDeliveryAddress,
   orderNotes, setOrderNotes, mode, setMode, payment, setPayment, table, setTable,
   copyOrder, generateWhatsAppCheckout, copied, busy, onEdit }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
   return (
     <>
       <div className="dc-summary-head">
@@ -147,7 +148,14 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
                 </li>
               ))}
             </ul>
-            <fieldset className="dc-form-options">
+            <button type="button" className="dc-details-toggle"
+              aria-expanded={detailsOpen}
+              aria-controls="dc-order-details"
+              onClick={() => setDetailsOpen(open => !open)}>
+              <span>Datos de entrega y pago</span>
+              <span aria-hidden="true">{detailsOpen ? '−' : '+'}</span>
+            </button>
+            {detailsOpen && <fieldset className="dc-form-options" id="dc-order-details">
               <legend>Datos del pedido</legend>
               <label>Modalidad
                 <select value={mode} onChange={event => setMode(event.target.value)}>
@@ -184,7 +192,7 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
                   onChange={e => setOrderNotes(e.target.value)} maxLength={500}
                   placeholder="Ej. sin mayonesa, indicaciones para cocina"/>
               </label>
-            </fieldset>
+            </fieldset>}
           </>
         )}
       </div>
