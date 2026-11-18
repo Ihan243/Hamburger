@@ -15,6 +15,8 @@ export function CartProvider({ children }) {
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const [catalogCartRequested, setCatalogCartRequested] = useState(false);
+  const [pendingCustomization, setPendingCustomization] = useState(null);
   const [orderNotes, setOrderNotes] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
@@ -27,37 +29,74 @@ export function CartProvider({ children }) {
     }
   }, [cart]);
 
-  const openCart = () => { setIsCatalogOpen(false); setIsCartOpen(true); };
-  const closeCart = () => setIsCartOpen(false);
-  const toggleCart = () => { setIsCatalogOpen(false); setIsCartOpen(prev => !prev); };
-  const openCatalog = () => { setIsCartOpen(false); setIsCatalogOpen(true); };
-  const closeCatalog = () => setIsCatalogOpen(false);
+  // The original header cart now opens the same integrated digital catalog.
+  const openCart = () => { setIsCartOpen(false); setCatalogCartRequested(true); setIsCatalogOpen(true); };
+  const closeCart = () => { setIsCartOpen(false); setCatalogCartRequested(false); };
+  const toggleCart = openCart;
+  const openCatalog = () => {
+    setIsCartOpen(false); setPendingCustomization(null);
+    setCatalogCartRequested(false); setIsCatalogOpen(true);
+  };
+  const closeCatalog = () => {
+    setIsCatalogOpen(false); setPendingCustomization(null);
+    setCatalogCartRequested(false);
+  };
+  const requestCustomization = (product, quantity = 1) => {
+    setIsCartOpen(false);
+    setCatalogCartRequested(false);
+    setPendingCustomization({ product, quantity });
+    setIsCatalogOpen(true);
+  };
+  const clearPendingCustomization = () => setPendingCustomization(null);
+  const clearCatalogCartRequest = () => setCatalogCartRequested(false);
+
+  // Line keys include all selected options, so two different customizations
+  // remain distinct while identical ones merge into a single cart line.
+  const buildCartLine = (product, quantity, note, custom) => {
+    const cleanNotes = String(note || '').trim();
+    const cleaned = Object.fromEntries(
+      Object.entries(custom || {})
+        .filter(([, value]) => value != null && String(value).trim())
+        .sort(([a], [b]) => a.localeCompare(b))
+    );
+    const variant = cleanNotes || Object.keys(cleaned).length
+      ? '::' + JSON.stringify({ notes: cleanNotes, custom: cleaned })
+      : '';
+    return {
+      id: String(product.id || product.productId || product.title) + variant,
+      productId: product.id || product.productId,
+      title: product.title,
+      desc: product.desc,
+      price: Number(product.price) || 0,
+      quantity: Math.max(1, Math.min(50, quantity)),
+      notes: cleanNotes,
+      customizations: cleaned
+    };
+  };
 
   const addToCart = (product, quantity = 1, note = '', custom = {}) => {
-    const details = Object.entries(custom).filter(([, value]) => Boolean(value));
-    const variant = note.trim() || details.length
-      ? '::' + JSON.stringify({ note: note.trim(), details })
-      : '';
-    const lineId = String(product.id || product.title) + variant;
+    const entry = buildCartLine(product, quantity, note, custom);
     setCart(prev => {
-      const index = prev.findIndex(item => item.id === lineId);
-      if (index !== -1) {
-        return prev.map((item, i) => i === index
-          ? { ...item, quantity: item.quantity + quantity } : item);
-      }
-      return [...prev, {
-        id: lineId,
-        productId: product.id,
-        title: product.title,
-        price: product.price,
-        desc: product.desc,
-        quantity,
-        notes: note.trim(),
-        customizations: Object.fromEntries(details)
-      }];
+      const duplicate = prev.find(line => line.id === entry.id);
+      return duplicate
+        ? prev.map(line => line.id === entry.id
+            ? { ...line, quantity: Math.min(50, line.quantity + entry.quantity) }
+            : line)
+        : [...prev, entry];
     });
-    // Ordering inside the full catalog must not open a second cart modal.
-    if (!isCatalogOpen) openCart();
+  };
+
+  const replaceCartLine = (previousId, product, quantity = 1, note = '', custom = {}) => {
+    const entry = buildCartLine(product, quantity, note, custom);
+    setCart(prev => {
+      const withoutOld = prev.filter(line => line.id !== previousId);
+      const duplicate = withoutOld.find(line => line.id === entry.id);
+      return duplicate
+        ? withoutOld.map(line => line.id === entry.id
+            ? { ...line, quantity: Math.min(50, line.quantity + entry.quantity) }
+            : line)
+        : [...withoutOld, entry];
+    });
   };
 
   const updateQuantity = (id, delta) => {
@@ -99,6 +138,9 @@ export function CartProvider({ children }) {
         .map(([key, value]) => `${key}: ${value}`).join(', ');
       if (details) message += `  Opciones: ${details}\n`;
       if (item.notes) message += `  Nota: ${item.notes}\n`;
+      if (item.customizations?.Extras) {
+        message += '  Aviso: los recargos de extras no están incluidos y deben confirmarse.\n';
+      }
     }
     message += `\nTotal estimado: US$ ${totalPrice.toFixed(2)} (USD)`;
     message += `\nModalidad: ${mode}`;
@@ -107,7 +149,7 @@ export function CartProvider({ children }) {
     if (address && mode === 'Entrega a domicilio') message += `\nDirección: ${address}`;
     if (table && mode === 'En mesa') message += `\nMesa: ${table}`;
     if (notes) message += `\nObservaciones: ${notes}`;
-    message += '\n\nPrecios de referencia. Disponibilidad y total por confirmar con el restaurante.';
+    message += '\n\nPrecios de referencia en USD, sin recargos de extras no confirmados. Disponibilidad y total final por confirmar con el restaurante.';
     return message;
   };
 
@@ -126,6 +168,12 @@ export function CartProvider({ children }) {
       cart,
       isCartOpen,
       isCatalogOpen,
+      catalogCartRequested,
+      pendingCustomization,
+      clearPendingCustomization,
+      clearCatalogCartRequest,
+      requestCustomization,
+      replaceCartLine,
       openCatalog,
       closeCatalog,
       openCart,
