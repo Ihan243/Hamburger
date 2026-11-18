@@ -14,6 +14,7 @@ export function CartProvider({ children }) {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [orderNotes, setOrderNotes] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
@@ -26,32 +27,37 @@ export function CartProvider({ children }) {
     }
   }, [cart]);
 
-  const openCart = () => setIsCartOpen(true);
+  const openCart = () => { setIsCatalogOpen(false); setIsCartOpen(true); };
   const closeCart = () => setIsCartOpen(false);
-  const toggleCart = () => setIsCartOpen(prev => !prev);
+  const toggleCart = () => { setIsCatalogOpen(false); setIsCartOpen(prev => !prev); };
+  const openCatalog = () => { setIsCartOpen(false); setIsCatalogOpen(true); };
+  const closeCatalog = () => setIsCatalogOpen(false);
 
-  const addToCart = (product, quantity = 1, note = '') => {
+  const addToCart = (product, quantity = 1, note = '', custom = {}) => {
+    const details = Object.entries(custom).filter(([, value]) => Boolean(value));
+    const variant = note.trim() || details.length
+      ? '::' + JSON.stringify({ note: note.trim(), details })
+      : '';
+    const lineId = String(product.id || product.title) + variant;
     setCart(prev => {
-      const existingIndex = prev.findIndex(item => item.id === product.id);
-      if (existingIndex > -1) {
-        const next = [...prev];
-        next[existingIndex] = {
-          ...next[existingIndex],
-          quantity: next[existingIndex].quantity + quantity,
-          notes: note || next[existingIndex].notes
-        };
-        return next;
+      const index = prev.findIndex(item => item.id === lineId);
+      if (index !== -1) {
+        return prev.map((item, i) => i === index
+          ? { ...item, quantity: item.quantity + quantity } : item);
       }
       return [...prev, {
-        id: product.id || product.title,
+        id: lineId,
+        productId: product.id,
         title: product.title,
         price: product.price,
         desc: product.desc,
         quantity,
-        notes: note
+        notes: note.trim(),
+        customizations: Object.fromEntries(details)
       }];
     });
-    openCart();
+    // Ordering inside the full catalog must not open a second cart modal.
+    if (!isCatalogOpen) openCart();
   };
 
   const updateQuantity = (id, delta) => {
@@ -77,39 +83,51 @@ export function CartProvider({ children }) {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  const generateWhatsAppCheckout = (customInfo = {}) => {
-    if (cart.length === 0 || !businessInfo.whatsappNumber) return;
-
+  const formatOrderMessage = (customInfo = {}) => {
     const name = customInfo.name || customerName;
     const address = customInfo.address || deliveryAddress;
     const notes = customInfo.notes || orderNotes;
+    const mode = customInfo.mode || 'Por confirmar';
+    const payment = customInfo.payment || 'A confirmar con el local';
+    const table = customInfo.table || '';
 
-    let message = `¡Hola La Patata! 🍟 Quiero hacer el siguiente pedido:\n\n`;
+    let message = '¡Hola La Patata! 🍟 Quisiera consultar por este pedido:\\n\\n';
+    for (const item of cart) {
+      const subtotal = item.price * item.quantity;
+      message += `• ${item.quantity}x ${item.title} — US$ ${subtotal.toFixed(2)}\\n`;
+      const details = Object.entries(item.customizations || {})
+        .map(([key, value]) => `${key}: ${value}`).join(', ');
+      if (details) message += `  Opciones: ${details}\\n`;
+      if (item.notes) message += `  Nota: ${item.notes}\\n`;
+    }
+    message += `\\nTotal estimado: US$ ${totalPrice.toFixed(2)} (USD)`;
+    message += `\\nModalidad: ${mode}`;
+    message += `\\nPreferencia de pago: ${payment} (sujeta a confirmación)`;
+    if (name) message += `\\nCliente: ${name}`;
+    if (address && mode === 'Entrega a domicilio') message += `\\nDirección: ${address}`;
+    if (table && mode === 'En mesa') message += `\\nMesa: ${table}`;
+    if (notes) message += `\\nObservaciones: ${notes}`;
+    message += '\\n\\nPrecios de referencia. Disponibilidad y total por confirmar con el restaurante.';
+    return message;
+  };
 
-    cart.forEach(item => {
-      const itemSub = item.price * item.quantity;
-      message += `• ${item.quantity}x ${item.title} — US$ ${itemSub.toFixed(2)}`;
-      if (item.notes) {
-        message += ` (Nota: ${item.notes})`;
-      }
-      message += `\n`;
-    });
-
-    message += `\n💰 *Total estimado: US$ ${totalPrice.toFixed(2)} (USD)*`;
-    if (name) message += `\n👤 *Cliente:* ${name}`;
-    if (address) message += `\n📍 *Dirección de entrega:* ${address}`;
-    if (notes) message += `\n📝 *Observaciones:* ${notes}`;
-    message += `\n\n🛵 _Pedido enviado desde la web oficial de La Patata Street Food_`;
-
-    const encoded = encodeURIComponent(message);
-    const url = `https://wa.me/${businessInfo.whatsappNumber}?text=${encoded}`;
-    window.open(url, '_blank');
+  const generateWhatsAppCheckout = (customInfo = {}) => {
+    if (!cart.length || !businessInfo.whatsappNumber) return false;
+    const phone = businessInfo.whatsappNumber.replace(/\\D/g, '');
+    if (!phone) return false;
+    const message = formatOrderMessage(customInfo);
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    return true;
   };
 
   return (
     <CartContext.Provider value={{
       cart,
       isCartOpen,
+      isCatalogOpen,
+      openCatalog,
+      closeCatalog,
       openCart,
       closeCart,
       toggleCart,
@@ -125,7 +143,8 @@ export function CartProvider({ children }) {
       setCustomerName,
       deliveryAddress,
       setDeliveryAddress,
-      generateWhatsAppCheckout
+      generateWhatsAppCheckout,
+      formatOrderMessage
     }}>
       {children}
     </CartContext.Provider>
