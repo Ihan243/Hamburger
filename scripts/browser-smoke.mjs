@@ -75,6 +75,37 @@ try {
     throw new Error('Search missing-results state did not render');
   await page.locator('#carta .ref-menu-filters button').filter({hasText:'Lo Más Pedido'}).click();
   console.log('MENU TEST:', JSON.stringify({featuredCount, currency: await page.locator('#carta .ref-menu-price').first().innerText()}));
+  // The in-app catalog must open without route changes and expose all products.
+  const originalUrl = page.url();
+  await page.locator('#carta .ref-menu-order-box button').click();
+  await page.waitForSelector('.dc-overlay[role="dialog"]');
+  if (page.url() !== originalUrl) throw new Error('Catalog navigated to another URL');
+  const count = await page.locator('.dc-product').count();
+  if (count < 18) throw new Error('Expected the complete menu, got ' + count);
+  const overlay = page.locator('.dc-overlay');
+  await page.screenshot({path:'browser-smoke-catalog-mobile.png',fullPage:false});
+  await overlay.locator('.dc-search input').fill('limonada');
+  if (await overlay.locator('.dc-product').count() < 1) throw new Error('Digital catalog search failed');
+  await overlay.locator('.dc-search input').fill('');
+  await overlay.locator('.dc-category-strip button').filter({hasText:'Alitas y crunch'}).click();
+  const wing = overlay.locator('.dc-product').filter({hasText:'Alitas Crocantes'}).first();
+  await wing.locator('.dc-add-btn').click();
+  await page.waitForSelector('.dc-customize-dialog');
+  const mustChoose = await page.locator('.dc-customize-confirm').isDisabled();
+  if (!mustChoose) throw new Error('Required sauce was not validated');
+  await page.locator('.dc-customize-dialog select').first().selectOption({label:'BBQ'});
+  await page.locator('.dc-customize-dialog textarea').fill('Salsa aparte');
+  await page.locator('.dc-customize-confirm').click();
+  if (await page.locator('.dc-customize-dialog').count()) throw new Error('Customize dialog did not close');
+  await overlay.locator('.dc-cart-shortcut').click();
+  await overlay.locator('.dc-summary.mobile-open').waitFor();
+  if (!(await overlay.locator('.dc-selected-lines li').count())) throw new Error('Added item missing in summary');
+  await page.screenshot({path:'browser-smoke-catalog-cart-mobile.png',fullPage:false});
+  await overlay.locator('.dc-summary-mobile-close').click();
+  await page.keyboard.press('Escape');
+  if (await page.locator('.dc-overlay').count()) throw new Error('Escape failed to dismiss catalog');
+  console.log('DIGITAL CATALOG:', JSON.stringify({products:count,requiredSauce:mustChoose,spa:page.url()===originalUrl}));
+
   // Exercise the assistant instead of checking compilation alone.
   await page.locator('.hercules-mascot-trigger').click();
   await page.waitForSelector('.hercules-dialog[role="dialog"]');
@@ -114,6 +145,12 @@ try {
   await page.waitForSelector('.hercules-dialog');
   await page.waitForTimeout(500); // allow panel entrance to settle before screenshot
   await page.screenshot({path: 'browser-smoke-chat-desktop.png', fullPage:false});
+  await page.keyboard.press('Escape');
+  // Desktop screenshot of full integrated catalog and persistent order panel.
+  await page.locator('#carta .ref-menu-order-box button').click();
+  await page.waitForSelector('.dc-overlay');
+  await page.waitForTimeout(400);
+  await page.screenshot({path:'browser-smoke-catalog-desktop.png',fullPage:false});
   await page.keyboard.press('Escape');
   await page.locator('#carta').scrollIntoViewIfNeeded();
   await page.evaluate(() => document.querySelector('#carta').scrollIntoView({behavior:'instant',block:'start'}));
