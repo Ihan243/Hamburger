@@ -5,6 +5,7 @@ import './index.css';
 import './styles/experience.css';
 import './styles/hercules.css';
 import './styles/menu-reference.css';
+import './styles/digital-catalog.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
