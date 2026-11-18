@@ -100,79 +100,21 @@ try {
   await overlay.locator('.dc-cart-shortcut').click();
   await overlay.locator('.dc-summary.mobile-open').waitFor();
   if (!(await overlay.locator('.dc-selected-lines li').count())) throw new Error('Added item missing in summary');
-  // A copied estimate must include product personalization and correct USD totals.
+  // Copy must carry selected sauce, notes and the estimated USD subtotal.
   const copyButton = overlay.getByRole('button', { name: /Copiar resumen del pedido/ });
   if (await copyButton.count()) {
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write'], {
+    await page.context().grantPermissions(['clipboard-read','clipboard-write'], {
       origin: new URL(page.url()).origin
     });
     await copyButton.click();
-    await page.waitForTimeout(150);
     const copiedOrder = await page.evaluate(() => navigator.clipboard.readText());
-    if (!copiedOrder.includes('Salsa: BBQ') || !copiedOrder.includes('Salsa aparte') ||
-        !copiedOrder.includes('US
-  await page.keyboard.press('Escape');
-  if (await page.locator('.dc-overlay').count()) throw new Error('Escape failed to dismiss catalog');
-  console.log('DIGITAL CATALOG:', JSON.stringify({products:count,requiredSauce:mustChoose,spa:page.url()===originalUrl}));
-
-  // Exercise the assistant instead of checking compilation alone.
-  await page.locator('.hercules-mascot-trigger').click();
-  await page.waitForSelector('.hercules-dialog[role="dialog"]');
-  await page.locator('.hercules-question').first().click();
-  await page.waitForSelector('.hercules-bot-message');
-  console.log('CHAT TEST:', JSON.stringify({
-    questions: await page.locator('.hercules-question').count(),
-    answers: await page.locator('.hercules-bot-message').count(),
-    text: (await page.locator('.hercules-bot-message').last().innerText()).slice(0,110)
-  }));
-  await page.screenshot({path: 'browser-smoke-chat-mobile.png', fullPage: false});
-  await page.keyboard.press('Escape');
-  if (await page.locator('.hercules-dialog').count()) throw new Error('Escape did not close assistant');
-
-  // User can add a product and dismiss the cart without getting trapped.
-  await page.locator('#carta .ref-menu-item-button').first().click();
-  await page.waitForSelector('.cart-panel');
-  console.log('CART TEST:', JSON.stringify({
-    items: await page.locator('.cart-panel h5').count(),
-    focusInside: await page.evaluate(() => document.querySelector('.cart-panel')?.contains(document.activeElement))
-  }));
-  await page.keyboard.press('Escape');
-  if (await page.locator('.cart-panel').count()) throw new Error('Cart did not close with Escape');
-  await page.setViewportSize({width: 320, height: 640});
-  await page.waitForTimeout(300);
-  const narrow = await page.evaluate(() => ({
-    viewport: window.innerWidth,
-    document: document.documentElement.scrollWidth
-  }));
-  console.log('NARROW PHONE:', JSON.stringify(narrow));
-  if (narrow.document > narrow.viewport + 1)
-    throw new Error('Horizontal overflow detected at 320px');
-  await page.screenshot({path: 'browser-smoke-narrow.png', fullPage: false});
-
-  await page.setViewportSize({width: 1440, height: 900});
-  await page.locator('.hercules-mascot-trigger').click();
-  await page.waitForSelector('.hercules-dialog');
-  await page.waitForTimeout(500); // allow panel entrance to settle before screenshot
-  await page.screenshot({path: 'browser-smoke-chat-desktop.png', fullPage:false});
-  await page.keyboard.press('Escape');
-  // Desktop screenshot of full integrated catalog and persistent order panel.
-  await page.locator('#carta .ref-menu-order-box button').click();
-  await page.waitForSelector('.dc-overlay');
-  await page.waitForTimeout(400);
-  await page.screenshot({path:'browser-smoke-catalog-desktop.png',fullPage:false});
-  await page.keyboard.press('Escape');
-  await page.locator('#carta').scrollIntoViewIfNeeded();
-  await page.evaluate(() => document.querySelector('#carta').scrollIntoView({behavior:'instant',block:'start'}));
-  await page.waitForTimeout(850);
-  await page.screenshot({path: 'browser-smoke-menu-desktop.png', fullPage:false});
-  await page.screenshot({path: 'browser-smoke-desktop.png', fullPage:false});
-} finally {
-  await browser.close();
-}
-) || !copiedOrder.includes('\n')) {
-      throw new Error('Copied order omitted notes, salsa, currency or line breaks');
+    if (!copiedOrder.includes('Salsa: BBQ') ||
+        !copiedOrder.includes('Salsa aparte') ||
+        !copiedOrder.includes('US$') ||
+        !copiedOrder.includes('\n')) {
+      throw new Error('Copied order is missing customization, USD or line breaks');
     }
-    console.log('ORDER COPY TEST:', copiedOrder.slice(0,140));
+    console.log('ORDER COPY TEST:', copiedOrder.slice(0, 130));
   }
   await page.screenshot({path:'browser-smoke-catalog-cart-mobile.png',fullPage:false});
   await overlay.locator('.dc-summary-mobile-close').click();
