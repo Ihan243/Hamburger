@@ -187,6 +187,39 @@ try {
   await page.waitForSelector('.dc-overlay');
   await page.waitForTimeout(400);
   await page.screenshot({path:'browser-smoke-catalog-desktop.png',fullPage:false});
+  const desktopPhoto = page.locator('.dc-product .dc-product-visual').first();
+  await desktopPhoto.click();
+  await page.waitForSelector('.dc-customize-sheet');
+  const desktopLayout = await page.evaluate(() => {
+    const modal = document.querySelector('.dc-customize-sheet').getBoundingClientRect();
+    const photo = document.querySelector('.dc-customize-sheet .dc-sheet-hero').getBoundingClientRect();
+    const options = document.querySelector('.dc-customize-sheet .dc-sheet-options').getBoundingClientRect();
+    const cta = document.querySelector('.dc-customize-sheet .dc-sheet-submit').getBoundingClientRect();
+    return {
+      modalWidth: Math.round(modal.width),
+      photoLeft: Math.round(photo.left),
+      photoRight: Math.round(photo.right),
+      optionsLeft: Math.round(options.left),
+      optionsWidth: Math.round(options.width),
+      ctaVisible: cta.top >= 0 && cta.bottom <= innerHeight,
+      photoAndOptionsSideBySide: photo.right <= options.left + 5
+    };
+  });
+  console.log('DESKTOP CUSTOMIZER:', JSON.stringify(desktopLayout));
+  if (!desktopLayout.photoAndOptionsSideBySide ||
+      !desktopLayout.ctaVisible || desktopLayout.modalWidth < 720) {
+    throw new Error('Desktop product sheet is not the expected two-column visible layout');
+  }
+  await page.screenshot({path:'browser-smoke-product-sheet-desktop.png',fullPage:false});
+  await page.locator('.dc-sheet-submit').click();
+  await page.waitForSelector('.dc-summary .dc-cart-line');
+  if (!(await page.locator('.dc-summary .dc-cart-modify').first().isVisible()))
+    throw new Error('Desktop cart does not show editable item');
+  await page.screenshot({path:'browser-smoke-catalog-cart-desktop.png',fullPage:false});
+  await page.locator('.dc-summary .dc-cart-modify').first().click();
+  await page.waitForSelector('.dc-customize-sheet');
+  await page.screenshot({path:'browser-smoke-modify-desktop.png',fullPage:false});
+  await page.keyboard.press('Escape');
   await page.keyboard.press('Escape');
   await page.locator('#carta').scrollIntoViewIfNeeded();
   await page.evaluate(() => document.querySelector('#carta').scrollIntoView({behavior:'instant',block:'start'}));
@@ -209,6 +242,39 @@ try {
   console.log('FEATURED MENU TEST:', 'opens integrated product sheet');
   await featuredPage.screenshot({path:'browser-smoke-featured-sheet-mobile.png',fullPage:false});
   await featuredPage.close();
+
+  // Check the user's Vercel hostname separately from GitHub Pages.
+  // A stale/nonlinked Vercel deployment should be reported, not mistaken for
+  // a responsive CSS problem in the current repository.
+  const vercelPage = await browser.newPage({
+    viewport: {width:1440,height:900},
+    reducedMotion:'reduce'
+  });
+  try {
+    const vercelResponse = await vercelPage.goto('https://lapatarata.vercel.app/', {
+      waitUntil:'domcontentloaded',timeout:25000
+    });
+    await vercelPage.locator('#carta .ref-menu-order-box button').waitFor({timeout:12000});
+    await vercelPage.locator('#carta .ref-menu-order-box button').click();
+    await vercelPage.waitForSelector('.dc-overlay',{timeout:12000});
+    await vercelPage.locator('.dc-product .dc-product-visual').first().click();
+    await vercelPage.waitForSelector('.dc-customize-sheet',{timeout:12000});
+    const vercelLayout = await vercelPage.evaluate(() => {
+      const photo = document.querySelector('.dc-sheet-hero').getBoundingClientRect();
+      const options = document.querySelector('.dc-sheet-options')?.getBoundingClientRect();
+      return {split: !!options && photo.right <= options.left+5,
+        modalWidth:Math.round(document.querySelector('.dc-customize-sheet').getBoundingClientRect().width)};
+    });
+    console.log('VERCEL DESKTOP:', JSON.stringify({
+      status:vercelResponse?.status(), ...vercelLayout
+    }));
+    await vercelPage.screenshot({path:'browser-smoke-vercel-desktop.png',fullPage:false});
+  } catch (err) {
+    console.log('VERCEL DESKTOP CHECK INCOMPLETE:', String(err.message).slice(0,260));
+    await vercelPage.screenshot({path:'browser-smoke-vercel-check.png',fullPage:false}).catch(() => {});
+  } finally {
+    await vercelPage.close();
+  }
 } finally {
   await browser.close();
 }
