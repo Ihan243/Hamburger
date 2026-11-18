@@ -10,7 +10,7 @@ const products = menuItems.filter(item =>
   item.categories.some(cat => ['broaster', 'crunch', 'boxes'].includes(cat))
 ).slice(0, 8);
 
-function ProductLoop({ onAdd }) {
+function ProductLoop({ onAdd, onOpenCatalog }) {
   const slider = useDraggableMarquee(43);
   return <div className="spec-products-enter">
     <div className="spec-products-heading">
@@ -42,12 +42,12 @@ function ProductLoop({ onAdd }) {
       </div>
     </div>
     <div className="spec-products-end"><span>HECHO AL MOMENTO · CON ACTITUD</span>
-      <a href="#carta">VER LA CARTA COMPLETA ↗</a></div>
+      <a href="#carta" onClick={event => { event.preventDefault(); onOpenCatalog(); }}>VER LA CARTA COMPLETA ↗</a></div>
   </div>;
 }
 
 export default function SpecialtiesSection() {
-  const { addToCart } = useCart();
+  const { addToCart, openCatalog } = useCart();
   const [active, setActive] = useState(1);
   const [locked, setLocked] = useState(false);
   const activeRef = useRef(1);
@@ -264,7 +264,7 @@ export default function SpecialtiesSection() {
     </div>
     <div className={'spec-loop-reveal' + (active === 2 ? ' spec-loop-visible' : '')}
       aria-hidden={active !== 2}>
-      {active === 2 && <ProductLoop onAdd={addToCart}/>}
+      {active === 2 && <ProductLoop onAdd={addToCart} onOpenCatalog={openCatalog}/>}
     </div>
     <div className="spec-section-end">
       <span className="spec-kicker">TRES FAVORITOS. INFINITAS GANAS.</span>

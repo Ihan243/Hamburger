@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 const heroSlides = [
   { first: 'ENVUELTO', second: 'EN SABOR' },
@@ -8,6 +9,7 @@ const heroSlides = [
 
 export default function HeroSection() {
   const [slide, setSlide] = useState(0);
+  const { openCatalog } = useCart();
   const changeSlide = direction =>
     setSlide(current => (current + direction + heroSlides.length) % heroSlides.length);
   const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
@@ -48,9 +50,9 @@ export default function HeroSection() {
         <div className="hero-reference-bottom">
           <p>Convertimos las papas en las <strong>verdaderas protagonistas.</strong></p>
           <div className="hero-reference-actions">
-            <a href="#carta" className="hero-reference-button hero-reference-button-light" title="Abrir carta digital">
+            <button type="button" onClick={openCatalog} className="hero-reference-button hero-reference-button-light" title="Abrir carta digital">
               Ver Menú
-            </a>
+            </button>
             <a href="#contacto" className="hero-reference-button hero-reference-button-outline">
               Ubícanos
             </a>

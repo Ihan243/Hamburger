@@ -91,29 +91,29 @@ export function CartProvider({ children }) {
     const payment = customInfo.payment || 'A confirmar con el local';
     const table = customInfo.table || '';
 
-    let message = '¡Hola La Patata! 🍟 Quisiera consultar por este pedido:\\n\\n';
+    let message = '¡Hola La Patata! 🍟 Quisiera consultar por este pedido:\n\n';
     for (const item of cart) {
       const subtotal = item.price * item.quantity;
-      message += `• ${item.quantity}x ${item.title} — US$ ${subtotal.toFixed(2)}\\n`;
+      message += `• ${item.quantity}x ${item.title} — US$ ${subtotal.toFixed(2)}\n`;
       const details = Object.entries(item.customizations || {})
         .map(([key, value]) => `${key}: ${value}`).join(', ');
-      if (details) message += `  Opciones: ${details}\\n`;
-      if (item.notes) message += `  Nota: ${item.notes}\\n`;
+      if (details) message += `  Opciones: ${details}\n`;
+      if (item.notes) message += `  Nota: ${item.notes}\n`;
     }
-    message += `\\nTotal estimado: US$ ${totalPrice.toFixed(2)} (USD)`;
-    message += `\\nModalidad: ${mode}`;
-    message += `\\nPreferencia de pago: ${payment} (sujeta a confirmación)`;
-    if (name) message += `\\nCliente: ${name}`;
-    if (address && mode === 'Entrega a domicilio') message += `\\nDirección: ${address}`;
-    if (table && mode === 'En mesa') message += `\\nMesa: ${table}`;
-    if (notes) message += `\\nObservaciones: ${notes}`;
-    message += '\\n\\nPrecios de referencia. Disponibilidad y total por confirmar con el restaurante.';
+    message += `\nTotal estimado: US$ ${totalPrice.toFixed(2)} (USD)`;
+    message += `\nModalidad: ${mode}`;
+    message += `\nPreferencia de pago: ${payment} (sujeta a confirmación)`;
+    if (name) message += `\nCliente: ${name}`;
+    if (address && mode === 'Entrega a domicilio') message += `\nDirección: ${address}`;
+    if (table && mode === 'En mesa') message += `\nMesa: ${table}`;
+    if (notes) message += `\nObservaciones: ${notes}`;
+    message += '\n\nPrecios de referencia. Disponibilidad y total por confirmar con el restaurante.';
     return message;
   };
 
   const generateWhatsAppCheckout = (customInfo = {}) => {
     if (!cart.length || !businessInfo.whatsappNumber) return false;
-    const phone = businessInfo.whatsappNumber.replace(/\\D/g, '');
+    const phone = businessInfo.whatsappNumber.replace(/\D/g, '');
     if (!phone) return false;
     const message = formatOrderMessage(customInfo);
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;

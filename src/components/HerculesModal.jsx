@@ -21,7 +21,7 @@ const quickAction = id => {
 };
 
 export default function HerculesModal() {
-  const { openCart, totalItems } = useCart();
+  const { openCart, openCatalog, totalItems } = useCart();
   const [isOpen, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
   const [activePromo, setActivePromo] = useState(promos[0]);
@@ -101,6 +101,7 @@ export default function HerculesModal() {
   const leaveFor = action => {
     setOpen(false);
     if (action === 'cart') openCart();
+    if (action === 'catalog') openCatalog();
   };
 
   return (
@@ -176,7 +177,11 @@ export default function HerculesModal() {
                       <div className="hercules-bot-message">
                         <span className="hercules-bot-name">🐶 Hércules</span>
                         <p>{faq.answer}</p>
-                        <a href={quickAction(faq.id).href} onClick={() => leaveFor()}>
+                        <a href={quickAction(faq.id).href} onClick={event => {
+                          if (quickAction(faq.id).href === '#carta') {
+                            event.preventDefault(); leaveFor('catalog');
+                          } else { leaveFor(); }
+                        }}>
                           {quickAction(faq.id).label} <span aria-hidden="true">↗</span>
                         </a>
                       </div>
@@ -188,8 +193,8 @@ export default function HerculesModal() {
               <footer className="hercules-chat-footer">
               <p>¿Ya sabes qué se te antoja?</p>
               <div className="hercules-chat-ctas">
-                <a className="hercules-cta-primary" href="#carta"
-                  onClick={() => leaveFor()}>🍟 Ver carta digital</a>
+                <button type="button" className="hercules-cta-primary"
+                  onClick={() => leaveFor('catalog')}>🍟 Ver carta digital</button>
                 <button className="hercules-cta-secondary" type="button"
                   onClick={() => leaveFor('cart')}>
                   Mi pedido{totalItems > 0 ? ' (' + totalItems + ')' : ''} ↗

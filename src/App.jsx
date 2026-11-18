@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import { useCart } from './context/CartContext';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import TopAnnouncement from './components/TopAnnouncement';
@@ -16,6 +17,16 @@ import DeliveryCtaSection from './components/DeliveryCtaSection';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import HerculesModal from './components/HerculesModal';
+
+const DigitalCatalog = lazy(() => import('./components/DigitalCatalog'));
+
+function CatalogLayer() {
+  const { isCatalogOpen } = useCart();
+  if (!isCatalogOpen) return null;
+  return <Suspense fallback={<div className="dc-loading" role="status">Abriendo carta digital…</div>}>
+    <DigitalCatalog />
+  </Suspense>;
+}
 
 export default function App() {
   return (
@@ -39,6 +50,7 @@ export default function App() {
         <Footer />
         <CartDrawer />
         <HerculesModal />
+        <CatalogLayer />
       </div>
     </CartProvider>
   );

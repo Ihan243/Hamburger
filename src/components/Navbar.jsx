@@ -10,7 +10,7 @@ const links = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { totalItems, openCart } = useCart();
+  const { totalItems, openCart, openCatalog } = useCart();
   const close = () => setMobileOpen(false);
   return (
     <header className="nav-reference">
@@ -26,7 +26,8 @@ export default function Navbar() {
 
         <div className="nav-reference-links" aria-label="Secciones">
           {links.map(link => (
-            <a href={link.href} key={link.href} title={link.title}>{link.label}</a>
+            <a href={link.href} key={link.href} title={link.title}
+              onClick={link.label === 'Menú' ? event => { event.preventDefault(); openCatalog(); } : undefined}>{link.label}</a>
           ))}
         </div>
 
@@ -52,7 +53,10 @@ export default function Navbar() {
         </div>
       </nav>
       <div id="nav-reference-mobile" className={'nav-reference-mobile' + (mobileOpen ? ' is-open' : '')}>
-        {links.map(link => <a href={link.href} key={link.href} onClick={close}>{link.label}</a>)}
+        {links.map(link => <a href={link.href} key={link.href} onClick={event => {
+          close();
+          if (link.label === 'Menú') { event.preventDefault(); openCatalog(); }
+        }}>{link.label}</a>)}
         <a href="#contacto" onClick={close}>Contacto</a>
       </div>
     </header>

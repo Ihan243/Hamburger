@@ -55,7 +55,7 @@ function MenuColumn({ title, subtitle, items, onAdd }) {
 export default function MenuSection() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const { addToCart, openCart } = useCart();
+  const { addToCart, openCatalog } = useCart();
 
   const featured = activeCategory === 'all' && !searchQuery.trim();
 
@@ -138,7 +138,7 @@ export default function MenuSection() {
               )}
               <aside className="ref-menu-order-box">
                 <h3>¿Quieres hacer tu pedido? Hazlo aquí</h3>
-                <button type="button" onClick={openCart}>
+                <button type="button" onClick={openCatalog}>
                   Ver Carta Digital &amp; Pedir <span aria-hidden="true">→</span>
                 </button>
               </aside>

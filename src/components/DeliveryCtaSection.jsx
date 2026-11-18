@@ -4,7 +4,7 @@ import { businessInfo } from '../data/businessInfo';
 import { useCart } from '../context/CartContext';
 
 export default function DeliveryCtaSection() {
-  const { openCart } = useCart();
+  const { openCatalog } = useCart();
   return (
     <section className="closing-section" id="delivery" aria-labelledby="closing-heading">
       <img className="closing-lazy-photo" src={foodImage} srcSet={foodImageSrcSet}
@@ -16,7 +16,7 @@ export default function DeliveryCtaSection() {
           <h2 id="closing-heading" className="ref-section-title">
             PIDE EL<br />AUTÉNTICO<br />SABOR<br /><span>CALLEJERO</span>
           </h2>
-          <button type="button" className="closing-order-btn" onClick={openCart}>
+          <button type="button" className="closing-order-btn" onClick={openCatalog}>
             Haz tu pedido aquí <span aria-hidden="true">→</span>
           </button>
           <p>Arma tu carrito con precios de referencia en USD.</p>
