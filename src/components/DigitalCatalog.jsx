@@ -8,6 +8,8 @@ import { useCart } from '../context/CartContext';
 import { menuCategories, menuItems } from '../data/menuData';
 import { businessInfo } from '../data/businessInfo';
 import { foodImage, foodImageSrcSet } from '../utils/imageAssets.js';
+import ProductCustomizer from './ProductCustomizer.jsx';
+import { isDrink } from '../data/productOptions.js';
 
 const money = amount => 'US$ ' + Number(amount).toFixed(2);
 const categories = [
@@ -18,11 +20,6 @@ const categories = [
   { id: 'boxes', label: 'Combos y boxes' },
   { id: 'bebidas', label: 'Bebidas' }
 ];
-const sauces = ['BBQ', 'Chimichurri', 'Picante'];
-const needsSauce = item => ['alitas-crocantes', 'boneless-pechuga'].includes(item.id);
-const canChooseSauce = item => needsSauce(item) ||
-  ['tenders-crocantes', 'broaster-clasico', 'broaster-clasico-xl'].includes(item.id);
-const isDrink = item => item.categories.includes('bebidas');
 const normalize = value => value.normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
@@ -79,7 +76,7 @@ function ProductCard({ item, quantity, onQuantity, onAdd, onCustomize }) {
 function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromCart,
   clearCart, customerName, setCustomerName, deliveryAddress, setDeliveryAddress,
   orderNotes, setOrderNotes, mode, setMode, payment, setPayment, table, setTable,
-  copyOrder, generateWhatsAppCheckout, copied, busy }) {
+  copyOrder, generateWhatsAppCheckout, copied, busy, onEdit }) {
   return (
     <>
       <div className="dc-summary-head">
@@ -100,27 +97,54 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
               <button type="button" onClick={clearCart}><Trash2 size={14}/> Vaciar</button>
             </div>
             <ul className="dc-selected-lines">
-              {cart.map(item => <li key={item.id} className="dc-selected-line">
-                <div className="dc-selected-info">
-                  <h3>{item.title}</h3>
-                  {Object.entries(item.customizations || {}).map(([key, value]) =>
-                    <small key={key}>{key}: {value}</small>
-                  )}
-                  {item.notes && <small>Nota: {item.notes}</small>}
-                  <strong>{money(item.price * item.quantity)}</strong>
-                </div>
-                <div className="dc-selected-actions">
-                  <div className="dc-quantity">
-                    <button type="button" onClick={() => updateQuantity(item.id, -1)}
-                      aria-label={'Quitar una unidad de ' + item.title}><Minus size={14}/></button>
-                    <span>{item.quantity}</span>
-                    <button type="button" onClick={() => updateQuantity(item.id, 1)}
-                      aria-label={'Añadir una unidad de ' + item.title}><Plus size={14}/></button>
+              {cart.map(item => (
+                <li key={item.id} className="dc-selected-line dc-cart-line">
+                  <div className="dc-cart-line-top">
+                    <div className="dc-cart-thumb">
+                      {menuItems.find(product => product.id === (item.productId || item.id))?.categories.includes('bebidas') ? (
+                        <span role="img" aria-label="Bebida">🥤</span>
+                      ) : (
+                        <img src={foodImage} srcSet={foodImageSrcSet} width="58" height="58"
+                          loading="lazy" decoding="async" alt="Imagen ilustrativa de comida"/>
+                      )}
+                    </div>
+                    <div className="dc-cart-line-details">
+                      <div className="dc-cart-line-heading">
+                        <h3><span>{item.quantity}×</span> {item.title}</h3>
+                        <strong>{money(item.price * item.quantity)}</strong>
+                      </div>
+                      {Object.entries(item.customizations || {}).map(([name,value]) => (
+                        <p className="dc-cart-option" key={name}>{name}: {value}</p>
+                      ))}
+                      {item.notes && <p className="dc-cart-option">Nota: {item.notes}</p>}
+                      {item.customizations?.Extras && (
+                        <p className="dc-cart-extra-warning">Recargos de extras por confirmar</p>
+                      )}
+                    </div>
                   </div>
-                  <button type="button" className="dc-remove" onClick={() => removeFromCart(item.id)}
-                    aria-label={'Eliminar ' + item.title}><X size={16}/></button>
-                </div>
-              </li>)}
+                  <div className="dc-cart-line-bottom">
+                    <button type="button" className="dc-cart-modify"
+                      onClick={() => onEdit(item)}>✎ Modificar</button>
+                    <div className="dc-cart-line-adjust">
+                      <button type="button" className="dc-remove"
+                        onClick={() => removeFromCart(item.id)}
+                        aria-label={'Eliminar ' + item.title + ' del pedido'}>
+                        <Trash2 size={16}/>
+                      </button>
+                      <div className="dc-quantity">
+                        <button type="button" onClick={() => updateQuantity(item.id, -1)}
+                          aria-label={'Quitar una unidad de ' + item.title}
+                          disabled={item.quantity <= 1}><Minus size={15}/></button>
+                        <span aria-live="polite">{item.quantity}</span>
+                        <button type="button" className="dc-cart-plus"
+                          onClick={() => updateQuantity(item.id, 1)}
+                          aria-label={'Añadir una unidad de ' + item.title}
+                          disabled={item.quantity >= 50}><Plus size={15}/></button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
             </ul>
             <fieldset className="dc-form-options">
               <legend>Datos del pedido</legend>
@@ -190,7 +214,8 @@ function CartSummary({ cart, totalPrice, totalItems, updateQuantity, removeFromC
 
 export default function DigitalCatalog() {
   const {
-    isCatalogOpen, closeCatalog, addToCart, cart, totalItems, totalPrice,
+    isCatalogOpen, closeCatalog, addToCart, replaceCartLine, cart, totalItems, totalPrice,
+    pendingCustomization, clearPendingCustomization, catalogCartRequested, clearCatalogCartRequest,
     updateQuantity, removeFromCart, clearCart, customerName, setCustomerName,
     deliveryAddress, setDeliveryAddress, orderNotes, setOrderNotes,
     generateWhatsAppCheckout, formatOrderMessage
@@ -199,10 +224,6 @@ export default function DigitalCatalog() {
   const [category, setCategory] = useState('toda');
   const [amounts, setAmounts] = useState({});
   const [selected, setSelected] = useState(null);
-  const [sauce, setSauce] = useState('');
-  const [spice, setSpice] = useState('');
-  const [specialNotes, setSpecialNotes] = useState('');
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [showMobileCart, setShowMobileCart] = useState(false);
   const [mode, setMode] = useState('Entrega a domicilio');
   const [payment, setPayment] = useState('A confirmar con el local');
@@ -210,7 +231,6 @@ export default function DigitalCatalog() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState('');
   const closeRef = useRef(null);
-  const customCloseRef = useRef(null);
   const rootRef = useRef(null);
 
   const filtered = useMemo(() => {
@@ -262,38 +282,42 @@ export default function DigitalCatalog() {
     };
   }, [isCatalogOpen, selected, showMobileCart, closeCatalog]);
 
-  useEffect(() => {
-    if (selected) customCloseRef.current?.focus({ preventScroll: true });
-  }, [selected]);
-
   const changeQuantity = (id, direction) => setAmounts(prev => ({
     ...prev, [id]: Math.max(1, Math.min(50, (prev[id] || 1) + direction))
   }));
 
-  const openProduct = (item, qty = 1) => {
-    setSelected(item);
-    setSelectedQuantity(qty);
-    setSauce('');
-    setSpice('');
-    setSpecialNotes('');
+  const openProduct = (item, qty = 1, editingLine = null) => {
+    setSelected({ product: item, quantity: qty, editingLine });
   };
 
-  const addProduct = (item, quantity) => {
-    if (needsSauce(item)) {
-      openProduct(item, quantity);
-    } else {
-      addToCart(item, quantity);
-    }
-  };
+  // Other areas of the website use the same product sheet, never a second drawer.
+  useEffect(() => {
+    if (!pendingCustomization) return;
+    openProduct(pendingCustomization.product, pendingCustomization.quantity);
+    clearPendingCustomization();
+  }, [pendingCustomization, clearPendingCustomization]);
 
-  const confirmProduct = () => {
-    if (!selected || (needsSauce(selected) && !sauce)) return;
-    const customizations = {
-      ...(sauce ? { Salsa: sauce } : {}),
-      ...(spice ? { Picante: spice } : {})
+  useEffect(() => {
+    if (!catalogCartRequested) return;
+    setShowMobileCart(true);
+    clearCatalogCartRequest();
+  }, [catalogCartRequested, clearCatalogCartRequest]);
+
+  const editProduct = line => {
+    const product = menuItems.find(item => item.id === (line.productId || line.id)) || {
+      ...line,
+      id: line.productId || line.id,
+      categories: []
     };
-    addToCart(selected, selectedQuantity, specialNotes, customizations);
+    openProduct(product, line.quantity, line);
+  };
+
+  const saveProduct = ({ product, quantity, notes, customizations, editingId }) => {
+    if (editingId) replaceCartLine(editingId, product, quantity, notes, customizations);
+    else addToCart(product, quantity, notes, customizations);
     setSelected(null);
+    // The cart slides into view as soon as a product is added/modified.
+    setShowMobileCart(true);
   };
 
   useEffect(() => {
@@ -354,7 +378,7 @@ export default function DigitalCatalog() {
             <div className="dc-products-grid">
               {filtered.map(item => (
                 <ProductCard key={item.id} item={item} quantity={amounts[item.id] || 1}
-                  onQuantity={changeQuantity} onAdd={addProduct} onCustomize={openProduct}/>
+                  onQuantity={changeQuantity} onAdd={openProduct} onCustomize={openProduct}/>
               ))}
             </div>
           ) : (
@@ -391,7 +415,7 @@ export default function DigitalCatalog() {
           mode={mode} setMode={setMode} payment={payment} setPayment={setPayment}
           table={table} setTable={setTable} copyOrder={copyOrder}
           copied={copied} busy={false}
-          generateWhatsAppCheckout={generateWhatsAppCheckout}/>
+          generateWhatsAppCheckout={generateWhatsAppCheckout} onEdit={editProduct}/>
         {copyError && <div className="dc-copy-fallback" role="alert">
           <p>{copyError} Selecciona el texto y cópialo manualmente:</p>
           <textarea readOnly aria-label="Resumen del pedido para copiar"
@@ -401,53 +425,14 @@ export default function DigitalCatalog() {
       </aside>
 
       {selected && (
-        <div className="dc-customize-backdrop">
-          <div className="dc-customize-dialog" role="dialog" aria-modal="true"
-            aria-labelledby="dc-customize-title">
-            <header>
-              <div><small>PERSONALIZA TU PEDIDO</small><h2 id="dc-customize-title">{selected.title}</h2></div>
-              <button type="button" ref={customCloseRef}
-                onClick={() => setSelected(null)} aria-label="Cerrar personalización"><X size={21}/></button>
-            </header>
-            <p>{selected.desc}</p>
-            {canChooseSauce(selected) && (
-              <label className="dc-option-label">
-                Salsa {needsSauce(selected) ? '(obligatoria)' : '(opcional)'}
-                <select value={sauce} onChange={event => setSauce(event.target.value)} required={needsSauce(selected)}>
-                  <option value="">Seleccionar salsa</option>
-                  {sauces.map(option => <option key={option}>{option}</option>)}
-                </select>
-              </label>
-            )}
-            {selected.id === 'broaster-spicy' && (
-              <label className="dc-option-label">Nivel de picante (opcional)
-                <select value={spice} onChange={e => setSpice(e.target.value)}>
-                  <option value="">Al gusto de la casa</option>
-                  <option>Suave</option><option>Medio</option><option>Fuerte</option>
-                </select>
-              </label>
-            )}
-            <label className="dc-option-label">Notas especiales para cocina (opcional)
-              <textarea rows={3} maxLength={250}
-                value={specialNotes} onChange={e => setSpecialNotes(e.target.value)}
-                placeholder="Ej. salsa aparte, sin queso..."/>
-            </label>
-            <div className="dc-customize-bottom">
-              <div className="dc-quantity">
-                <button type="button" onClick={() => setSelectedQuantity(Math.max(1, selectedQuantity - 1))}
-                  aria-label="Reducir cantidad"><Minus size={16}/></button>
-                <span>{selectedQuantity}</span>
-                <button type="button" onClick={() => setSelectedQuantity(Math.min(50, selectedQuantity + 1))}
-                  aria-label="Aumentar cantidad"><Plus size={16}/></button>
-              </div>
-              <button type="button" className="dc-customize-confirm" onClick={confirmProduct}
-                disabled={needsSauce(selected) && !sauce}>
-                Añadir · {money(selected.price * selectedQuantity)}
-              </button>
-            </div>
-            <small className="dc-customize-hint">Las opciones y notas se registran en el resumen; el restaurante debe confirmarlas.</small>
-          </div>
-        </div>
+        <ProductCustomizer
+          key={selected.editingLine?.id || selected.product.id}
+          product={selected.product}
+          quantity={selected.quantity}
+          editingLine={selected.editingLine}
+          onClose={() => setSelected(null)}
+          onSave={saveProduct}
+        />
       )}
     </div>
   );
