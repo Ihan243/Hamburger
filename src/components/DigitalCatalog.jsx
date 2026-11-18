@@ -29,7 +29,10 @@ function ProductCard({ item, quantity, onQuantity, onAdd, onCustomize }) {
   const drink = isDrink(item);
   return (
     <article className="dc-product">
-      <div className={'dc-product-visual' + (drink ? ' is-drink' : '')}>
+      <button type="button"
+        className={'dc-product-visual' + (drink ? ' is-drink' : '')}
+        onClick={() => onCustomize(item, quantity)}
+        aria-label={'Ver y personalizar ' + item.title}>
         {drink ? (
           <div className="dc-drink-art" aria-label="Fotografía pendiente">
             <span role="img" aria-label="Bebida">🥤</span>
@@ -45,7 +48,7 @@ function ProductCard({ item, quantity, onQuantity, onAdd, onCustomize }) {
           </>
         )}
         {item.badge && <span className="dc-product-badge">{item.badge}</span>}
-      </div>
+      </button>
       <div className="dc-product-body">
         <h3>{item.title}</h3>
         <p>{item.desc}</p>

@@ -304,3 +304,18 @@
 .dc-copy-fallback textarea { display:block; width:100%; min-height: 112px; max-height: 180px;
   border: 1px solid #d5bdb2; border-radius: 10px; resize: vertical; padding: 9px;
   color:#322038; background:white; font: 500 11px/1.35 monospace; }
+
+
+/* Photos are a first-class entry point to product customization on desktops. */
+.dc-product-visual {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  appearance: none;
+}
+.dc-product-visual:focus-visible {
+  outline: 3px solid #ffa000 !important;
+  outline-offset: 3px !important;
+}
+.dc-product-visual:hover img { transform: scale(1.045); }
