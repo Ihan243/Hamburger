@@ -90,7 +90,7 @@
   margin: 0;
 }
 .dc-sheet-section legend,
-.dc-sheet-section .dc-sheet-section-heading legend,
+.dc-sheet-section .dc-sheet-section-heading h3,
 .dc-sheet-notes label {
   display: block;
   padding: 0;

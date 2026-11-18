@@ -84,10 +84,10 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
           </div>
 
           {canChooseCreams(product) && (
-            <fieldset className="dc-sheet-section">
+            <fieldset className="dc-sheet-section" aria-labelledby="dc-creams-title">
               <div className="dc-sheet-section-heading">
                 <div>
-                  <legend>¿Qué cremas vas a querer?</legend>
+                  <h3 id="dc-creams-title">¿Qué cremas vas a querer?</h3>
                   <p>Selecciona las cremas que deseas en esta porción.</p>
                 </div>
                 <div className="dc-sheet-text-controls">
