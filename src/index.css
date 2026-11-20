@@ -1928,3 +1928,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   html { overscroll-behavior-y: auto; }
 }
 /* Reduced motion remains unaffected: no scrolling scripts are installed. */
+
+/* High-resolution transparent hero dish; keep its silhouette undistorted. */
+.hero-reference-food { aspect-ratio: 625 / 385; }
+.hero-reference-food img { object-fit: contain; image-rendering: auto; }

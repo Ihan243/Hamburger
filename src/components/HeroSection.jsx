@@ -12,7 +12,7 @@ export default function HeroSection() {
   const { openCatalog } = useCart();
   const changeSlide = direction =>
     setSlide(current => (current + direction + heroSlides.length) % heroSlides.length);
-  const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
+  const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout-hd.webp`;
 
   return (
     <section id="inicio" className="hero-reference" aria-labelledby="hero-reference-title">
@@ -37,8 +37,8 @@ export default function HeroSection() {
           <img
             src={photo}
             alt="Salchipapas con chorizo, queso y salsas de la casa"
-            width="550"
-            height="380"
+            width="625"
+            height="385"
             decoding="async"
             fetchPriority="high"
             draggable={false}
