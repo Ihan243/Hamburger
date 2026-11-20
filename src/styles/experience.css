@@ -148,13 +148,6 @@ main { overflow-x: clip; }
   .reference-big-marquee { padding-block: 2rem; }
   .gallery-image-tile, .gallery-social-tile { box-shadow: 0 5px 15px rgba(25,5,34,.14); }
   .gallery-loop-track, .spec-products-track { will-change: auto; }
-  [data-scroll-reveal] {
-    transition-duration: 340ms !important;
-    transition-delay: 0ms !important;
-  }
-  .scroll-reveal-pending[data-scroll-reveal="rise"] {
-    transform: translate3d(0,12px,0);
-  }
 }
 @media (max-width: 380px) {
   .nav-reference-brand { font-size: 1.4rem; }
@@ -209,4 +202,43 @@ main { overflow-x: clip; }
 @media (min-width: 681px) {
   .nav-reference-menu-toggle { display: none !important; }
   .nav-reference-mobile { display: none !important; }
+}
+
+/* Progressive left-to-right scroll reveal.
+   The independent 'translate' property preserves existing transform-based
+   hover zoom, angled Polaroids, drag-driven carousels and other animations. */
+[data-scroll-reveal="slide"] {
+  --scroll-reveal-delay: 0ms;
+  --scroll-reveal-distance: 40px;
+  translate: 0 0;
+  transition-property: opacity, translate, transform, box-shadow, filter;
+  transition-duration: 740ms, 740ms, 420ms, 420ms, 420ms;
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  transition-delay: var(--scroll-reveal-delay), var(--scroll-reveal-delay), 0ms, 0ms, 0ms;
+}
+[data-scroll-reveal="slide"].scroll-reveal-pending {
+  opacity: 0;
+  translate: calc(-1 * var(--scroll-reveal-distance)) 0;
+  will-change: opacity, translate;
+}
+[data-scroll-reveal="slide"].scroll-reveal-visible {
+  translate: 0 0;
+  will-change: auto;
+}
+/* Keep all moving content inside its layout at narrow widths. */
+@media (max-width: 720px) {
+  [data-scroll-reveal="slide"] {
+    --scroll-reveal-distance: 22px;
+    transition-duration: 650ms, 650ms, 420ms, 420ms, 420ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal="slide"],
+  [data-scroll-reveal="slide"].scroll-reveal-pending,
+  [data-scroll-reveal="slide"].scroll-reveal-visible {
+    translate: none !important;
+    opacity: revert !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
 }
