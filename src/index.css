@@ -1756,12 +1756,13 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
 .reference-giant-track {
   display:flex;
   width:max-content;
-  animation:reference-slogan-forward 34s linear infinite;
+  animation:reference-slogan-forward 40s linear infinite;
+  animation-play-state:running;
   will-change:transform;
 }
 .reference-giant-line-reverse .reference-giant-track {
   animation-name:reference-slogan-reverse;
-  animation-duration:42s;
+  animation-duration:49s;
 }
 .reference-giant-group {
   display:flex;
@@ -1787,7 +1788,11 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   0% {transform:translateX(-50%);}
   100% {transform:translateX(0);}
 }
-.reference-giant-line:hover .reference-giant-track {animation-play-state:paused;}
+/* Keep both slogan rows moving even when the pointer is over the text. */
+.reference-giant-line:hover .reference-giant-track,
+.reference-giant-line:focus-within .reference-giant-track {
+  animation-play-state:running;
+}
 
 /* A clean gallery like the video: frame and light, no caption covering food. */
 .gallery-loop-section {padding-top:85px;}
@@ -1891,15 +1896,8 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   }
   .gallery-loop-window { translate: 0 var(--cinematic-scene-y,0px); }
   .closing-overlay { translate: 0 var(--cinematic-scene-y,0px); }
-  /* A second wrapper adds wheel-sensitive travel without clashing with
-     the marquee's seamless, continuously animated track transform. */
-  .reference-giant-scrub {
-    width: max-content;
-    transform: translate3d(var(--cinematic-scroll-drift,0px),0,0);
-  }
-  .reference-giant-line-reverse .reference-giant-scrub {
-    transform: translate3d(var(--cinematic-scroll-drift-reverse,0px),0,0);
-  }
+  /* The marquee remains at one consistent speed, independent of wheel scroll. */
+  .reference-giant-scrub { width:max-content; }
 }
 @media (max-width:899px) {
   /* On small screens avoid pinning a whole viewport; keep scrolling natural. */
