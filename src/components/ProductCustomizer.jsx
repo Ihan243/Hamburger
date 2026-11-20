@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, Minus, Plus, X } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 const platterCutout = `${import.meta.env.BASE_URL}images/hero-platter-cutout.webp`;
 import {
   creamOptions, extraOptions, sauces, isDrink,
@@ -15,6 +16,7 @@ const splitValues = value => String(value || '').split(',').map(x => x.trim()).f
  * are explicitly not included in the base-price estimate.
  */
 export default function ProductCustomizer({ product, quantity = 1, editingLine = null, onClose, onSave }) {
+  const { t, option: optionName, product: localize } = useLanguage();
   const [count, setCount] = useState(editingLine?.quantity || quantity);
   const [creams, setCreams] = useState(
     splitValues(editingLine?.customizations?.Cremas)
@@ -70,39 +72,39 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
             ) : (
               <img src={platterCutout}
                 width="480" height="315"
-                decoding="async" alt={'Imagen ilustrativa de comida callejera; no corresponde necesariamente a ' + product.title}/>
+                decoding="async" alt={t('Imagen ilustrativa de comida callejera; no corresponde necesariamente a ') + localize(product).title}/>
             )}
             <button type="button" className="dc-sheet-dismiss" ref={closeButton}
-              aria-label="Cerrar personalización del producto" onClick={onClose}><X size={22}/></button>
+              aria-label={t('Cerrar personalización del producto')} onClick={onClose}><X size={22}/></button>
             {!isDrink(product) &&
-              <span className="dc-sheet-photo-note">Fotografía ilustrativa</span>}
+              <span className="dc-sheet-photo-note">{t('Fotografía ilustrativa')}</span>}
           </div>
           <div className="dc-sheet-options">
             <div className="dc-sheet-product-desc">
             <strong>{money(product.price)}</strong>
-            <h2 id="dc-customize-title">{product.title}</h2>
-            <p id="dc-customize-description">{product.desc}</p>
+            <h2 id="dc-customize-title">{localize(product).title}</h2>
+            <p id="dc-customize-description">{localize(product).desc}</p>
           </div>
 
           {canChooseCreams(product) && (
             <fieldset className="dc-sheet-section" aria-labelledby="dc-creams-title">
               <div className="dc-sheet-section-heading">
                 <div>
-                  <h3 id="dc-creams-title">¿Qué cremas vas a querer?</h3>
-                  <p>Selecciona las cremas que deseas en esta porción.</p>
+                  <h3 id="dc-creams-title">{t('¿Qué cremas vas a querer?')}</h3>
+                  <p>{t('Selecciona las cremas que deseas en esta porción.')}</p>
                 </div>
                 <div className="dc-sheet-text-controls">
                   <button type="button" aria-pressed={allCreams}
-                    onClick={() => setCreams([...creamOptions])}>Todas</button>
+                    onClick={() => setCreams([...creamOptions])}>{t('Todas')}</button>
                   <span aria-hidden="true">·</span>
                   <button type="button" aria-pressed={!creams.length}
-                    onClick={() => setCreams([])}>Ninguna</button>
+                    onClick={() => setCreams([])}>{t('Ninguna')}</button>
                 </div>
               </div>
               <div className="dc-sheet-option-grid">
                 {creamOptions.map(name => (
                   <label key={name} className={'dc-sheet-choice' + (creams.includes(name) ? ' selected' : '')}>
-                    <span>{name}</span>
+                    <span>{optionName(name)}</span>
                     <input type="checkbox" checked={creams.includes(name)}
                       onChange={() => chooseCream(name)} aria-label={name}/>
                     <span className="dc-check-visual" aria-hidden="true">
@@ -116,12 +118,12 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
 
           {canChooseSauce(product) && (
             <fieldset className="dc-sheet-section">
-              <legend>Salsa {needsSauce(product) ? '(obligatoria)' : '(opcional)'}</legend>
-              <p>Elige la salsa para acompañar este platillo.</p>
+              <legend>{t('Salsa')} {t(needsSauce(product) ? '(obligatoria)' : '(opcional)')}</legend>
+              <p>{t('Elige la salsa para acompañar este platillo.')}</p>
               <div className="dc-sheet-option-grid">
                 {sauces.map(name => (
                   <label key={name} className={'dc-sheet-choice' + (sauce === name ? ' selected' : '')}>
-                    <span>{name}</span>
+                    <span>{optionName(name)}</span>
                     <input type="radio" name="dc-sauce" value={name}
                       checked={sauce === name} onChange={() => setSauce(name)}/>
                     <span className="dc-check-visual" aria-hidden="true">
@@ -130,17 +132,17 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
                   </label>
                 ))}
               </div>
-              {needsSauce(product) && !sauce && <small className="dc-sheet-required">Elige una salsa para continuar.</small>}
+              {needsSauce(product) && !sauce && <small className="dc-sheet-required">{t('Elige una salsa para continuar.')}</small>}
             </fieldset>
           )}
 
           {product.id === 'broaster-spicy' && (
             <fieldset className="dc-sheet-section">
-              <legend>¿Qué tan picante? (Opcional)</legend>
+              <legend>{t('¿Qué tan picante? (Opcional)')}</legend>
               <div className="dc-sheet-option-grid">
                 {['Suave', 'Medio', 'Fuerte'].map(name => (
                   <label key={name} className={'dc-sheet-choice' + (spice === name ? ' selected' : '')}>
-                    <span>{name}</span><input type="radio" name="dc-spice" checked={spice === name}
+                    <span>{optionName(name)}</span><input type="radio" name="dc-spice" checked={spice === name}
                       onChange={() => setSpice(name)} />
                     <span className="dc-check-visual" aria-hidden="true">{spice === name && <Check size={14}/>}</span>
                   </label>
@@ -151,12 +153,12 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
 
           {canChooseExtras(product) && (
             <fieldset className="dc-sheet-section">
-              <legend>Adicionales / Extras <span>(Opcional)</span></legend>
-              <p>Suman a tu plato y se cobran por separado. Tarifas en USD por confirmar.</p>
+              <legend>{t('Adicionales / Extras')} <span>{t('(Opcional)')}</span></legend>
+              <p>{t('Suman a tu plato y se cobran por separado. Tarifas en USD por confirmar.')}</p>
               <div className="dc-sheet-option-grid">
                 {extraOptions.map(option => (
                   <label key={option.id} className={'dc-sheet-choice' + (extras.includes(option.name) ? ' selected' : '')}>
-                    <span>{option.name}<small>Precio por confirmar</small></span>
+                    <span>{optionName(option.name)}<small>{t('Precio por confirmar')}</small></span>
                     <input type="checkbox" checked={extras.includes(option.name)}
                       onChange={() => chooseExtra(option.name)}/>
                     <span className="dc-check-visual" aria-hidden="true">
@@ -166,32 +168,32 @@ export default function ProductCustomizer({ product, quantity = 1, editingLine =
                 ))}
               </div>
               {extras.length > 0 && (
-                <p className="dc-sheet-notice">Los extras seleccionados no están incluidos en el precio estimado. El restaurante debe confirmar su importe.</p>
+                <p className="dc-sheet-notice">{t('Los extras seleccionados no están incluidos en el precio estimado. El restaurante debe confirmar su importe.')}</p>
               )}
             </fieldset>
           )}
 
           <div className="dc-sheet-section dc-sheet-notes">
-            <label htmlFor="dc-product-notes">Notas especiales para cocina <span>(Opcional)</span></label>
-            <p>Indicaciones adicionales para la preparación.</p>
+            <label htmlFor="dc-product-notes">{t('Notas especiales para cocina')} <span>{t('(Opcional)')}</span></label>
+            <p>{t('Indicaciones adicionales para la preparación.')}</p>
             <textarea id="dc-product-notes" maxLength={250} rows={2}
               value={notes} onChange={event => setNotes(event.target.value)}
-              placeholder="Ej.: bien crocantes, cremas aparte, sin queso..."/>
+              placeholder={t('Ej.: bien crocantes, cremas aparte, sin queso...')}/>
           </div>
           </div>
         </div>
 
         <footer className="dc-sheet-bottom">
-          <div className="dc-sheet-stepper" aria-label="Cantidad">
-            <button type="button" aria-label="Disminuir cantidad" disabled={count <= 1}
+          <div className="dc-sheet-stepper" aria-label={t('Cantidad')}>
+            <button type="button" aria-label={t('Disminuir cantidad')} disabled={count <= 1}
               onClick={() => setCount(n => Math.max(1, n - 1))}><Minus size={18}/></button>
             <span aria-live="polite">{count}</span>
-            <button type="button" aria-label="Aumentar cantidad" disabled={count >= 50}
+            <button type="button" aria-label={t('Aumentar cantidad')} disabled={count >= 50}
               onClick={() => setCount(n => Math.min(50, n + 1))}><Plus size={18}/></button>
           </div>
           <button type="button" className="dc-sheet-submit" disabled={!allowSubmit}
             onClick={save}>
-            <span>{editingLine ? 'GUARDAR CAMBIOS' : 'AGREGAR AL PEDIDO'}</span>
+            <span>{t(editingLine ? 'GUARDAR CAMBIOS' : 'AGREGAR AL PEDIDO')}</span>
             <strong>{money(product.price * count)}</strong>
           </button>
         </footer>
