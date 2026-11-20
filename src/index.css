@@ -1682,20 +1682,22 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   transition:color .3s ease, background-color .3s ease, transform .3s ease;
 }
 .spec-card-active .spec-card-title {color:#fff; transform:none;}
-/* Hover grows whichever dish is under the pointer and changes its title to orange.
-   The dark label ensures white resting text stays legible over the cream section. */
+/* Product hover: scale the full plate and transition white labels to orange.
+   Focus-visible provides the same cue for keyboard visitors. */
+.spec-card {
+  transform:scale(1);
+  transition:transform .42s cubic-bezier(.22,1,.36,1), opacity .32s ease;
+}
 @media (hover:hover) and (pointer:fine) {
-  .spec-card {transform:scale(1);}
-  .spec-card:hover {
-    transform:scale(1.065);
-    position:relative;
+  .spec-card:is(:hover, :focus-within) {
+    transform:translateY(-5px) scale(1.065);
     z-index:4;
   }
   .spec-card:hover .spec-card-title {color:#ff7a1a;}
 }
 .spec-card:focus-within .spec-card-title {color:#ff7a1a;}
 @media (prefers-reduced-motion:reduce) {
-  .spec-card:hover {transform:none;}
+  .spec-card:is(:hover, :focus-within) {transform:none;}
   .spec-card, .spec-card-title {transition:none;}
 }
 .spec-card>p {display:none;}
