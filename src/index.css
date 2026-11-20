@@ -299,15 +299,6 @@ html { scroll-padding-top: 76px; }
 .spec-fade { position:absolute; width:min(8vw,120px); top:0; bottom:0; pointer-events:none; }
 .spec-fade-left { left:0; background:linear-gradient(90deg,#fcf7ee,transparent); }
 .spec-fade-right { right:0; background:linear-gradient(270deg,#fcf7ee,transparent); }
-.spec-controls { display:flex; align-items:center; justify-content:center; gap:25px; padding:10px 20px; }
-.spec-arrow { font-size:29px; line-height:1; width:41px; height:41px; border:1px solid #e2cfca; border-radius:50%; background:#fff; color:#32143c; }
-.spec-arrow:disabled { opacity:.3; cursor:not-allowed; }
-.spec-dots { display:flex; gap:9px; align-items:center; }
-.spec-dots button { width:10px; height:10px; border-radius:99px; background:#c8b9bc; transition:width .35s,background .35s; }
-.spec-dots button.active { width:30px; background:#ff6b00; }
-.spec-current-label { text-align:center; font-weight:800; font-size:10px; letter-spacing:.12em; color:#8b7788; margin:12px 0 46px; }
-.spec-current-label span { padding:0 9px; color:#ff6b00; }
-.spec-current-label strong { color:#ff6b00; }
 .spec-products-enter { overflow:hidden; padding:35px 0 60px; animation:spec-products-in .6s cubic-bezier(.22,1,.36,1) both; background:#f5eee6; }
 .spec-products-heading { max-width:1200px; margin:0 auto 30px; display:flex; justify-content:space-between; align-items:end; gap:22px; padding:0 25px; }
 .spec-products-heading h3 { font:clamp(37px,4vw,63px) 'Anton',Impact,sans-serif; line-height:1; margin-top:10px; }
@@ -945,8 +936,6 @@ body::after {
 .ref-about-inner,
 .spec-intro,
 .spec-window,
-.spec-controls,
-.spec-current-label,
 .spec-loop-reveal,
 .spec-section-end,
 .ref-menu-heading,
@@ -1707,11 +1696,6 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   transform:translateY(0);
 }
 .spec-fade {width:min(5vw,60px);}
-.spec-controls {
-  opacity:.63;
-  padding:0 15px 0;
-}
-.spec-current-label {margin-bottom:20px;}
 .spec-section-end {padding:16px 24px 42px;}
 
 /* Reference's giant orange, two-direction moving slogans.
