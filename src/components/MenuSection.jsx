@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { menuCategories, menuItems } from '../data/menuData';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const featuredLeftIds = [
   'salchi-fest', 'broaster-clasico', 'salchi-patata',
@@ -12,21 +13,23 @@ const featuredLeft = featuredLeftIds.map(id => byId.get(id)).filter(Boolean);
 const featuredRight = featuredRightIds.map(id => byId.get(id)).filter(Boolean);
 
 function MenuLine({ item, onAdd }) {
+  const { t, product } = useLanguage();
+  const localized = product(item);
   return (
     <li className="ref-menu-line">
       <button
         className="ref-menu-item-button"
         type="button"
         onClick={() => onAdd(item)}
-        aria-label={`Agregar ${item.title} al pedido por US$ ${item.price.toFixed(2)}`}
-        title={`Agregar ${item.title} al carrito`}
+        aria-label={(t('AGREGAR') + ' ' + localized.title + ' · US$ ' + item.price.toFixed(2))}
+        title={t('AGREGAR') + ' ' + localized.title}
       >
         <span className="ref-menu-item-main">
           <span className="ref-menu-name">
-            {item.title}
-            {item.id === 'salchi-fest' && <small>¡BOMBA!</small>}
+            {localized.title}
+            {item.id === 'salchi-fest' && <small>{t('¡BOMBA!')}</small>}
           </span>
-          <span className="ref-menu-description">{item.desc}</span>
+          <span className="ref-menu-description">{localized.desc}</span>
         </span>
         <span className="ref-price-rule" aria-hidden="true" />
         <span className="ref-menu-price">US$ {item.price.toFixed(2)}</span>
@@ -37,11 +40,12 @@ function MenuLine({ item, onAdd }) {
 }
 
 function MenuColumn({ title, subtitle, items, onAdd }) {
+  const { t } = useLanguage();
   return (
     <div className="ref-menu-col">
       <div className="ref-menu-group-heading">
-        <h3>{title}</h3>
-        {subtitle && <span>{subtitle}</span>}
+        <h3>{t(title)}</h3>
+        {subtitle && <span>{t(subtitle)}</span>}
       </div>
       <ul>
         {items.map(item => (
@@ -53,6 +57,7 @@ function MenuColumn({ title, subtitle, items, onAdd }) {
 }
 
 export default function MenuSection() {
+  const { t, product } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const { requestCustomization, openCatalog } = useCart();
@@ -65,12 +70,12 @@ export default function MenuSection() {
       const matchesCategory =
         Boolean(query) || activeCategory === 'toda' ||
         item.categories.includes(activeCategory);
-      const searchable = [
-        item.title, item.desc, item.tags || ''
-      ].join(' ').toLocaleLowerCase('es');
+      const localized = product(item);
+      const searchable = [item.title, item.desc, localized.title, localized.desc, item.tags || '']
+        .join(' ').toLocaleLowerCase('es');
       return matchesCategory && (!query || searchable.includes(query));
     });
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, product]);
 
   const split = Math.ceil(visible.length / 2);
   const left = featured ? featuredLeft : visible.slice(0, split);
@@ -81,8 +86,8 @@ export default function MenuSection() {
     <section id="carta" className="ref-menu-section menu-reference" aria-labelledby="ref-menu-title">
       <div className="ref-menu-panel">
         <header className="ref-menu-panel-header">
-          <h2 id="ref-menu-title">NUESTRA CARTA</h2>
-          <p>La calidad que te ofrecemos <span>· Precios en USD</span></p>
+          <h2 id="ref-menu-title">{t('NUESTRA CARTA')}</h2>
+          <p>{t('La calidad que te ofrecemos ')}<span>{t('· Precios en USD')}</span></p>
         </header>
 
         <label className="ref-menu-search">
@@ -96,12 +101,12 @@ export default function MenuSection() {
             type="search"
             value={searchQuery}
             onChange={event => setSearchQuery(event.target.value)}
-            placeholder="Buscar en la carta (ej. alitas, picante, wrap, bowl, boxes...)"
-            aria-label="Buscar productos en la carta"
+            placeholder={t('Buscar en la carta (ej. alitas, picante, wrap, bowl, boxes...)')}
+            aria-label={t('Buscar productos en la carta')}
           />
         </label>
 
-        <div className="ref-menu-filters" role="group" aria-label="Categorías de la carta">
+        <div className="ref-menu-filters" role="group" aria-label={t('Categorías de la carta')}>
           {menuCategories.map(category => (
             <button
               type="button"
@@ -110,14 +115,14 @@ export default function MenuSection() {
               aria-pressed={activeCategory === category.id}
               onClick={() => { setActiveCategory(category.id); setSearchQuery(''); }}
             >
-              {category.label}
+              {t(category.label)}
             </button>
           ))}
         </div>
 
         <span className="sr-only" role="status" aria-live="polite">
-          {featured ? 'Mostrando los favoritos de la casa' :
-            `${visible.length} productos encontrados`}
+          {featured ? t('Mostrando los favoritos de la casa') :
+            `${visible.length} ${t('productos encontrados')}`}
         </span>
 
         {hasResults ? (
@@ -137,24 +142,24 @@ export default function MenuSection() {
                 />
               )}
               <aside className="ref-menu-order-box">
-                <h3>¿Quieres hacer tu pedido? Hazlo aquí</h3>
+                <h3>{t('¿Quieres hacer tu pedido? Hazlo aquí')}</h3>
                 <button type="button" onClick={openCatalog}>
-                  Ver Carta Digital &amp; Pedir <span aria-hidden="true">→</span>
+                  {t('Ver Carta Digital & Pedir')} <span aria-hidden="true">→</span>
                 </button>
               </aside>
             </div>
           </div>
         ) : (
           <div className="ref-menu-empty">
-            <p>No encontramos productos con esa búsqueda.</p>
+            <p>{t('No encontramos productos con esa búsqueda.')}</p>
             <button type="button" onClick={() => {
               setSearchQuery('');
               setActiveCategory('toda');
-            }}>Ver toda la carta</button>
+            }}>{t('Ver toda la carta')}</button>
           </div>
         )}
         <p className="ref-menu-footer-note">
-          Precios de referencia en USD. Selecciona un platillo para añadirlo a tu pedido.
+          {t('Precios de referencia en USD. Selecciona un platillo para añadirlo a tu pedido.')}
         </p>
       </div>
     </section>
