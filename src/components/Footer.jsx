@@ -1,7 +1,9 @@
 import React from 'react';
 import { businessInfo } from '../data/businessInfo';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -26,18 +28,18 @@ export default function Footer() {
           </svg>
 
           <p className="max-w-md text-xs sm:text-sm text-brand-cream/70">
-            <strong className="text-brand-yellow">Papas con Actitud</strong> · Convertimos las papas en protagonistas con combinaciones creativas y opciones únicas en Ciudad de México.
+            <strong className="text-brand-yellow">{t('Papas con Actitud')}</strong> {t('· Convertimos las papas en protagonistas con combinaciones creativas y opciones únicas en Ciudad de México.')}
           </p>
 
           {/* Navigation Anchors */}
           <div className="flex flex-wrap justify-center gap-6 text-xs font-bold text-brand-cream/80">
-            <a href="#" className="hover:text-brand-yellow transition">Inicio</a>
-            <a href="#nosotros" className="hover:text-brand-yellow transition">Nosotros</a>
-            <a href="#especialidades" className="hover:text-brand-yellow transition">Especialidades</a>
-            <a href="#carta" className="hover:text-brand-yellow transition">Menú</a>
-            <a href="#diferencia" className="hover:text-brand-yellow transition">Diferencia</a>
-            <a href="#galeria" className="hover:text-brand-yellow transition">Galería</a>
-            <a href="#contacto" className="hover:text-brand-yellow transition">Contacto</a>
+            <a href="#" className="hover:text-brand-yellow transition">{t('Inicio')}</a>
+            <a href="#nosotros" className="hover:text-brand-yellow transition">{t('Nosotros')}</a>
+            <a href="#especialidades" className="hover:text-brand-yellow transition">{t('Especialidades')}</a>
+            <a href="#carta" className="hover:text-brand-yellow transition">{t('Menú')}</a>
+            <a href="#diferencia" className="hover:text-brand-yellow transition">{t('Diferencia')}</a>
+            <a href="#galeria" className="hover:text-brand-yellow transition">{t('Galería')}</a>
+            <a href="#contacto" className="hover:text-brand-yellow transition">{t('Contacto')}</a>
           </div>
 
           {/* Social Media Links */}
@@ -56,8 +58,8 @@ export default function Footer() {
           </div>
           {/* Legal Disclaimer */}
           <div className="pt-6 border-t border-brand-purpleMuted/40 text-[11px] text-brand-graySub space-y-1">
-            <p>© {currentYear} LA PATATA STREET FOOD. Todos los derechos reservados.</p>
-            <p className="text-brand-yellow/70">Ciudad de México, México • Dirección y datos de contacto por confirmar.</p>
+            <p>© {currentYear} LA PATATA STREET FOOD. {t('Todos los derechos reservados.')}</p>
+            <p className="text-brand-yellow/70">{t('Ciudad de México, México • Dirección y datos de contacto por confirmar.')}</p>
           </div>
         </div>
       </div>
