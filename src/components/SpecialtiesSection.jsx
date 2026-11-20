@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { specialties, menuItems } from '../data/menuData';
 import useDraggableMarquee from '../hooks/useDraggableMarquee';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const clamp = (x, min, max) => Math.max(min, Math.min(max, x));
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -11,15 +12,16 @@ const products = menuItems.filter(item =>
 ).slice(0, 8);
 
 function ProductLoop({ onAdd, onOpenCatalog }) {
+  const { t, product } = useLanguage();
   const slider = useDraggableMarquee(43);
   return <div className="spec-products-enter">
     <div className="spec-products-heading">
-      <div><span className="spec-kicker">LA EXPERIENCIA CONTINÚA</span>
-        <h3>DESCUBRE MÁS <em>ANTOJOS</em></h3></div>
+      <div><span className="spec-kicker">{t('LA EXPERIENCIA CONTINÚA')}</span>
+        <h3>{t('DESCUBRE MÁS ')}<em>{t('ANTOJOS')}</em></h3></div>
       <div className="spec-loop-description">
-        <p>Arrastra las tarjetas a ambos lados o deja que se deslicen sin fin.</p>
+        <p>{t('Arrastra las tarjetas a ambos lados o deja que se deslicen sin fin.')}</p>
         <button type="button" className="spec-loop-toggle" onClick={slider.togglePaused}
-          aria-pressed={slider.paused}>{slider.paused ? '▶ Reanudar' : 'Ⅱ Pausar'}</button>
+          aria-pressed={slider.paused}>{t(slider.paused ? '▶ Reanudar' : 'Ⅱ Pausar')}</button>
       </div>
     </div>
     <div className={'spec-products-viewport draggable-marquee' + (slider.dragging ? ' is-dragging' : '')}
@@ -31,22 +33,23 @@ function ProductLoop({ onAdd, onOpenCatalog }) {
           {products.map((item, index) => <article className="spec-product" key={copy + '-' + item.id}>
             <div className={'spec-product-photo spec-product-photo-' + (index % 4)}>
               <img src={foodImage} srcSet={foodImageSrcSet} sizes="(max-width: 768px) 190px, 225px"
-                alt={copy === 0 ? 'Fotografía ilustrativa de comida callejera' : ''}
+                alt={copy === 0 ? t('Fotografía ilustrativa') : ''}
                 draggable={false} loading="lazy" decoding="async" width="225" height="169" />
             </div>
-            <div className="spec-product-details"><h4>{item.title}</h4>
+            <div className="spec-product-details"><h4>{product(item).title}</h4>
               <span>US$ {item.price.toFixed(2)}</span></div>
-            <button type="button" tabIndex={copy === 0 ? undefined : -1} onClick={() => onAdd(item)}>+ Añadir</button>
+            <button type="button" tabIndex={copy === 0 ? undefined : -1} onClick={() => onAdd(item)}>{t('+ Añadir')}</button>
           </article>)}
         </div>)}
       </div>
     </div>
-    <div className="spec-products-end"><span>HECHO AL MOMENTO · CON ACTITUD</span>
-      <a href="#carta" onClick={event => { event.preventDefault(); onOpenCatalog(); }}>VER LA CARTA COMPLETA ↗</a></div>
+    <div className="spec-products-end"><span>{t('HECHO AL MOMENTO · CON ACTITUD')}</span>
+      <a href="#carta" onClick={event => { event.preventDefault(); onOpenCatalog(); }}>{t('VER LA CARTA COMPLETA ↗')}</a></div>
   </div>;
 }
 
 export default function SpecialtiesSection() {
+  const { t, product } = useLanguage();
   const { requestCustomization, openCatalog } = useCart();
   const [active, setActive] = useState(1);
   const [locked, setLocked] = useState(false);
@@ -163,9 +166,9 @@ export default function SpecialtiesSection() {
   return <section id="especialidades" className={'spec-section ref-cream-section ' +
     (locked ? 'spec-is-locked' : '')} aria-labelledby="specialties-title">
     <div className="spec-intro">
-      <span className="spec-kicker">NUESTROS FAVORITOS · 01 / 03</span>
-      <h2 id="specialties-title" className="ref-section-title">ESPECIALIDADES<br />DE LA CASA</h2>
-      <p>Arrastra los platos o haz clic para elegir el que quieres ver al centro.</p>
+      <span className="spec-kicker">{t('NUESTROS FAVORITOS · 01 / 03')}</span>
+      <h2 id="specialties-title" className="ref-section-title">{t('ESPECIALIDADES')}<br />{t('DE LA CASA')}</h2>
+      <p>{t('Arrastra los platos o haz clic para elegir el que quieres ver al centro.')}</p>
     </div>
     <div className="spec-window draggable-marquee" ref={viewportRef}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove}
@@ -178,18 +181,18 @@ export default function SpecialtiesSection() {
           key={dish.id} ref={node => { cardsRef.current[index] = node; }}
           className={'spec-card ' + (active === index ? 'spec-card-active' : 'spec-card-idle')}>
           <button type="button" className="spec-choose" onClick={() => select(index)}
-            aria-pressed={active === index} aria-label={'Centrar ' + dish.title}>
+            aria-pressed={active === index} aria-label={t('Centrar ') + product(dish).title}>
             <span className="spec-image-wrap">
-              <img className="spec-spinning-image" src={dish.image} srcSet={foodImageSrcSet} sizes="(max-width: 768px) 270px, 310px" alt={dish.title} draggable={false}
+              <img className="spec-spinning-image" src={dish.image} srcSet={foodImageSrcSet} sizes="(max-width: 768px) 270px, 310px" alt={product(dish).title} draggable={false}
                 loading="lazy" decoding="async" />
               <span className="spec-index">0{index + 1}</span>
             </span>
-            <span className="spec-card-title">{dish.title}</span>
+            <span className="spec-card-title">{product(dish).title}</span>
           </button>
-          <p>{dish.desc}</p>
+          <p>{product(dish).desc}</p>
           <div className="spec-card-bottom">
             <span>US$ {dish.price.toFixed(2)}</span>
-            <button type="button" className="spec-add" onClick={() => requestCustomization(dish)}>Agregar +</button>
+            <button type="button" className="spec-add" onClick={() => requestCustomization(dish)}>{t('Agregar +')}</button>
           </div>
         </article>)}
       </div>
@@ -201,8 +204,8 @@ export default function SpecialtiesSection() {
       {active === 2 && <ProductLoop onAdd={requestCustomization} onOpenCatalog={openCatalog}/>}
     </div>
     <div className="spec-section-end">
-      <span className="spec-kicker">TRES FAVORITOS. INFINITAS GANAS.</span>
-      <a href="#carta">Explorar toda la carta ↗</a>
+      <span className="spec-kicker">{t('TRES FAVORITOS. INFINITAS GANAS.')}</span>
+      <a href="#carta">{t('Explorar toda la carta ↗')}</a>
     </div>
   </section>;
 }
