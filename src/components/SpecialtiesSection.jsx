@@ -247,21 +247,6 @@ export default function SpecialtiesSection() {
       <div className="spec-fade spec-fade-left" aria-hidden="true"/>
       <div className="spec-fade spec-fade-right" aria-hidden="true"/>
     </div>
-    <div className="spec-controls">
-      <button type="button" className="spec-arrow" onClick={() => select(clamp(active - 1, 0, 2))}
-        disabled={active === 0} aria-label="Especialidad anterior">‹</button>
-      <div className="spec-dots" role="group" aria-label="Seleccionar especialidad">
-        {specialties.map((dish, index) => <button key={dish.id} type="button"
-          className={active === index ? 'active' : ''} onClick={() => select(index)}
-          aria-label={'Centrar ' + dish.title} aria-pressed={active === index}/>)}
-      </div>
-      <button type="button" className="spec-arrow" onClick={() => select(clamp(active + 1, 0, 2))}
-        disabled={active === 2} aria-label="Siguiente especialidad">›</button>
-    </div>
-    <div className="spec-current-label" aria-live="polite">
-      {locked ? 'SELECCIÓN FIJADA' : 'DESLIZA CON EL SCROLL'} <span>·</span>
-      <strong>{specialties[active].title}</strong>
-    </div>
     <div className={'spec-loop-reveal' + (active === 2 ? ' spec-loop-visible' : '')}
       aria-hidden={active !== 2}>
       {active === 2 && <ProductLoop onAdd={requestCustomization} onOpenCatalog={openCatalog}/>}
