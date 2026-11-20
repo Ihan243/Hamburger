@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const rowOne = [
   'PAPAS CON ACTITUD', '🍟', 'PAPAS CON ACTITUD', '🥗',
@@ -10,15 +11,16 @@ const rowTwo = [
 ];
 
 function MovingLine({ items, reverse = false }) {
+  const { t } = useLanguage();
   return (
     <div className={'reference-giant-line' + (reverse ? ' reference-giant-line-reverse' : '')}
-      aria-label={items.filter(v => v.length > 3).join(' · ')}>
+      aria-label={items.filter(v => v.length > 3).map(t).join(' · ')}>
       <div className="reference-giant-scrub"><div className="reference-giant-track">
         {[0, 1].map(copy => (
           <div className="reference-giant-group" key={copy} aria-hidden={copy === 1}>
             {items.map((item, i) => (
               <span key={i} className={item.length <= 3 ? 'reference-giant-emoji' : ''}>
-                {item}
+                {t(item)}
               </span>
             ))}
           </div>
