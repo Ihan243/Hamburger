@@ -65,7 +65,7 @@ export default function Navbar() {
         {links.map(link => <a href={link.href} key={link.href} onClick={event => {
           close();
           if (link.label === 'Menú') { event.preventDefault(); openCatalog(); }
-        }}>{link.label}</a>)}
+        }}>{t(link.label)}</a>)}
         <a href="#contacto" onClick={close}>{t('Contacto')}</a>
       </div>
     </header>
