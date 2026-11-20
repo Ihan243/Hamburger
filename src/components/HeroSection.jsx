@@ -12,7 +12,7 @@ export default function HeroSection() {
   const { openCatalog } = useCart();
   const changeSlide = direction =>
     setSlide(current => (current + direction + heroSlides.length) % heroSlides.length);
-  const photo = `${import.meta.env.BASE_URL}images/hero-platter-cutout-hd.webp`;
+  const photo = `${import.meta.env.BASE_URL}images/hero-platter-premium-2026.webp`;
 
   return (
     <section id="inicio" className="hero-reference" aria-labelledby="hero-reference-title">
