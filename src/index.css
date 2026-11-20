@@ -273,7 +273,7 @@ html { scroll-padding-top: 76px; }
 @media(prefers-reduced-motion:reduce){.ref-rotating-dish{animation:none !important;}}
 
 
-/* SELECTABLE SPECIALTIES / SCROLL-DRIVEN HORIZONTAL MOTION */
+/* SELECTABLE SPECIALTIES / POINTER-DRIVEN HORIZONTAL MOTION */
 .spec-section { color:#240d2c; background:#fcf7ee; padding:72px 0 0; overflow:hidden; }
 .spec-intro { text-align:center; max-width:850px; margin:0 auto 26px; padding:0 18px; }
 .spec-kicker { font-size:11px; font-weight:900; letter-spacing:.16em; text-transform:uppercase; }
@@ -1682,23 +1682,22 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   transition:color .3s ease, background-color .3s ease, transform .3s ease;
 }
 .spec-card-active .spec-card-title {color:#fff; transform:none;}
-/* Product hover: scale the full plate and transition white labels to orange.
-   Focus-visible provides the same cue for keyboard visitors. */
+/* The three specialty dishes respond to the cursor, never to wheel scroll. */
 .spec-card {
-  transform:scale(1);
-  transition:transform .42s cubic-bezier(.22,1,.36,1), opacity .32s ease;
+  transform: scale(1);
+  transition: transform .42s cubic-bezier(.22,1,.36,1), opacity .32s ease;
 }
-@media (hover:hover) and (pointer:fine) {
-  .spec-card:is(:hover, :focus-within) {
-    transform:translateY(-5px) scale(1.065);
-    z-index:4;
+@media (hover: hover) and (pointer: fine) {
+  .spec-card:hover {
+    transform: translateY(-8px) scale(1.11);
+    z-index: 4;
   }
-  .spec-card:hover .spec-card-title {color:#ff7a1a;}
+  .spec-card:hover .spec-card-title { color: #ff7a1a; }
 }
-.spec-card:focus-within .spec-card-title {color:#ff7a1a;}
-@media (prefers-reduced-motion:reduce) {
-  .spec-card:is(:hover, :focus-within) {transform:none;}
-  .spec-card, .spec-card-title {transition:none;}
+.spec-card:focus-within .spec-card-title { color: #ff7a1a; }
+@media (prefers-reduced-motion: reduce) {
+  .spec-card:hover { transform: none; }
+  .spec-card, .spec-card-title { transition: none; }
 }
 .spec-card>p {display:none;}
 .spec-card-bottom {
@@ -1865,9 +1864,6 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   .ref-about-inner {
     translate: 0 var(--cinematic-scene-y,0px);
   }
-  .spec-window {
-    translate: 0 var(--cinematic-scene-y,0px);
-  }
   .ref-menu-panel-header {
     translate: 0 var(--cinematic-scene-y,0px);
   }
@@ -1895,7 +1891,7 @@ html { scroll-behavior: smooth; scroll-padding-top: clamp(68px, 6vw, 96px); }
   /* On small screens avoid pinning a whole viewport; keep scrolling natural. */
   .hero-reference {height: auto;}
   .hero-reference-stage {position: relative;}
-  .ref-about-inner,.spec-window,.gallery-loop-window,.ref-difference-grid {
+  .ref-about-inner,.gallery-loop-window,.ref-difference-grid {
     translate: 0 calc(var(--cinematic-scene-y,0px) * .35);
   }
 }
