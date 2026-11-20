@@ -51,13 +51,10 @@ export default function SpecialtiesSection() {
   const [active, setActive] = useState(1);
   const [locked, setLocked] = useState(false);
   const activeRef = useRef(1);
-  const lockedRef = useRef(false);
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const cardsRef = useRef([]);
   const currentRef = useRef(0);
-  const targetRef = useRef(0);
-  const rafRef = useRef(0);
   const dragRef = useRef(null);
   const suppressRef = useRef(false);
 
@@ -78,15 +75,9 @@ export default function SpecialtiesSection() {
       setActive(index);
     }
   };
-  const cancelMotion = () => {
-    if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
-    rafRef.current = 0;
-  };
   const select = index => {
     if (index < 0 || index >= specialties.length) return;
-    lockedRef.current = true;
     setLocked(true);
-    cancelMotion();
     highlight(index);
     const track = trackRef.current;
     if (!track) return;
@@ -96,7 +87,6 @@ export default function SpecialtiesSection() {
     track.style.transition = reducedMotion()
       ? 'none' : 'transform 760ms cubic-bezier(0.22,1,0.36,1)';
     currentRef.current = center(index);
-    targetRef.current = currentRef.current;
     paint(currentRef.current);
   };
   const closest = x => specialties.reduce((best, _, index) =>
@@ -106,63 +96,25 @@ export default function SpecialtiesSection() {
     const viewport = viewportRef.current;
     const track = trackRef.current;
     if (!viewport || !track) return;
-    let previous = 0;
-    const initial = center(1);
-    currentRef.current = initial;
-    targetRef.current = initial;
-    track.style.transition = 'none';
-    paint(initial);
-    const scrollTarget = () => {
-      if (lockedRef.current || reducedMotion()) return false;
-      const box = viewport.getBoundingClientRect();
-      if (box.top > window.innerHeight || box.bottom < 0) return false;
-      const travel = Math.max(1, window.innerHeight * .55 + box.height * .75);
-      const progress = clamp((window.innerHeight * .76 - box.top) / travel, 0, 1);
-      targetRef.current = center(0) + (center(2) - center(0)) * progress;
-      highlight(closest(targetRef.current));
-      return true;
-    };
-    const animate = time => {
-      rafRef.current = 0;
-      if (lockedRef.current) return;
-      const elapsed = previous ? Math.min(50, time - previous) : 16;
-      previous = time;
-      const easing = 1 - Math.exp(-elapsed / 105);
-      currentRef.current += (targetRef.current - currentRef.current) * easing;
-      if (Math.abs(targetRef.current - currentRef.current) < .25)
-        currentRef.current = targetRef.current;
-      paint(currentRef.current);
-      if (Math.abs(targetRef.current - currentRef.current) >= .25)
-        rafRef.current = requestAnimationFrame(animate);
-    };
-    const onScroll = () => {
-      if (!scrollTarget()) return;
-      if (!rafRef.current) rafRef.current = requestAnimationFrame(animate);
-    };
-    const onResize = () => {
-      cancelMotion();
+
+    // Keep the selected card centered. Wheel/vertical scrolling never moves
+    // or changes the selection; users can still click or drag the carousel.
+    const updatePosition = () => {
+      const next = center(activeRef.current);
       track.style.transition = 'none';
-      if (lockedRef.current || reducedMotion()) {
-        currentRef.current = center(activeRef.current);
-      } else if (scrollTarget()) {
-        currentRef.current = targetRef.current;
-      } else {
-        currentRef.current = center(activeRef.current);
-      }
-      targetRef.current = currentRef.current;
-      paint(currentRef.current);
+      currentRef.current = next;
+      paint(next);
     };
-    if (!reducedMotion()) window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize);
-    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onResize);
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    const observer = typeof ResizeObserver === 'undefined'
+      ? null : new ResizeObserver(updatePosition);
     observer?.observe(viewport);
-    // Set scroll target only after initial layout; prevents the first frame jumping.
-    onScroll();
+
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener('resize', updatePosition);
       observer?.disconnect();
-      cancelMotion();
     };
   }, []);
 
@@ -181,10 +133,8 @@ export default function SpecialtiesSection() {
     if (!drag.dragging) {
       if (Math.abs(deltaX) < 7 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
       drag.dragging = true;
-      lockedRef.current = true;
-      setLocked(true);
-      cancelMotion();
-      // Use the DOM's interpolated position if there was a click animation in progress.
+        setLocked(true);
+        // Use the DOM's interpolated position if there was a click animation in progress.
       const matrix = new DOMMatrixReadOnly(getComputedStyle(trackRef.current).transform);
       currentRef.current = matrix.m41;
       trackRef.current.style.transition = 'none';
@@ -192,7 +142,6 @@ export default function SpecialtiesSection() {
       e.currentTarget.setPointerCapture(e.pointerId);
     }
     currentRef.current = clamp(currentRef.current + e.clientX - drag.lastX, center(2), center(0));
-    targetRef.current = currentRef.current;
     drag.lastX = e.clientX;
     paint(currentRef.current);
     highlight(closest(currentRef.current));
@@ -216,7 +165,7 @@ export default function SpecialtiesSection() {
     <div className="spec-intro">
       <span className="spec-kicker">NUESTROS FAVORITOS · 01 / 03</span>
       <h2 id="specialties-title" className="ref-section-title">ESPECIALIDADES<br />DE LA CASA</h2>
-      <p>Desliza con el scroll o arrastra los platos. Haz clic para fijar el elegido al centro.</p>
+      <p>Arrastra los platos o haz clic para elegir el que quieres ver al centro.</p>
     </div>
     <div className="spec-window draggable-marquee" ref={viewportRef}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove}
