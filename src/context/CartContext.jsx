@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { businessInfo } from '../data/businessInfo';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const { language, t, option, product: localize } = useLanguage();
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem('la_patata_cart_usd_v1');
@@ -130,26 +132,32 @@ export function CartProvider({ children }) {
     const payment = customInfo.payment || 'A confirmar con el local';
     const table = customInfo.table || '';
 
-    let message = '¡Hola La Patata! 🍟 Quisiera consultar por este pedido:\n\n';
+    let message = language === 'en'
+      ? 'Hi La Patata! 🍟 I would like to ask about this order:\n\n'
+      : '¡Hola La Patata! 🍟 Quisiera consultar por este pedido:\n\n';
     for (const item of cart) {
       const subtotal = item.price * item.quantity;
-      message += `• ${item.quantity}x ${item.title} — US$ ${subtotal.toFixed(2)}\n`;
+      message += `•  ${item.quantity}x ${localize(item).title} — US$ ${subtotal.toFixed(2)}\n`;
       const details = Object.entries(item.customizations || {})
-        .map(([key, value]) => `${key}: ${value}`).join(', ');
-      if (details) message += `  Opciones: ${details}\n`;
-      if (item.notes) message += `  Nota: ${item.notes}\n`;
+        .map(([key, value]) => `${t(key)}: ${String(value).split(', ').map(option).join(', ')}`).join(', ');
+      if (details) message += `  ${language === 'en' ? 'Options' : 'Opciones'}: ${details}\n`;
+      if (item.notes) message += `  ${language === 'en' ? 'Note' : 'Nota'}: ${item.notes}\n`;
       if (item.customizations?.Extras) {
-        message += '  Aviso: los recargos de extras no están incluidos y deben confirmarse.\n';
+        message += language === 'en'
+          ? '  Notice: extra charges are not included and must be confirmed.\n'
+          : '  Aviso: los recargos de extras no están incluidos y deben confirmarse.\n';
       }
     }
-    message += `\nTotal estimado: US$ ${totalPrice.toFixed(2)} (USD)`;
-    message += `\nModalidad: ${mode}`;
-    message += `\nPreferencia de pago: ${payment} (sujeta a confirmación)`;
-    if (name) message += `\nCliente: ${name}`;
-    if (address && mode === 'Entrega a domicilio') message += `\nDirección: ${address}`;
-    if (table && mode === 'En mesa') message += `\nMesa: ${table}`;
-    if (notes) message += `\nObservaciones: ${notes}`;
-    message += '\n\nPrecios de referencia en USD, sin recargos de extras no confirmados. Disponibilidad y total final por confirmar con el restaurante.';
+    message += `\n${language === 'en' ? 'Estimated total' : 'Total estimado'}: US$ ${totalPrice.toFixed(2)} (USD)`;
+    message += `\n${language === 'en' ? 'Order type' : 'Modalidad'}: ${t(mode)}`;
+    message += `\n${language === 'en' ? 'Payment preference' : 'Preferencia de pago'}: ${t(payment)} ${language === 'en' ? '(subject to confirmation)' : '(sujeta a confirmación)'}`;
+    if (name) message += `\n${language === 'en' ? 'Customer' : 'Cliente'}: ${name}`;
+    if (address && mode === 'Entrega a domicilio') message += `\n${language === 'en' ? 'Address' : 'Dirección'}: ${address}`;
+    if (table && mode === 'En mesa') message += `\n${language === 'en' ? 'Table' : 'Mesa'}: ${table}`;
+    if (notes) message += `\n${language === 'en' ? 'Instructions' : 'Observaciones'}: ${notes}`;
+    message += language === 'en'
+      ? '\n\nReference prices in USD, excluding any unconfirmed extra charges. Availability and final total must be confirmed with the restaurant.'
+      : '\n\nPrecios de referencia en USD, sin recargos de extras no confirmados. Disponibilidad y total final por confirmar con el restaurante.';
     return message;
   };
 
