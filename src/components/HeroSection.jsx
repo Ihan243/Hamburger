@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const heroSlides = [
   { first: 'ENVUELTO', second: 'EN SABOR' },
@@ -8,6 +9,7 @@ const heroSlides = [
 ];
 
 export default function HeroSection() {
+  const { t } = useLanguage();
   const [slide, setSlide] = useState(0);
   const { openCatalog } = useCart();
   const changeSlide = direction =>
@@ -18,25 +20,25 @@ export default function HeroSection() {
     <section id="inicio" className="hero-reference" aria-labelledby="hero-reference-title">
       <div className="hero-reference-stage">
         <div className="hero-reference-stickers" aria-hidden="true">
-          <span className="hero-sticker-papas">¡Papas!</span>
-          <span className="hero-sticker-crunch">Crujiente</span>
-          <span className="hero-sticker-sabor">¡Sabor!</span>
+          <span className="hero-sticker-papas">{t('¡Papas!')}</span>
+          <span className="hero-sticker-crunch">{t('Crujiente')}</span>
+          <span className="hero-sticker-sabor">{t('¡Sabor!')}</span>
         </div>
 
         <h1 id="hero-reference-title" className="hero-reference-title" aria-live="polite">
-          <span key={heroSlides[slide].first + '-a'}>{heroSlides[slide].first}</span>
-          <span key={heroSlides[slide].second + '-b'}>{heroSlides[slide].second}</span>
+          <span key={heroSlides[slide].first + '-a'}>{t(heroSlides[slide].first)}</span>
+          <span key={heroSlides[slide].second + '-b'}>{t(heroSlides[slide].second)}</span>
         </h1>
 
         <button type="button" className="hero-reference-arrow hero-reference-arrow-left"
-          onClick={() => changeSlide(-1)} aria-label="Frase anterior">‹</button>
+          onClick={() => changeSlide(-1)} aria-label={t('Frase anterior')}>‹</button>
         <button type="button" className="hero-reference-arrow hero-reference-arrow-right"
-          onClick={() => changeSlide(1)} aria-label="Siguiente frase">›</button>
+          onClick={() => changeSlide(1)} aria-label={t('Siguiente frase')}>›</button>
 
         <div className="hero-reference-food">
           <img
             src={photo}
-            alt="Salchipapas con chorizo, queso y salsas de la casa"
+            alt={t('Salchipapas con chorizo, queso y salsas de la casa')}
             width="625"
             height="385"
             decoding="async"
@@ -48,13 +50,13 @@ export default function HeroSection() {
         <span className="hero-reference-emoji hero-reference-emoji-fire" aria-hidden="true">🔥</span>
 
         <div className="hero-reference-bottom">
-          <p>Convertimos las papas en las <strong>verdaderas protagonistas.</strong></p>
+          <p>{t('Convertimos las papas en las')} <strong>{t('verdaderas protagonistas.')}</strong></p>
           <div className="hero-reference-actions">
-            <button type="button" onClick={openCatalog} className="hero-reference-button hero-reference-button-light" title="Abrir carta digital">
-              Ver Menú
+            <button type="button" onClick={openCatalog} className="hero-reference-button hero-reference-button-light" title={t('Abrir carta digital')}>
+              {t('Ver Menú')}
             </button>
             <a href="#contacto" className="hero-reference-button hero-reference-button-outline">
-              Ubícanos
+              {t('Ubícanos')}
             </a>
           </div>
         </div>
