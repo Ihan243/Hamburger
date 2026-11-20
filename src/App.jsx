@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import { LanguageProvider } from './i18n/LanguageContext.jsx';
 import { useCart } from './context/CartContext';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
@@ -30,6 +31,7 @@ function CatalogLayer() {
 
 export default function App() {
   return (
+    <LanguageProvider>
     <CartProvider>
       <div className="min-h-screen bg-brand-purpleDeep text-brand-cream font-sans">
         <EditorialPointerGlow />
@@ -53,5 +55,6 @@ export default function App() {
         <CatalogLayer />
       </div>
     </CartProvider>
+    </LanguageProvider>
   );
 }
