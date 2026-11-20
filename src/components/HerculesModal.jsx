@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const herculesPhoto = `${import.meta.env.BASE_URL}images/hercules-dog-cutout.webp`;
 import { businessInfo } from '../data/businessInfo';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const promos = [
   { id: 'inicio', text: '¡Un antojito para hoy? ¡Pídeme aquí! 😋', link: '#carta', action: 'Ver menú' },
@@ -21,6 +22,7 @@ const quickAction = id => {
 };
 
 export default function HerculesModal() {
+  const { t } = useLanguage();
   const { openCart, openCatalog, totalItems } = useCart();
   const [isOpen, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
@@ -109,19 +111,19 @@ export default function HerculesModal() {
       <div className={'hercules-launcher' + (isOpen ? ' hercules-launcher-open' : '') + (activePromo.id === 'carta' ? ' hercules-on-menu' : '')} data-purpose="mascot-widget">
         {showBubble && !isOpen && (
           <div className={'hercules-speech' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')} role="status">
-            <span>{activePromo.text}</span>
+            <span>{t(activePromo.text)}</span>
             <button className="hercules-speech-dismiss" type="button"
-              onClick={() => setShowBubble(false)} aria-label="Ocultar mensaje de Hércules">×</button>
+              onClick={() => setShowBubble(false)} aria-label={t('Ocultar mensaje de Hércules')}>×</button>
           </div>
         )}
         <button ref={openerRef} type="button"
           className={'hercules-mascot-trigger' + (activePromo.id === 'inicio' ? ' hercules-on-hero' : '')}
           onClick={() => setOpen(true)}
-          aria-label="Abrir asistente Hércules para consultar la carta"
+          aria-label={t('Abrir asistente Hércules para consultar la carta')}
           aria-haspopup="dialog" aria-expanded={isOpen}>
           <img src={herculesPhoto} width="180" height="210"
-            decoding="async" alt="Hércules, el perrito guardián del sabor" />
-          <span className="hercules-trigger-label" aria-hidden="true">¿Te ayudo?</span>
+            decoding="async" alt={t('Hércules, el perrito guardián del sabor')} />
+          <span className="hercules-trigger-label" aria-hidden="true">{t('¿Te ayudo?')}</span>
         </button>
       </div>
 
@@ -142,47 +144,47 @@ export default function HerculesModal() {
               <div className="hercules-chat-heading">
                 <h2 id="hercules-heading">HÉRCULES</h2>
                 <p id="hercules-subtitle">
-                  <span>El perro guardián del sabor</span>
-                  <span className="hercules-online"><i aria-hidden="true" /> ¡En línea!</span>
+                  <span>{t('El perro guardián del sabor')}</span>
+                  <span className="hercules-online"><i aria-hidden="true" /> {t('¡En línea!')}</span>
                 </p>
               </div>
               <button type="button" className="hercules-chat-close"
-                ref={closeRef} onClick={() => setOpen(false)} aria-label="Cerrar chat con Hércules">
+                ref={closeRef} onClick={() => setOpen(false)} aria-label={t('Cerrar chat con Hércules')}>
                 <span aria-hidden="true">×</span>
               </button>
             </header>
 
             <div className="hercules-chat-scroll" data-native-scroll>
               <div className="hercules-chat-intro">
-                <p>¡Hola! Soy <em>Hércules</em> 🐶🍟, el perro guardián del sabor en <em>La Patata</em>.</p>
-                <p>¡Aquí nuestras papas son las verdaderas protagonistas! Estoy listo para ayudarte a elegir tu combinación ideal, recomendarte las mejores <em>Papas con Actitud</em> o resolver cualquier duda.</p>
-                <p className="hercules-intro-hint">Elige una pregunta y te respondo al instante:</p>
+                <p>{t('¡Hola! Soy ')}<em>Hércules</em> 🐶🍟{t(', el perro guardián del sabor en ')}<em>La Patata</em>.</p>
+                <p>{t('¡Aquí nuestras papas son las verdaderas protagonistas! Estoy listo para ayudarte a elegir tu combinación ideal, recomendarte las mejores ')}<em>{t('Papas con Actitud')}</em>{t(' o resolver cualquier duda.')}</p>
+                <p className="hercules-intro-hint">{t('Elige una pregunta y te respondo al instante:')}</p>
               </div>
 
-              <div className="hercules-quick-questions" aria-label="Preguntas frecuentes">
+              <div className="hercules-quick-questions" aria-label={t('Preguntas frecuentes')}>
                 {businessInfo.mascot.faqs.map(faq => (
                   <button key={faq.id} className="hercules-question"
                     type="button" onClick={() => chooseFaq(faq)}>
                     <span className="hercules-question-icon" aria-hidden="true">{faq.icon}</span>
-                    <span className="hercules-question-label">{faq.label}</span>
+                    <span className="hercules-question-label">{t(faq.label)}</span>
                   </button>
                 ))}
               </div>
 
               {answers.length > 0 && (
-                <div className="hercules-conversation" role="log" aria-label="Respuestas de Hércules" aria-live="polite">
+                <div className="hercules-conversation" role="log" aria-label={t('Respuestas de Hércules')} aria-live="polite">
                   {answers.map(({ id, faq }) => (
                     <div className="hercules-answer-pair" key={id}>
-                      <div className="hercules-user-message">{faq.label}</div>
+                      <div className="hercules-user-message">{t(faq.label)}</div>
                       <div className="hercules-bot-message">
                         <span className="hercules-bot-name">🐶 Hércules</span>
-                        <p>{faq.answer}</p>
+                        <p>{t(faq.answer)}</p>
                         <a href={quickAction(faq.id).href} onClick={event => {
                           if (quickAction(faq.id).href === '#carta') {
                             event.preventDefault(); leaveFor('catalog');
                           } else { leaveFor(); }
                         }}>
-                          {quickAction(faq.id).label} <span aria-hidden="true">↗</span>
+                          {t(quickAction(faq.id).label)} <span aria-hidden="true">↗</span>
                         </a>
                       </div>
                     </div>
@@ -191,17 +193,17 @@ export default function HerculesModal() {
               )}
               <div ref={messageEndRef} />
               <footer className="hercules-chat-footer">
-              <p>¿Ya sabes qué se te antoja?</p>
+              <p>{t('¿Ya sabes qué se te antoja?')}</p>
               <div className="hercules-chat-ctas">
                 <button type="button" className="hercules-cta-primary"
-                  onClick={() => leaveFor('catalog')}>🍟 Ver carta digital</button>
+                  onClick={() => leaveFor('catalog')}>{t('🍟 Ver carta digital')}</button>
                 <button className="hercules-cta-secondary" type="button"
                   onClick={() => leaveFor('cart')}>
-                  Mi pedido{totalItems > 0 ? ' (' + totalItems + ')' : ''} ↗
+                  {t('Mi pedido')}{totalItems > 0 ? ' (' + totalItems + ')' : ''} ↗
                 </button>
               </div>
               {!businessInfo.whatsappNumber && (
-                <small>Pedidos por WhatsApp disponibles al confirmar el contacto del local.</small>
+                <small>{t('Pedidos por WhatsApp disponibles al confirmar el contacto del local.')}</small>
               )}
               </footer>
             </div>
