@@ -93,13 +93,19 @@ export default function ScrollReveal() {
           // Avoid a flash for content already on screen, including restored
           // scroll positions and direct links to a section.
           const rect = item.getBoundingClientRect();
-          const visibleHorizontally = rect.right > 0 && rect.left < window.innerWidth;
+          const visibleWidth = Math.max(0,
+            Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+          const visibleHorizontally = rect.width > 0 &&
+            visibleWidth / rect.width >= MIN_VISIBLE_RATIO;
           const alreadyVisible = rect.top < window.innerHeight * .82 &&
             rect.bottom > 0 && visibleHorizontally;
 
           if (alreadyVisible) {
             reveal(item);
           } else {
+            // StrictMode may run effect cleanup + setup twice. Reset the old
+            // visible class before re-arming the pending entrance.
+            item.classList.remove('scroll-reveal-visible');
             item.classList.add('scroll-reveal-pending');
             pending.add(item);
             observer.observe(item);
