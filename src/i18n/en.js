@@ -213,6 +213,21 @@ export const en = {
   'Cantidad':'Quantity','Disminuir cantidad':'Decrease quantity','Aumentar cantidad':'Increase quantity',
   'GUARDAR CAMBIOS':'SAVE CHANGES','AGREGAR AL PEDIDO':'ADD TO ORDER',
   'Cremas':'Sauces', 'Extras':'Extras','Picante':'Spice',
+  // Legacy cart drawer (kept translated even when using the integrated catalog)
+  'Cerrar pedido':'Close order',
+  'Tu bolsa está vacía':'Your bag is empty',
+  'Añade tus salchipapas, alitas y bebidas favoritas para empezar.':
+    'Add your favorite loaded fries, wings and drinks to get started.',
+  'Vaciar bolsa':'Empty bag','Eliminar':'Remove',
+  'Datos para el delivery (opcional):':'Delivery details (optional):',
+  'Tu nombre (ej. Carlos)':'Your name (e.g. Carlos)',
+  'Nombre del cliente':'Customer name',
+  'Dirección o referencia en CDMX':'Address or directions in Mexico City',
+  'Dirección de entrega':'Delivery address',
+  'Indicaciones (ej. salsas aparte, sin mayonesa)':
+    'Instructions (e.g. sauces on the side, no mayo)',
+  'Indicaciones del pedido':'Order instructions',
+  'Subtotal estimado:':'Estimated subtotal:',
   // Mascot
   '¿Te ayudo?':'Need help?', 'Ocultar mensaje de Hércules':'Hide Hércules message',
   'Abrir asistente Hércules para consultar la carta':'Open Hércules menu assistant',
