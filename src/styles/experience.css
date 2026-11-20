@@ -242,3 +242,52 @@ main { overflow-x: clip; }
     will-change: auto !important;
   }
 }
+
+/* Accessible, persistent Spanish / English switch in both navigation layouts. */
+.nav-language-toggle {
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  padding:3px 5px;
+  flex-shrink:0;
+  white-space:nowrap;
+  color:rgba(255,255,255,.44);
+  line-height:1;
+}
+.nav-language-toggle button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  min-height:34px;
+  border-radius:999px;
+  padding:5px 7px;
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  transition:background .2s ease,color .2s ease;
+}
+.nav-language-toggle button.is-active {
+  background:#ffa400;
+  color:#251027;
+}
+.nav-language-toggle button:focus-visible {
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
+@media (max-width: 900px) {
+  .nav-reference-inner { column-gap:10px; }
+  .nav-reference-actions { gap:7px; }
+}
+@media (max-width: 520px) {
+  .nav-reference-inner { padding-inline:12px; }
+  .nav-reference-brand { font-size:clamp(20px,5.4vw,28px);gap:6px; }
+  .nav-reference-logo-mark { width:24px; }
+  .nav-language-toggle { padding:2px;gap:1px; }
+  .nav-language-toggle button { min-width:31px;min-height:34px;padding-inline:4px; }
+  .nav-reference-actions { gap:4px; }
+  .nav-reference-contact { min-width:0;padding-inline:8px;font-size:11px; }
+}
