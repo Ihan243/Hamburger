@@ -15,6 +15,9 @@ export function LanguageProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.lang = language;
+    document.title = language === 'en'
+      ? 'LA PATATA | Mexico City Street Food - Fries with Attitude'
+      : 'LA PATATA | Street Food CDMX - Papas con Actitud';
     try { localStorage.setItem(STORAGE_KEY, language); } catch { /* storage blocked */ }
   }, [language]);
 
