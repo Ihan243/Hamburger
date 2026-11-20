@@ -1,43 +1,56 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 /**
- * Progressive, one-time entrance animations.
- *
- * - One IntersectionObserver for the page (not one per card).
- * - A MutationObserver picks up menu results and optional product strips.
- * - Only elements below the fold start hidden; the hero is never touched.
- * - The active specialty cards and the draggable marquees use opacity-only
- *   reveals, preserving their existing transforms and JS drag animations.
- * - Without JavaScript or with reduced motion, content stays visible.
+ * Native, one-time left-to-right reveal for editorial content.
+ * - 18% IntersectionObserver threshold, with no scroll handlers.
+ * - 100ms stagger in grouped items (capped to avoid lengthy waits).
+ * - Uses the CSS 'translate' property so interactive transforms are preserved.
+ * - Dynamic menu/product cards are registered by a single MutationObserver.
+ * - Initial viewport and reduced-motion content remain visible.
  */
 const groups = [
-  { selector: '.ref-polaroid-collage, .ref-about-copy', effect: 'rise', delay: 35 },
-  { selector: '.spec-intro', effect: 'rise' },
-  { selector: '.spec-card', effect: 'fade', group: '.spec-track', stagger: 35 },
-  { selector: '.spec-controls, .spec-current-label', effect: 'rise', delay: 25 },
-  { selector: '.spec-products-heading, .spec-products-end', effect: 'rise' },
-  { selector: '.spec-product', effect: 'fade', group: '.spec-products-group', stagger: 28 },
-  { selector: '.spec-section-end', effect: 'rise' },
-  { selector: '.ref-menu-heading, .ref-menu-panel', effect: 'rise' },
-  { selector: '.ref-menu-line', effect: 'rise', group: '.ref-menu-col ul', stagger: 55 },
-  { selector: '.ref-menu-order-box, .ref-boat-footnote', effect: 'rise' },
-  { selector: '.ref-difference-inner > .ref-section-title, .ref-difference-subtitle', effect: 'rise' },
-  { selector: '.ref-difference-point', effect: 'rise', group: '.ref-difference-points', stagger: 40 },
-  { selector: '.ref-difference-photo', effect: 'fade' },
-  { selector: '.gallery-loop-heading, .gallery-loop-bottom', effect: 'rise' },
-  { selector: '.gallery-image-tile, .gallery-social-tile', effect: 'fade', group: '.gallery-loop-group', stagger: 28 },
-  { selector: '.closing-lead, .closing-contact, .closing-bottom', effect: 'rise' }
+  { selector: '.ref-polaroid-collage' },
+  { selector: '.ref-about-copy > h2, .ref-about-copy > p, .ref-about-copy > a',
+    group: '.ref-about-copy' },
+  { selector: '.spec-intro > .spec-kicker, .spec-intro > .ref-section-title',
+    group: '.spec-intro' },
+  { selector: '.spec-card', group: '.spec-track' },
+  { selector: '.spec-products-heading > *', group: '.spec-products-heading' },
+  { selector: '.spec-product', group: '.spec-products-group' },
+  { selector: '.spec-products-end > *', group: '.spec-products-end' },
+  { selector: '.spec-section-end > *', group: '.spec-section-end' },
+  { selector: '.ref-menu-panel-header > *, .ref-menu-search, .ref-menu-filters',
+    group: '.ref-menu-panel' },
+  { selector: '.ref-menu-group-heading, .ref-menu-line', group: '.ref-menu-col' },
+  { selector: '.ref-menu-order-box, .ref-menu-footer-note, .ref-menu-empty',
+    group: '.ref-menu-panel' },
+  { selector: '.ref-difference-inner > .ref-section-title, .ref-difference-subtitle',
+    group: '.ref-difference-inner' },
+  { selector: '.ref-difference-point', group: '.ref-difference-grid' },
+  { selector: '.ref-difference-photo', delay: 200 },
+  { selector: '.ref-difference-inner > .ref-button-light', delay: 250 },
+  { selector: '.gallery-loop-heading > *', group: '.gallery-loop-heading' },
+  { selector: '.gallery-image-tile, .gallery-social-tile', group: '.gallery-loop-group' },
+  { selector: '.gallery-loop-bottom > *', group: '.gallery-loop-bottom' },
+  { selector: '.closing-lead > *', group: '.closing-lead' },
+  { selector: '.closing-contact-title > *', group: '.closing-contact-title' },
+  { selector: '.closing-contact-grid > div', group: '.closing-contact-grid' },
+  { selector: '.closing-bottom > *', group: '.closing-bottom' },
+  { selector: 'footer > div > div > *', group: 'footer > div > div' }
 ];
 
+const MIN_VISIBLE_RATIO = 0.18;
+const STAGGER_MS = 100;
+const MAX_STAGGER_STEPS = 5;
+
 export default function ScrollReveal() {
-  useEffect(() => {
-    const main = document.querySelector('main');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!main || reducedMotion.matches || !('IntersectionObserver' in window)) return;
+  useLayoutEffect(() => {
+    const root = document.querySelector('#root');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!root || motion.matches || !('IntersectionObserver' in window)) return;
 
     const registered = new WeakSet();
     const pending = new Set();
-
     const reveal = element => {
       element.classList.remove('scroll-reveal-pending');
       element.classList.add('scroll-reveal-visible');
@@ -47,37 +60,45 @@ export default function ScrollReveal() {
     const observer = new IntersectionObserver(
       entries => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
+          if (!entry.isIntersecting || entry.intersectionRatio < MIN_VISIBLE_RATIO) continue;
           reveal(entry.target);
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.06, rootMargin: '0px 0px -5% 0px' }
+      { threshold: [0, MIN_VISIBLE_RATIO], rootMargin: '0px 0px -4% 0px' }
     );
 
     const register = () => {
-      for (const { selector, effect, group, stagger, delay } of groups) {
-        const items = main.querySelectorAll(selector);
+      for (const { selector, group, delay = 0 } of groups) {
+        const items = root.querySelectorAll(selector);
         for (const item of items) {
-          if (registered.has(item)) continue;
+          // Looping marquees duplicate their first set; don't animate copies.
+          if (registered.has(item) || item.closest('[aria-hidden="true"]')) continue;
           registered.add(item);
-          item.dataset.scrollReveal = effect;
+          item.dataset.scrollReveal = 'slide';
 
-          if (group && stagger) {
-            const parent = item.closest(group);
-            if (parent) {
-              const siblings = [...parent.querySelectorAll(selector)];
+          if (group) {
+            const container = item.closest(group);
+            if (container) {
+              const siblings = [...container.querySelectorAll(selector)]
+                .filter(node => !node.closest('[aria-hidden="true"]'));
               const order = siblings.indexOf(item);
-              item.style.setProperty('--scroll-reveal-delay', Math.min(Math.max(0, order), 6) * stagger + 'ms');
+              item.style.setProperty('--scroll-reveal-delay',
+                Math.min(Math.max(0, order), MAX_STAGGER_STEPS) * STAGGER_MS + 'ms');
             }
           } else if (delay) {
             item.style.setProperty('--scroll-reveal-delay', delay + 'ms');
           }
 
-          // Visible elements must never flash away on hydration or hash navigation.
-          const box = item.getBoundingClientRect();
-          if (box.top < window.innerHeight * .94 && box.bottom > 0) {
-            item.classList.add('scroll-reveal-visible');
+          // Avoid a flash for content already on screen, including restored
+          // scroll positions and direct links to a section.
+          const rect = item.getBoundingClientRect();
+          const visibleHorizontally = rect.right > 0 && rect.left < window.innerWidth;
+          const alreadyVisible = rect.top < window.innerHeight * .82 &&
+            rect.bottom > 0 && visibleHorizontally;
+
+          if (alreadyVisible) {
+            reveal(item);
           } else {
             item.classList.add('scroll-reveal-pending');
             pending.add(item);
@@ -92,21 +113,21 @@ export default function ScrollReveal() {
       ? null : new MutationObserver(records => {
         if (records.some(record => record.addedNodes.length)) register();
       });
-    mutations?.observe(main, { childList: true, subtree: true });
+    mutations?.observe(root, { childList: true, subtree: true });
 
     const onMotionChange = () => {
-      if (!reducedMotion.matches) return;
+      if (!motion.matches) return;
       for (const element of pending) {
         observer.unobserve(element);
         reveal(element);
       }
     };
-    reducedMotion.addEventListener?.('change', onMotionChange);
+    motion.addEventListener?.('change', onMotionChange);
 
     return () => {
       observer.disconnect();
       mutations?.disconnect();
-      reducedMotion.removeEventListener?.('change', onMotionChange);
+      motion.removeEventListener?.('change', onMotionChange);
       for (const element of pending) reveal(element);
     };
   }, []);
