@@ -15,7 +15,6 @@ export default function ScrollCinematics() {
     const sections = [
       { selector: '.hero-reference', name: 'hero' },
       { selector: '.ref-about', name: 'about' },
-      { selector: '.spec-section', name: 'specialties' },
       { selector: '.ref-menu-section', name: 'menu' },
       { selector: '.reference-big-marquee', name: 'marquee' },
       { selector: '.ref-difference', name: 'difference' },
